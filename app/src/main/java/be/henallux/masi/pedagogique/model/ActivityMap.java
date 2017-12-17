@@ -12,8 +12,8 @@ public class ActivityMap extends Activity {
     private String style; //A json description for the map style, set as an option with the setup of the map
     private ArrayList<Location> pointsOfInterest;
 
-    public ActivityMap(Integer id, String name, Category category, String style, ArrayList<Location> pointsOfInterest) {
-        super(id,name,category);
+    public ActivityMap(Integer id, String name, Category category, java.lang.Class associatedClass, String style, ArrayList<Location> pointsOfInterest) {
+        super(id,name,category, associatedClass);
         this.id = id;
         this.style = style;
         this.pointsOfInterest = pointsOfInterest;

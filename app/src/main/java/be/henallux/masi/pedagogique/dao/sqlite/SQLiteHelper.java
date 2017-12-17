@@ -1,5 +1,6 @@
 package be.henallux.masi.pedagogique.dao.sqlite;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -66,6 +67,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
                     + ActivityEntity.TABLE + "("
                     + ActivityEntity.COLUMN_ID + " integer primary key autoincrement, "
                     + ActivityEntity.COLUMN_NAME +  " varchar(45) not null,"
+                    + ActivityEntity.COLUMN_CANONICAL_CLASS_NAME +  " varchar(45) not null,"
                     + ActivityEntity.COLUMN_FK_CATEGORY + " integer not null,"
                     + ActivityEntity.COLUMN_FK_QUESTIONNAIRE + " integer not null,"
                     + "foreign key (" + ActivityEntity.COLUMN_FK_CATEGORY + ") references " + CategoryEntity.TABLE + "(" + CategoryEntity.COLUMN_ID + "),"
@@ -150,6 +152,32 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         sqLiteDatabase.execSQL(CREATE_TABLE_ACTIVITY);
         sqLiteDatabase.execSQL(CREATE_TABLE_MAP_BASE);
         sqLiteDatabase.execSQL(CREATE_TABLE_LOCATION);
+
+        insert(sqLiteDatabase);
+    }
+
+    private void insert(SQLiteDatabase database) {
+        ContentValues values = new ContentValues();
+        values.put(ClassEntity.COLUMN_DESCRIPTION, "1A");
+        database.insert(ClassEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(CategoryEntity.COLUMN_AGE_MAX, 6);
+        values.put(CategoryEntity.COLUMN_AGE_MIN, 8);
+        values.put(CategoryEntity.COLUMN_DESCRIPTION, "Cycle inférieur");
+        int idCategory = (int)database.insert(CategoryEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "Questionnaire de test");
+        int idQuestionnaire = (int)database.insert(QuestionnaireEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(ActivityEntity.COLUMN_NAME, "Histoire de la Belgique");
+        values.put(ActivityEntity.COLUMN_FK_CATEGORY, idCategory);
+        values.put(ActivityEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaire);
+        values.put(ActivityEntity.COLUMN_CANONICAL_CLASS_NAME,"be.henallux.masi.pedagogique.mapActivity.MapsActivity");
+        database.insert(ActivityEntity.TABLE, null, values);
+
     }
 
 

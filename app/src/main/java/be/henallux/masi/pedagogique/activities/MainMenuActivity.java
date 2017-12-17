@@ -1,9 +1,11 @@
 package be.henallux.masi.pedagogique.activities;
 
+import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +37,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
         activitiesRepository = SQLiteActivitiesRepository.getInstance(this);
 
-        recyclerViewActivities.setLayoutManager(new GridLayoutManager(this,2));
+        recyclerViewActivities.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewActivities.setAdapter(new ActivitiesAdapter(activitiesRepository.getAllActivities()));
     }
 
@@ -58,8 +60,15 @@ public class MainMenuActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(ActivityViewHolder holder, int position) {
-            Activity act = activities.get(position);
+            final Activity act = activities.get(position);
             holder.buttonStart.setText(act.getName());
+            holder.buttonStart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(MainMenuActivity.this,act.getAssociatedClass());
+                    startActivity(intent);
+                }
+            });
         }
 
         @Override

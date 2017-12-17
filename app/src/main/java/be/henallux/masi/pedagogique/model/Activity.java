@@ -8,16 +8,19 @@ public class Activity {
     private Integer id;
     private String name;
     private Category category;
+    private java.lang.Class associatedClass;
 
-    public Activity(Integer id, String name) {
+    public Activity(Integer id, String name, java.lang.Class associatedClass) {
         this.id = id;
         this.name = name;
+        this.associatedClass = associatedClass;
     }
 
-    public Activity(Integer id, String name, Category category) {
+    public Activity(Integer id, String name, Category category, java.lang.Class associatedClass) {
         this.id = id;
         this.name = name;
         this.category = category;
+        this.associatedClass = associatedClass;
     }
 
     public String getName() {
@@ -34,5 +37,13 @@ public class Activity {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public java.lang.Class getAssociatedClass() {
+        return associatedClass;
+    }
+
+    public void setAssociatedClass(java.lang.Class associatedClass) {
+        this.associatedClass = associatedClass;
     }
 }
