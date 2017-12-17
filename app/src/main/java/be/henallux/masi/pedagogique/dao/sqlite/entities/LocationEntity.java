@@ -1,0 +1,14 @@
+package be.henallux.masi.pedagogique.dao.sqlite.entities;
+
+/**
+ * Created by Le Roi Arthur on 17-12-17.
+ */
+
+public class LocationEntity {
+    public static final String TABLE = "Location";
+    public static final String COLUMN_ID = "idLocation";
+    public static final String COLUMN_TITLE = "Title";
+    public static final String COLUMN_LATITUDE = "Latitude";
+    public static final String COLUMN_LONGITUDE = "Longitude";
+    public static final String COLUMN_FK_ACTIVITYMAPBASE = "ActivityMapBase_idActivityMapBase";
+}

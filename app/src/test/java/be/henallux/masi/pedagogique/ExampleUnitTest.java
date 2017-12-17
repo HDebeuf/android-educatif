@@ -1,4 +1,4 @@
-package be.henallux.masi.android2;
+package be.henallux.masi.pedagogique;
 
 import org.junit.Test;
 
