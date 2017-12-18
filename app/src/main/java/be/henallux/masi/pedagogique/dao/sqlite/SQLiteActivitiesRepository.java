@@ -73,10 +73,12 @@ public class SQLiteActivitiesRepository implements IActivitiesRepository {
         ArrayList<Activity> activities = new ArrayList<>();
 
         //For now, different activities will be retrieved manually
+        //For each subtype of "ActivityEntity", an instance of the subtype will be added to the list (activities)
+        //All these activities will be shown at the main menu, after the category of the user is known
 
         //region mapsActivity
         String statement = "select " + ActivityMapBaseEntity.COLUMN_ID + "," +
-                ActivityEntity.COLUMN_NAME + "," +
+                ActivityMapBaseEntity.TABLE + "." + ActivityMapBaseEntity.COLUMN_NAME + "," +
                 ActivityEntity.COLUMN_CLASS_CANONICAL_CLASS_NAME + "," +
                 ActivityEntity.COLUMN_ACTIVITY_CANONICAL_CLASS_NAME + "," +
                 ActivityMapBaseEntity.COLUMN_STYLE  +
@@ -84,7 +86,7 @@ public class SQLiteActivitiesRepository implements IActivitiesRepository {
                 " inner join " + ActivityEntity.TABLE +
                 " inner join " + CategoryToActivityEntity.TABLE +
                 " inner join " + CategoryEntity.TABLE +
-                " where " + ActivityMapBaseEntity.COLUMN_ID + " = " + ActivityEntity.COLUMN_ID +
+                " where " + ActivityMapBaseEntity.COLUMN_FK_ACTIVITY + " = " + ActivityEntity.COLUMN_ID +
                 " and " + CategoryToActivityEntity.COLUMN_FK_ACTIVITY + " = " + ActivityEntity.COLUMN_ID +
                 " and " + CategoryToActivityEntity.COLUMN_FK_CATEGORY + " = " + CategoryEntity.COLUMN_ID +
                 " and " + CategoryEntity.COLUMN_ID + "=?";
@@ -103,7 +105,7 @@ public class SQLiteActivitiesRepository implements IActivitiesRepository {
 
                 activities.add(new ActivityMap(id,name,activityClass,uriJson));
             } catch (ClassNotFoundException e) {
-                Log.e("Database","Could not get class for name " + cursor.getString(2));
+                Log.e("Database","Could not get class for name " + cursor.getString(3));
             }
             cursor.moveToNext();
         }
@@ -111,6 +113,7 @@ public class SQLiteActivitiesRepository implements IActivitiesRepository {
         cursor.close();
 
         //endregion
+
         return activities;
     }
 }

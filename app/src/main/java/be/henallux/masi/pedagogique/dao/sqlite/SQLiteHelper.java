@@ -109,6 +109,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
                     + ActivityMapBaseEntity.TABLE + "("
                     + ActivityMapBaseEntity.COLUMN_ID + " integer primary key autoincrement, "
                     + ActivityMapBaseEntity.COLUMN_STYLE + " varchar(500) not null,"
+                    + ActivityMapBaseEntity.COLUMN_NAME + " varchar(20) not null,"
     + ActivityMapBaseEntity.COLUMN_FK_ACTIVITY + " integer not null, foreign key (" + ActivityMapBaseEntity.COLUMN_FK_ACTIVITY + ") references " + ActivityEntity.TABLE + "(" + ActivityEntity.COLUMN_ID + "))";
 
 
@@ -185,7 +186,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         //region MapsActivityHistory
 
         values.clear();
-        values.put(ActivityEntity.COLUMN_NAME, "Histoire de la Belgique");
+        values.put(ActivityEntity.COLUMN_NAME, "Activité avec Carte");
         values.put(ActivityEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaire);
         values.put(ActivityEntity.COLUMN_ACTIVITY_CANONICAL_CLASS_NAME,"be.henallux.masi.pedagogique.activities.mapActivity.MapsActivity");
         values.put(ActivityEntity.COLUMN_CLASS_CANONICAL_CLASS_NAME,"be.henallux.masi.pedagogique.activities.mapActivity.ActivityMapBaseEntity");
@@ -193,9 +194,34 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 
         values.clear();
         values.put(ActivityMapBaseEntity.COLUMN_FK_ACTIVITY, activityId);
+        values.put(ActivityMapBaseEntity.COLUMN_NAME,"Histoire de la Belgique");
         Uri uri = Uri.parse("android.resource://"+ context.getPackageName() + "/raw/maps_activity_history_json_style");
         values.put(ActivityMapBaseEntity.COLUMN_STYLE, uri.toString());
         database.insert(ActivityMapBaseEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(ActivityMapBaseEntity.COLUMN_FK_ACTIVITY, activityId);
+        values.put(ActivityMapBaseEntity.COLUMN_NAME,"Histoire de la France");
+        uri = Uri.parse("android.resource://"+ context.getPackageName() + "/raw/maps_activity_history_json_style");
+        values.put(ActivityMapBaseEntity.COLUMN_STYLE, uri.toString());
+        int idActivityMap = (int)database.insert(ActivityMapBaseEntity.TABLE, null, values);
+
+        //region Locations
+        values.clear();
+        values.put(LocationEntity.COLUMN_TITLE, "Butte de Waterloo");
+        values.put(LocationEntity.COLUMN_LATITUDE,50.678542);
+        values.put(LocationEntity.COLUMN_LONGITUDE, 4.404887);
+        values.put(LocationEntity.COLUMN_FK_ACTIVITYMAPBASE,idActivityMap);
+        database.insert(LocationEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(LocationEntity.COLUMN_TITLE, "Butte de Waterloo");
+        values.put(LocationEntity.COLUMN_LATITUDE,50.845007);
+        values.put(LocationEntity.COLUMN_LONGITUDE, 4.349971);
+        values.put(LocationEntity.COLUMN_FK_ACTIVITYMAPBASE,idActivityMap);
+        database.insert(LocationEntity.TABLE, null, values);
+
+        //endregion
 
         values.clear();
         values.put(CategoryToActivityEntity.COLUMN_FK_ACTIVITY,activityId);
