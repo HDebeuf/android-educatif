@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import be.henallux.masi.pedagogique.R;
-import be.henallux.masi.pedagogique.mapActivity.MapsActivity;
+import be.henallux.masi.pedagogique.activities.mapActivity.MapsActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

@@ -1,5 +1,6 @@
-package be.henallux.masi.pedagogique.dao.interfaces;
+package be.henallux.masi.pedagogique.activities.mapActivity;
 
+import java.net.URI;
 import java.util.ArrayList;
 
 import be.henallux.masi.pedagogique.model.Location;
@@ -9,6 +10,6 @@ import be.henallux.masi.pedagogique.model.Location;
  */
 
 public interface IHistoryMapRepository {
-    String getStyle();
-    ArrayList<Location> getAllPointsOfInterest();
+    ArrayList<Location> getAllPointsOfInterestById(int id);
+    URI getUriJsonFileStyleOfId(int id);
 }

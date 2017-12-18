@@ -3,6 +3,7 @@ package be.henallux.masi.pedagogique.dao.interfaces;
 import java.util.ArrayList;
 
 import be.henallux.masi.pedagogique.model.Activity;
+import be.henallux.masi.pedagogique.model.Category;
 
 /**
  * Created by Le Roi Arthur on 17-12-17.
@@ -10,4 +11,5 @@ import be.henallux.masi.pedagogique.model.Activity;
 
 public interface IActivitiesRepository {
     ArrayList<Activity> getAllActivities();
+    ArrayList<Activity> getAllActivitiesOfCategory(Category c);
 }

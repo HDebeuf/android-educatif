@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
+import be.henallux.masi.pedagogique.activities.mapActivity.ActivityMapBaseEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.*;
 
 /**
@@ -62,15 +63,24 @@ public class SQLiteHelper extends SQLiteOpenHelper{
                     + CategoryEntity.COLUMN_AGE_MIN + " integer not null,"
                     + CategoryEntity.COLUMN_DESCRIPTION + " varchar(20) not null)";
 
+    public static final String CREATE_TABLE_CATEGORYTOACTIVITY =
+            "create table "
+                    + CategoryToActivityEntity.TABLE + "("
+                    + CategoryToActivityEntity.COLUMN_ID + " integer primary key autoincrement, "
+                    + CategoryToActivityEntity.COLUMN_FK_ACTIVITY + " integer not null, "
+                    + CategoryToActivityEntity.COLUMN_FK_CATEGORY + " integer not null,"
+                    + "foreign key (" + CategoryToActivityEntity.COLUMN_FK_CATEGORY + ") references " + CategoryEntity.TABLE + "(" + CategoryEntity.COLUMN_ID + "),"
+                    + "foreign key (" + CategoryToActivityEntity.COLUMN_FK_ACTIVITY + ") references " + ActivityEntity.TABLE + "(" + ActivityEntity.COLUMN_ID + "))";
+
+
     public static final String CREATE_TABLE_ACTIVITY =
             "create table "
                     + ActivityEntity.TABLE + "("
                     + ActivityEntity.COLUMN_ID + " integer primary key autoincrement, "
                     + ActivityEntity.COLUMN_NAME +  " varchar(45) not null,"
-                    + ActivityEntity.COLUMN_CANONICAL_CLASS_NAME +  " varchar(45) not null,"
-                    + ActivityEntity.COLUMN_FK_CATEGORY + " integer not null,"
+                    + ActivityEntity.COLUMN_ACTIVITY_CANONICAL_CLASS_NAME +  " varchar(150) not null,"
+                    + ActivityEntity.COLUMN_CLASS_CANONICAL_CLASS_NAME +  " varchar(150) not null,"
                     + ActivityEntity.COLUMN_FK_QUESTIONNAIRE + " integer not null,"
-                    + "foreign key (" + ActivityEntity.COLUMN_FK_CATEGORY + ") references " + CategoryEntity.TABLE + "(" + CategoryEntity.COLUMN_ID + "),"
                     + "foreign key (" + ActivityEntity.COLUMN_FK_QUESTIONNAIRE + ") references " + QuestionnaireEntity.TABLE + "(" + QuestionnaireEntity.COLUMN_ID + "))";
 
     public static final String CREATE_TABLE_QUESTIONNAIRE =
@@ -107,8 +117,8 @@ public class SQLiteHelper extends SQLiteOpenHelper{
                     + LocationEntity.TABLE + "("
                     + LocationEntity.COLUMN_ID + " integer primary key autoincrement, "
                     + LocationEntity.COLUMN_TITLE + " varchar(50) not null,"
-                    + LocationEntity.COLUMN_LATITUDE + " varchar(50) not null,"
-                    + LocationEntity.COLUMN_LONGITUDE + " varchar(50) not null,"
+                    + LocationEntity.COLUMN_LATITUDE + " decimal(8,5) not null,"
+                    + LocationEntity.COLUMN_LONGITUDE + " decimal(8,5) not null,"
                     + LocationEntity.COLUMN_FK_ACTIVITYMAPBASE + " integer not null, foreign key (" + LocationEntity.COLUMN_FK_ACTIVITYMAPBASE + ") references " + QuestionEntity.TABLE + "(" + QuestionEntity.COLUMN_ID + "))";
 
 
@@ -152,6 +162,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         sqLiteDatabase.execSQL(CREATE_TABLE_ACTIVITY);
         sqLiteDatabase.execSQL(CREATE_TABLE_MAP_BASE);
         sqLiteDatabase.execSQL(CREATE_TABLE_LOCATION);
+        sqLiteDatabase.execSQL(CREATE_TABLE_CATEGORYTOACTIVITY);
 
         insert(sqLiteDatabase);
     }
@@ -171,12 +182,35 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         values.put(QuestionnaireEntity.COLUMN_STATEMENT, "Questionnaire de test");
         int idQuestionnaire = (int)database.insert(QuestionnaireEntity.TABLE, null, values);
 
+        //region MapsActivityHistory
+
         values.clear();
         values.put(ActivityEntity.COLUMN_NAME, "Histoire de la Belgique");
-        values.put(ActivityEntity.COLUMN_FK_CATEGORY, idCategory);
         values.put(ActivityEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaire);
-        values.put(ActivityEntity.COLUMN_CANONICAL_CLASS_NAME,"be.henallux.masi.pedagogique.mapActivity.MapsActivity");
-        database.insert(ActivityEntity.TABLE, null, values);
+        values.put(ActivityEntity.COLUMN_ACTIVITY_CANONICAL_CLASS_NAME,"be.henallux.masi.pedagogique.activities.mapActivity.MapsActivity");
+        values.put(ActivityEntity.COLUMN_CLASS_CANONICAL_CLASS_NAME,"be.henallux.masi.pedagogique.activities.mapActivity.ActivityMapBaseEntity");
+        int activityId = (int)database.insert(ActivityEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(ActivityMapBaseEntity.COLUMN_FK_ACTIVITY, activityId);
+        Uri uri = Uri.parse("android.resource://"+ context.getPackageName() + "/raw/maps_activity_history_json_style");
+        values.put(ActivityMapBaseEntity.COLUMN_STYLE, uri.toString());
+        database.insert(ActivityMapBaseEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(CategoryToActivityEntity.COLUMN_FK_ACTIVITY,activityId);
+        values.put(CategoryToActivityEntity.COLUMN_FK_CATEGORY,idCategory);
+        database.insert(CategoryToActivityEntity.TABLE,null,values);
+
+        //endregion
+
+        //**********
+        // INSERT YOUR ACTIVITIES HERE (example above)
+        // Make sure to indicate the whole package name
+
+        //*********
+
+
 
     }
 

@@ -1,5 +1,7 @@
 package be.henallux.masi.pedagogique.model;
 
+import android.os.Bundle;
+
 /**
  * Created by Le Roi Arthur on 17-12-17.
  */
@@ -45,5 +47,13 @@ public class Activity {
 
     public void setAssociatedClass(java.lang.Class associatedClass) {
         this.associatedClass = associatedClass;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

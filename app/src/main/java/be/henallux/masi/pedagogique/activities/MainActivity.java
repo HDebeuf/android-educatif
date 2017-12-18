@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import be.henallux.masi.pedagogique.model.Category;
+import be.henallux.masi.pedagogique.utils.Constants;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -12,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
         //setContentView(R.layout.activity_main);
 
         Intent intent = new Intent(this, MainMenuActivity.class);
+        intent.putExtra(Constants.KEY_CATEGORY_USER,new Category(1,"Cycle inférieur",6,8)); //TODO : replace with prompt to user
         startActivity(intent);
     }
 }

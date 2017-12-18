@@ -1,9 +1,8 @@
-package be.henallux.masi.pedagogique.mapActivity;
+package be.henallux.masi.pedagogique.activities.mapActivity;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -11,15 +10,28 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import be.henallux.masi.pedagogique.R;
+import be.henallux.masi.pedagogique.model.Location;
+import be.henallux.masi.pedagogique.utils.Constants;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private IHistoryMapRepository repository;
+    private int activityID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        repository = new SQLiteHistoryMapRepository(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        //Retrieves the ID of the ActivityMapBase that is currently active
+        //This ID will be used later to show the corresponding interest points on the map
+
+        activityID = getIntent().getExtras().getInt(Constants.ACTIVITY_ID);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -41,8 +53,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        for(Location l : repository.getAllPointsOfInterestById(activityID)){
+            LatLng position = l.getLocation();
+            mMap.addMarker(new MarkerOptions().position(position).title(l.getTitle()));
+        }
     }
 }

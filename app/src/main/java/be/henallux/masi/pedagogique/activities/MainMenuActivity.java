@@ -18,9 +18,19 @@ import be.henallux.masi.pedagogique.R;
 import be.henallux.masi.pedagogique.dao.interfaces.IActivitiesRepository;
 import be.henallux.masi.pedagogique.dao.sqlite.SQLiteActivitiesRepository;
 import be.henallux.masi.pedagogique.model.Activity;
+import be.henallux.masi.pedagogique.model.Category;
+import be.henallux.masi.pedagogique.utils.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+
+/**
+ * Main activity on which users are prompted for an activity.
+ * Steps to add your own activity :
+ * 1) Create a new package containing everything related to your new activity
+ * 2) Create your new activity inside that package
+ * 3) Go to "SQLiteHelper.insert" method and add your activity as indicated
+ */
 public class MainMenuActivity extends AppCompatActivity {
 
     @BindView(R.id.recyclerViewActivities)
@@ -37,8 +47,10 @@ public class MainMenuActivity extends AppCompatActivity {
 
         activitiesRepository = SQLiteActivitiesRepository.getInstance(this);
 
+        Category categoryOfUser = getIntent().getExtras().getParcelable(Constants.KEY_CATEGORY_USER);
+
         recyclerViewActivities.setLayoutManager(new LinearLayoutManager(this));
-        recyclerViewActivities.setAdapter(new ActivitiesAdapter(activitiesRepository.getAllActivities()));
+        recyclerViewActivities.setAdapter(new ActivitiesAdapter(activitiesRepository.getAllActivitiesOfCategory(categoryOfUser)));
     }
 
     private class ActivitiesAdapter extends RecyclerView.Adapter<ActivityViewHolder>{
@@ -66,6 +78,7 @@ public class MainMenuActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(MainMenuActivity.this,act.getAssociatedClass());
+                    intent.putExtra(Constants.ACTIVITY_ID,act.getId());
                     startActivity(intent);
                 }
             });
@@ -83,7 +96,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
         public ActivityViewHolder(View itemView) {
             super(itemView);
-            buttonStart = (Button)itemView.findViewById(R.id.buttonStart);
+            buttonStart = itemView.findViewById(R.id.buttonStart);
         }
     }
 }
