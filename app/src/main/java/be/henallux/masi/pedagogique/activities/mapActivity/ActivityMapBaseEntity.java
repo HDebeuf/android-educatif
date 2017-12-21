@@ -22,7 +22,7 @@ public class ActivityMapBaseEntity {
             "create table "
                     + ActivityMapBaseEntity.TABLE + "("
                     + ActivityMapBaseEntity.COLUMN_ID + " integer primary key autoincrement, "
-                    + ActivityMapBaseEntity.COLUMN_STYLE + " varchar(500) not null,"
+                    + ActivityMapBaseEntity.COLUMN_STYLE + " varchar(500),"
                     + ActivityMapBaseEntity.COLUMN_NAME + " varchar(20) not null,"
                     + ActivityMapBaseEntity.COLUMN_LATITUDE_CENTER + " decimal(8,5) not null,"
                     + ActivityMapBaseEntity.COLUMN_LONGITUDE_CENTER + " decimal(8,5) not null,"
@@ -31,7 +31,7 @@ public class ActivityMapBaseEntity {
 
 
 
-    public static final String SELECT_REQUEST = "select " + COLUMN_ID + "," +
+    public static final String SELECT_REQUEST_WHERE_CATEGORY = "select " + COLUMN_ID + "," +
             TABLE + "." + COLUMN_NAME + "," +
             ActivityEntity.COLUMN_CLASS_CANONICAL_CLASS_NAME + "," +
             ActivityEntity.COLUMN_ACTIVITY_CANONICAL_CLASS_NAME + "," +
@@ -47,4 +47,22 @@ public class ActivityMapBaseEntity {
             " and " + CategoryToActivityEntity.COLUMN_FK_ACTIVITY + " = " + ActivityEntity.COLUMN_ID +
             " and " + CategoryToActivityEntity.COLUMN_FK_CATEGORY + " = " + CategoryEntity.COLUMN_ID +
             " and " + CategoryEntity.COLUMN_ID + "=?";
+
+
+    public static final String SELECT_REQUEST_WHERE_ID = "select " + COLUMN_ID + "," +
+            TABLE + "." + COLUMN_NAME + "," +
+            ActivityEntity.COLUMN_CLASS_CANONICAL_CLASS_NAME + "," +
+            ActivityEntity.COLUMN_ACTIVITY_CANONICAL_CLASS_NAME + "," +
+            COLUMN_STYLE  + "," +
+            COLUMN_LATITUDE_CENTER  + "," +
+            COLUMN_LONGITUDE_CENTER + "," +
+            COLUMN_ZOOM +
+            " from " + TABLE +
+            " inner join " + ActivityEntity.TABLE +
+            " inner join " + CategoryToActivityEntity.TABLE +
+            " inner join " + CategoryEntity.TABLE +
+            " where " + COLUMN_FK_ACTIVITY + " = " + ActivityEntity.COLUMN_ID +
+            " and " + CategoryToActivityEntity.COLUMN_FK_ACTIVITY + " = " + ActivityEntity.COLUMN_ID +
+            " and " + CategoryToActivityEntity.COLUMN_FK_CATEGORY + " = " + CategoryEntity.COLUMN_ID +
+            " and " + COLUMN_ID + "=?";
 }

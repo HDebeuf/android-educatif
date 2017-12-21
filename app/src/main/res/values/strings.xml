@@ -16,4 +16,5 @@
         completions."
     </string>
     <string name="title_activity_musical">Sign in</string>
+    <string name="title_activity_location_info">Sign in</string>
 </resources>

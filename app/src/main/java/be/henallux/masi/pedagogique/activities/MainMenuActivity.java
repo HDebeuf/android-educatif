@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -78,7 +77,7 @@ public class MainMenuActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(MainMenuActivity.this,act.getAssociatedClass());
-                    intent.putExtra(Constants.ACTIVITY_ID,act.getId());
+                    intent.putExtra(Constants.ACTIVITY_KEY,act.getId());
                     startActivity(intent);
                 }
             });

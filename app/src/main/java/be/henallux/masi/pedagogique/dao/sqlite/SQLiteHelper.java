@@ -6,9 +6,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
-import be.henallux.masi.pedagogique.activities.mapActivity.ActivityMap;
+import be.henallux.masi.pedagogique.activities.historyActivity.LocationInfoActivity;
+import be.henallux.masi.pedagogique.activities.mapActivity.ActivityMapBase;
 import be.henallux.masi.pedagogique.activities.mapActivity.ActivityMapBaseEntity;
-import be.henallux.masi.pedagogique.activities.musicalActivity.ActivityMusicEntity;
+import be.henallux.masi.pedagogique.activities.mapActivity.LocationEntity;
+import be.henallux.masi.pedagogique.activities.mapActivity.MapsActivity;
+import be.henallux.masi.pedagogique.activities.musicalActivity.MusicalActivity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.*;
 
 /**
@@ -17,7 +20,7 @@ import be.henallux.masi.pedagogique.dao.sqlite.entities.*;
 
 public class SQLiteHelper extends SQLiteOpenHelper{
 
-    private static final String DATABASE_NAME = "shops.db";
+    private static final String DATABASE_NAME = "educative.db";
     private static final int DATABASE_VERSION = 1;
     private Context context;
     private static SQLiteDatabase databaseInstance;
@@ -151,7 +154,6 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         sqLiteDatabase.execSQL(ActivityMapBaseEntity.CREATE_TABLE);
         sqLiteDatabase.execSQL(LocationEntity.CREATE_TABLE_LOCATION);
 
-        sqLiteDatabase.execSQL(ActivityMusicEntity.CREATE_TABLE);
         // End modules
 
         sqLiteDatabase.execSQL(CREATE_TABLE_CATEGORYTOACTIVITY);
@@ -184,8 +186,8 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         values.clear();
         values.put(ActivityEntity.COLUMN_NAME, "Activité historique");
         values.put(ActivityEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaire);
-        values.put(ActivityEntity.COLUMN_ACTIVITY_CANONICAL_CLASS_NAME,"be.henallux.masi.pedagogique.activities.mapActivity.MapsActivity");
-        values.put(ActivityEntity.COLUMN_CLASS_CANONICAL_CLASS_NAME,"be.henallux.masi.pedagogique.activities.mapActivity.ActivityMapBaseEntity");
+        values.put(ActivityEntity.COLUMN_ACTIVITY_CANONICAL_CLASS_NAME, MapsActivity.class.getName());
+        values.put(ActivityEntity.COLUMN_CLASS_CANONICAL_CLASS_NAME,ActivityMapBase.class.getName());
         int activityId = (int)database.insert(ActivityEntity.TABLE, null, values);
 
         values.clear();
@@ -195,7 +197,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         values.put(ActivityMapBaseEntity.COLUMN_STYLE, uri.toString());
         values.put(ActivityMapBaseEntity.COLUMN_LATITUDE_CENTER,50.8468);
         values.put(ActivityMapBaseEntity.COLUMN_LONGITUDE_CENTER,4.3775);
-        values.put(ActivityMapBaseEntity.COLUMN_ZOOM,3);
+        values.put(ActivityMapBaseEntity.COLUMN_ZOOM,8);
         int idActivityMap = (int)database.insert(ActivityMapBaseEntity.TABLE, null, values);
 
         //region Locations
@@ -203,6 +205,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         values.put(LocationEntity.COLUMN_TITLE, "Butte de Waterloo");
         values.put(LocationEntity.COLUMN_LATITUDE,50.678542);
         values.put(LocationEntity.COLUMN_LONGITUDE, 4.404887);
+        values.put(LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME, LocationInfoActivity.class.getName());
         values.put(LocationEntity.COLUMN_FK_ACTIVITYMAPBASE,idActivityMap);
         database.insert(LocationEntity.TABLE, null, values);
 
@@ -210,6 +213,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         values.put(LocationEntity.COLUMN_TITLE, "Manneken pis");
         values.put(LocationEntity.COLUMN_LATITUDE,50.845007);
         values.put(LocationEntity.COLUMN_LONGITUDE, 4.349971);
+        values.put(LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME, LocationInfoActivity.class.getName());
         values.put(LocationEntity.COLUMN_FK_ACTIVITYMAPBASE,idActivityMap);
         database.insert(LocationEntity.TABLE, null, values);
 
@@ -222,20 +226,17 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 
         //endregion
 
-
         //region MusicActivity
         values.clear();
         values.put(ActivityEntity.COLUMN_NAME, "Activité musicale");
         values.put(ActivityEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaire);
-        values.put(ActivityEntity.COLUMN_ACTIVITY_CANONICAL_CLASS_NAME,"be.henallux.masi.pedagogique.activities.mapActivity.MapsActivity");
-        values.put(ActivityEntity.COLUMN_CLASS_CANONICAL_CLASS_NAME,"be.henallux.masi.pedagogique.activities.mapActivity.ActivityMapBaseEntity");
+        values.put(ActivityEntity.COLUMN_ACTIVITY_CANONICAL_CLASS_NAME, MapsActivity.class.getName());
+        values.put(ActivityEntity.COLUMN_CLASS_CANONICAL_CLASS_NAME, ActivityMapBase.class.getName());
         activityId = (int)database.insert(ActivityEntity.TABLE, null, values);
 
         values.clear();
         values.put(ActivityMapBaseEntity.COLUMN_FK_ACTIVITY, activityId);
         values.put(ActivityMapBaseEntity.COLUMN_NAME,"Histoire de la musique");
-        uri = Uri.parse("android.resource://"+ context.getPackageName() + "/raw/maps_activity_history_json_style");
-        values.put(ActivityMapBaseEntity.COLUMN_STYLE, uri.toString());
         values.put(ActivityMapBaseEntity.COLUMN_LATITUDE_CENTER,50.8468);
         values.put(ActivityMapBaseEntity.COLUMN_LONGITUDE_CENTER,4.3775);
         values.put(ActivityMapBaseEntity.COLUMN_ZOOM,0.5);
@@ -245,6 +246,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         values.put(LocationEntity.COLUMN_TITLE, "Asie");
         values.put(LocationEntity.COLUMN_LATITUDE,39.898369);
         values.put(LocationEntity.COLUMN_LONGITUDE,97.346919);
+        values.put(LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME, MusicalActivity.class.getName());
         values.put(LocationEntity.COLUMN_FK_ACTIVITYMAPBASE,idActivityMap);
         database.insert(LocationEntity.TABLE, null, values);
 
@@ -252,24 +254,16 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         values.put(LocationEntity.COLUMN_TITLE, "Afrique");
         values.put(LocationEntity.COLUMN_LATITUDE,3.711932);
         values.put(LocationEntity.COLUMN_LONGITUDE, 21.880014);
+        values.put(LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME, MusicalActivity.class.getName());
         values.put(LocationEntity.COLUMN_FK_ACTIVITYMAPBASE,idActivityMap);
         database.insert(LocationEntity.TABLE, null, values);
-
-        //endregion
 
         values.clear();
         values.put(CategoryToActivityEntity.COLUMN_FK_ACTIVITY,activityId);
         values.put(CategoryToActivityEntity.COLUMN_FK_CATEGORY,idCategoryInferior);
         database.insert(CategoryToActivityEntity.TABLE,null,values);
 
-        //**********
-        // INSERT YOUR ACTIVITIES HERE (example above)
-        // Make sure to indicate the whole package name
-
-        //*********
-
-
-
+        //endregion
     }
 
 

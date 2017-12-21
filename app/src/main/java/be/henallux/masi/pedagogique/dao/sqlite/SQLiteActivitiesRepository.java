@@ -4,16 +4,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
-import be.henallux.masi.pedagogique.activities.mapActivity.ActivityMap;
+import be.henallux.masi.pedagogique.activities.mapActivity.ActivityMapBase;
 import be.henallux.masi.pedagogique.activities.mapActivity.ActivityMapBaseEntity;
-import be.henallux.masi.pedagogique.activities.musicalActivity.ActivityMusic;
-import be.henallux.masi.pedagogique.activities.musicalActivity.ActivityMusicEntity;
 import be.henallux.masi.pedagogique.dao.interfaces.IActivitiesRepository;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.ActivityEntity;
 import be.henallux.masi.pedagogique.model.Activity;
@@ -78,16 +77,15 @@ public class SQLiteActivitiesRepository implements IActivitiesRepository {
 
         //region mapsActivity
         activities.addAll(getMapsActivities(database,c));
-        activities.addAll(getMusicalActivities(database,c));
 
         return activities;
     }
 
-    private ArrayList<Activity> getMapsActivities(SQLiteDatabase database, Category c){
+    private ArrayList<ActivityMapBase> getMapsActivities(SQLiteDatabase database, Category c){
 
-        ArrayList<Activity> activities = new ArrayList<>();
+        ArrayList<ActivityMapBase> activities = new ArrayList<>();
 
-        String statement = ActivityMapBaseEntity.SELECT_REQUEST;
+        String statement = ActivityMapBaseEntity.SELECT_REQUEST_WHERE_CATEGORY;
 
         Cursor cursor = database.rawQuery(statement,new String[]{String.valueOf(c.getId())});
         cursor.moveToFirst();
@@ -98,49 +96,26 @@ public class SQLiteActivitiesRepository implements IActivitiesRepository {
                 int id = cursor.getInt(0);
                 String name = cursor.getString(1);
                 activityClass = Class.forName(cursor.getString(3));
-                Uri uriJson = Uri.parse(cursor.getString(4));
+
+                String stringURI = cursor.getString(4);
+                Uri uriJson = null;
+                if(!TextUtils.isEmpty(stringURI))
+                    uriJson = Uri.parse(stringURI);
                 double latitudeCenter = cursor.getDouble(5);
-                double longitudeCenter = cursor.getDouble(5);
-                double zoom = cursor.getDouble(6);
+                double longitudeCenter = cursor.getDouble(6);
+                double zoom = cursor.getDouble(7);
                 LatLng defaultLocation = new LatLng(latitudeCenter,longitudeCenter);
 
-                activities.add(new ActivityMap(id,name,activityClass,uriJson, defaultLocation, zoom));
+                activities.add(new ActivityMapBase(id,name,activityClass,uriJson, defaultLocation, zoom,null));
             } catch (ClassNotFoundException e) {
                 Log.e("Database","Could not get class for name " + cursor.getString(3));
             }
             cursor.moveToNext();
         }
-
         cursor.close();
         return activities;
     }
 
-    private ArrayList<Activity> getMusicalActivities(SQLiteDatabase database, Category c){
 
-        ArrayList<Activity> activities = new ArrayList<>();
-
-        String statement = ActivityMusicEntity.SELECT_REQUEST;
-
-        Cursor cursor = database.rawQuery(statement,new String[]{String.valueOf(c.getId())});
-        cursor.moveToFirst();
-
-        while (!cursor.isAfterLast()) {
-            Class activityClass;
-            try {
-                int id = cursor.getInt(0);
-                String name = cursor.getString(1);
-                activityClass = Class.forName(cursor.getString(3));
-                Uri uriJson = Uri.parse(cursor.getString(4));
-
-                activities.add(new ActivityMusic(id,name,activityClass,uriJson));
-            } catch (ClassNotFoundException e) {
-                Log.e("Database","Could not get class for name " + cursor.getString(3));
-            }
-            cursor.moveToNext();
-        }
-
-        cursor.close();
-        return activities;
-    }
 
 }
