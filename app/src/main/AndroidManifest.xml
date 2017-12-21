@@ -45,6 +45,10 @@
             android:name=".activities.mapActivity.MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".activities.MainMenuActivity" />
+        <activity
+            android:name=".activities.musicalActivity.MusicalActivity"
+            android:label="@string/title_activity_musical" />
+
     </application>
 
 </manifest>

@@ -6,16 +6,16 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.util.Log;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 
 import be.henallux.masi.pedagogique.activities.mapActivity.ActivityMap;
 import be.henallux.masi.pedagogique.activities.mapActivity.ActivityMapBaseEntity;
+import be.henallux.masi.pedagogique.activities.musicalActivity.ActivityMusic;
+import be.henallux.masi.pedagogique.activities.musicalActivity.ActivityMusicEntity;
 import be.henallux.masi.pedagogique.dao.interfaces.IActivitiesRepository;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.ActivityEntity;
-import be.henallux.masi.pedagogique.dao.sqlite.entities.CategoryEntity;
-import be.henallux.masi.pedagogique.dao.sqlite.entities.CategoryToActivityEntity;
 import be.henallux.masi.pedagogique.model.Activity;
 import be.henallux.masi.pedagogique.model.Category;
 
@@ -77,33 +77,34 @@ public class SQLiteActivitiesRepository implements IActivitiesRepository {
         //All these activities will be shown at the main menu, after the category of the user is known
 
         //region mapsActivity
-        String statement = "select " + ActivityMapBaseEntity.COLUMN_ID + "," +
-                ActivityMapBaseEntity.TABLE + "." + ActivityMapBaseEntity.COLUMN_NAME + "," +
-                ActivityEntity.COLUMN_CLASS_CANONICAL_CLASS_NAME + "," +
-                ActivityEntity.COLUMN_ACTIVITY_CANONICAL_CLASS_NAME + "," +
-                ActivityMapBaseEntity.COLUMN_STYLE  +
-                " from " + ActivityMapBaseEntity.TABLE +
-                " inner join " + ActivityEntity.TABLE +
-                " inner join " + CategoryToActivityEntity.TABLE +
-                " inner join " + CategoryEntity.TABLE +
-                " where " + ActivityMapBaseEntity.COLUMN_FK_ACTIVITY + " = " + ActivityEntity.COLUMN_ID +
-                " and " + CategoryToActivityEntity.COLUMN_FK_ACTIVITY + " = " + ActivityEntity.COLUMN_ID +
-                " and " + CategoryToActivityEntity.COLUMN_FK_CATEGORY + " = " + CategoryEntity.COLUMN_ID +
-                " and " + CategoryEntity.COLUMN_ID + "=?";
+        activities.addAll(getMapsActivities(database,c));
+        activities.addAll(getMusicalActivities(database,c));
+
+        return activities;
+    }
+
+    private ArrayList<Activity> getMapsActivities(SQLiteDatabase database, Category c){
+
+        ArrayList<Activity> activities = new ArrayList<>();
+
+        String statement = ActivityMapBaseEntity.SELECT_REQUEST;
 
         Cursor cursor = database.rawQuery(statement,new String[]{String.valueOf(c.getId())});
         cursor.moveToFirst();
 
         while (!cursor.isAfterLast()) {
-            Class activityClass = null;
-
+            Class activityClass;
             try {
                 int id = cursor.getInt(0);
                 String name = cursor.getString(1);
                 activityClass = Class.forName(cursor.getString(3));
                 Uri uriJson = Uri.parse(cursor.getString(4));
+                double latitudeCenter = cursor.getDouble(5);
+                double longitudeCenter = cursor.getDouble(5);
+                double zoom = cursor.getDouble(6);
+                LatLng defaultLocation = new LatLng(latitudeCenter,longitudeCenter);
 
-                activities.add(new ActivityMap(id,name,activityClass,uriJson));
+                activities.add(new ActivityMap(id,name,activityClass,uriJson, defaultLocation, zoom));
             } catch (ClassNotFoundException e) {
                 Log.e("Database","Could not get class for name " + cursor.getString(3));
             }
@@ -111,9 +112,35 @@ public class SQLiteActivitiesRepository implements IActivitiesRepository {
         }
 
         cursor.close();
-
-        //endregion
-
         return activities;
     }
+
+    private ArrayList<Activity> getMusicalActivities(SQLiteDatabase database, Category c){
+
+        ArrayList<Activity> activities = new ArrayList<>();
+
+        String statement = ActivityMusicEntity.SELECT_REQUEST;
+
+        Cursor cursor = database.rawQuery(statement,new String[]{String.valueOf(c.getId())});
+        cursor.moveToFirst();
+
+        while (!cursor.isAfterLast()) {
+            Class activityClass;
+            try {
+                int id = cursor.getInt(0);
+                String name = cursor.getString(1);
+                activityClass = Class.forName(cursor.getString(3));
+                Uri uriJson = Uri.parse(cursor.getString(4));
+
+                activities.add(new ActivityMusic(id,name,activityClass,uriJson));
+            } catch (ClassNotFoundException e) {
+                Log.e("Database","Could not get class for name " + cursor.getString(3));
+            }
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+        return activities;
+    }
+
 }
