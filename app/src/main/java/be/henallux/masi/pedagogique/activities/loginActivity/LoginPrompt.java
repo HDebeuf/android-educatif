@@ -1,4 +1,4 @@
-package be.henallux.masi.pedagogique.activities.loginRegisterActivities;
+package be.henallux.masi.pedagogique.activities.loginActivity;
 
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
