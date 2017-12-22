@@ -46,7 +46,9 @@
             android:label="@string/title_activity_maps" />
         <activity android:name=".activities.MainMenuActivity" />
         <activity android:name=".activities.musicalActivity.MusicalActivity" />
-        <activity android:name=".activities.historyActivity.LocationInfoActivity"></activity>
+        <activity android:name=".activities.historyActivity.LocationInfoActivity" />
+        <activity android:name=".activities.loginRegisterActivities.LoginPrompt" />
+        <activity android:name=".activities.loginRegisterActivities.RegisterPrompt"></activity>
     </application>
 
 </manifest>
