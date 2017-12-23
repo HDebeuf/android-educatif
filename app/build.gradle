@@ -24,7 +24,9 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.mobsandgeeks:android-saripaar:2.0.3'
+    compile 'com.facebook.stetho:stetho-okhttp:1.5.0' //use chrome:inspect to show DB
+    compile 'com.squareup.picasso:picasso:2.5.2' //img manager
+    compile 'com.mobsandgeeks:android-saripaar:2.0.3' //validation engine
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.jakewharton:butterknife:8.8.1'

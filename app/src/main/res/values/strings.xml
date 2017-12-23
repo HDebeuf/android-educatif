@@ -17,4 +17,7 @@
     </string>
     <string name="title_activity_musical">Sign in</string>
     <string name="title_activity_location_info">Sign in</string>
+    <string name="correct_intent">Pleas create in the test UI the correct intent</string>
+    <string name="ask_help">Tu dois demander à la personne responsable (ton ou ta professeur.e) ton identifiant et ton mot de passe.</string>
+
 </resources>

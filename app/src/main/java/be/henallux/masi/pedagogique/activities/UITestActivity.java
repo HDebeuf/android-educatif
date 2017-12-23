@@ -5,8 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import be.henallux.masi.pedagogique.R;
+import be.henallux.masi.pedagogique.activities.loginActivity.LoginPromptActivity;
 import be.henallux.masi.pedagogique.activities.mapActivity.MapsActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,6 +36,20 @@ public class UITestActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(UITestActivity.this, MapsActivity.class);
                 startActivity(i);
+            }
+        });
+
+        buttonLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(UITestActivity.this, LoginPromptActivity.class);
+                startActivity(i);
+            }
+        });
+        buttonSynthesis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(),R.string.correct_intent, Toast.LENGTH_SHORT).show();
             }
         });
     }

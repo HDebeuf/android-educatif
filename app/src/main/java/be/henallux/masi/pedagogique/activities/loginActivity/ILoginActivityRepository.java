@@ -5,5 +5,5 @@ package be.henallux.masi.pedagogique.activities.loginActivity;
  */
 
 public interface ILoginActivityRepository {
-    void createAllUsers();
+    public void ifVoid();
 }

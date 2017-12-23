@@ -40,7 +40,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
                     + UserEntity.COLUMN_LASTNAME +  " varchar(45) not null,"
                     + UserEntity.COLUMN_PASSWORDHASH +  " varchar(64) not null,"
                     + UserEntity.COLUMN_GENRE +  " integer not null,"
-                    + UserEntity.COLUMN_URI_AVATAR +  " varchar(45) not null,"
+                    + UserEntity.COLUMN_URI_AVATAR +  " varchar(45),"
                     + UserEntity.COLUMN_FK_CLASS + " integer not null,"
                     + "foreign key (" + UserEntity.COLUMN_FK_CLASS + ") references " + ClassEntity.TABLE + "(" + ClassEntity.COLUMN_ID + "))";
 
