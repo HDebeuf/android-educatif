@@ -6,6 +6,12 @@ import android.os.Bundle;
 
 import com.facebook.stetho.Stetho;
 
+import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
+
+import be.henallux.masi.pedagogique.model.Category;
+import be.henallux.masi.pedagogique.utils.Constants;
+
+
 public class MainActivity extends AppCompatActivity {
 
     @Override

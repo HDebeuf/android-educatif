@@ -10,12 +10,10 @@ public class Group {
 
     private Integer id;
     private ArrayList<User> members;
-    private Group group;
 
-    public Group(Integer id, ArrayList<User> members, Group group) {
+    public Group(Integer id, ArrayList<User> members) {
         this.id = id;
         this.members = members;
-        this.group = group;
     }
 
     public ArrayList<User> getMembers() {
@@ -24,13 +22,5 @@ public class Group {
 
     public void setMembers(ArrayList<User> members) {
         this.members = members;
-    }
-
-    public Group getGroup() {
-        return group;
-    }
-
-    public void setGroup(Group group) {
-        this.group = group;
     }
 }

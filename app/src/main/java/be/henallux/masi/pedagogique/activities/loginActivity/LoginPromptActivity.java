@@ -27,6 +27,12 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
     @BindView(R.id.login_prompt_button)
     Button buttonLogin;
 
+    @BindView(R.id.usernameWrapper)
+    TextInputLayout usernameWrapper;
+
+    @BindView(R.id.passwordWrapper)
+    TextInputLayout passwordWrapper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,10 +40,7 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
         ButterKnife.bind(this);
         validator = new Validator(this);
         validator.setValidationListener(this);
-        final TextInputLayout usernameWrapper = (TextInputLayout) findViewById(R.id.usernameWrapper);
-        final TextInputLayout passwordWrapper = (TextInputLayout) findViewById(R.id.passwordWrapper);
-        usernameWrapper.setHint("Nom de compte");
-        passwordWrapper.setHint("Mot de passe");
+
         final SQLiteLoginActivityRepository repository = new SQLiteLoginActivityRepository(getApplicationContext());
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override

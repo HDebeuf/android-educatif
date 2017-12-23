@@ -53,3 +53,11 @@ google-services.json
 freeline.py
 freeline/
 freeline_project_description.json
+
+app/build\.gradle
+
+app/src/main/java/be/henallux/masi/pedagogique/activities/MainActivity\.java
+
+app/src/main/java/be/henallux/masi/pedagogique/model/Group\.java
+
+build\.gradle
