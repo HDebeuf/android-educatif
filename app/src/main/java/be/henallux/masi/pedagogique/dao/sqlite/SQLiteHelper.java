@@ -264,6 +264,20 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         database.insert(CategoryToActivityEntity.TABLE,null,values);
 
         //endregion
+
+        //startUsersGroups
+        int iUser;
+        Faker faker = new Faker();
+        for(iUser=1;iUser<41;iUser++){
+            values.clear();
+           // values.put(UserEntity.COLUMN_FIRSTNAME,
+
+
+
+
+
+
+        }
     }
 
 
