@@ -13,6 +13,7 @@ import be.henallux.masi.pedagogique.activities.mapActivity.LocationEntity;
 import be.henallux.masi.pedagogique.activities.mapActivity.MapsActivity;
 import be.henallux.masi.pedagogique.activities.musicalActivity.MusicalActivity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.*;
+import be.henallux.masi.pedagogique.model.User;
 
 /**
  * Created by Le Roi Arthur on 17-12-17.
@@ -267,10 +268,16 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 
         //startUsersGroups
         int iUser;
-        Faker faker = new Faker();
+        //
+        //
+        //Faker faker = new Faker(); LE ROI ARTHUR
+        //
+        //
         for(iUser=1;iUser<41;iUser++){
             values.clear();
-           // values.put(UserEntity.COLUMN_FIRSTNAME,
+           values.put(UserEntity.COLUMN_FIRSTNAME,"eleve"+iUser);
+           values.put(UserEntity.COLUMN_LASTNAME,"BE");
+           values.put(UserEntity.COLUMN_GENRE,"Non-Binaire");
 
 
 

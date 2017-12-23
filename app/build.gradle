@@ -18,15 +18,12 @@ android {
         }
     }
 }
-repositories {
-    mavenCentral()
-}
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
+    testCompile group: 'com.github.javafaker', name: 'javafaker', version: '0.14'
     compile 'com.facebook.stetho:stetho-okhttp:1.5.0' //use chrome:inspect to show DB
     compile 'com.squareup.picasso:picasso:2.5.2' //img manager
     compile 'com.mobsandgeeks:android-saripaar:2.0.3' //validation engine
@@ -37,9 +34,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:26.+'
     compile 'com.android.support:design:26.+'
     compile 'com.android.support:cardview-v7:26.+'
-
     compile 'com.github.luongvo:GmailBackground:2.0.2'
-    testCompile group: 'com.github.javafaker', name: 'javafaker', version: '0.14'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     debugCompile 'com.amitshekhar.android:debug-db:1.0.0'
