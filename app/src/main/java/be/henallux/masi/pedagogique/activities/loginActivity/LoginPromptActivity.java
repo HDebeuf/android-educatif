@@ -1,7 +1,6 @@
 package be.henallux.masi.pedagogique.activities.loginActivity;
 
 import android.content.DialogInterface;
-import android.os.Build;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -39,20 +38,23 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
 
 
     @BindView(R.id.usernameEditText)
-    @NotEmpty
+    @NotEmpty(messageResId = R.string.error_field_required)
     EditText usernameEditText;
 
     @BindView(R.id.passwordEditText)
-    @NotEmpty
+    @NotEmpty(messageResId = R.string.error_field_required)
     EditText passwordEditText;
     
-    SQLiteLoginActivityRepository repository = new SQLiteLoginActivityRepository(getApplicationContext());
+    private SQLiteLoginActivityRepository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_prompt);
         ButterKnife.bind(this);
+
+         repository = new SQLiteLoginActivityRepository(getApplicationContext());
+
         validator = new Validator(this);
         validator.setValidationListener(this);
 
@@ -60,8 +62,6 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
             @Override
             public void onClick(View view) {
                 validator.validate();
-
-
             }
         });
     }
@@ -73,8 +73,8 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
         switch (item.getItemId()) {
             case R.id.action_get_help:
                 AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-                alertDialog.setTitle("Informations");
-                alertDialog.setMessage(this.getString(R.string.ask_help));
+                alertDialog.setTitle(this.getString(R.string.help_title));
+                alertDialog.setMessage(this.getString(R.string.login_ask_help));
                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Ok",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
@@ -89,25 +89,22 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
 
     @Override
     public void onValidationSucceeded() {
-        int id;
-        String loginId,pwd;
-        loginId = usernameEditText.getText().toString();
-        id = repository.getID(loginId);
-        if(id==0){
-            Toast.makeText(getApplicationContext(), R.string.not_found, Toast.LENGTH_LONG).show();
-        }else {
-            pwd = Hashing.sha256().hashString(passwordEditText.getText().toString(), StandardCharsets.UTF_8).toString();
-            if (repository.getPwdHash(id).equals(pwd)) {
-                Toast.makeText(getApplicationContext(), R.string.working, Toast.LENGTH_SHORT).show();
-            }
-            else{
-                Toast.makeText(getApplicationContext(), R.string.bad_password, Toast.LENGTH_LONG).show();
-            }
-        }
+        String username = usernameEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
+        String message = repository.accessGranted(username,password) ? "Access granted" : "Authorization failure";
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onValidationFailed(List<ValidationError> errors) {
+        for (ValidationError error : errors) {
+            View view = error.getView();
+            String message = error.getCollatedErrorMessage(this.getApplication());
 
+            // Display error messages
+            if (view instanceof EditText) {
+                ((EditText) view).setError(message);
+            }
+        }
     }
 }

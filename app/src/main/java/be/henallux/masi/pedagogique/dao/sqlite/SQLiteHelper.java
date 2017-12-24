@@ -27,7 +27,8 @@ import be.henallux.masi.pedagogique.dao.sqlite.entities.QuestionEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.QuestionnaireEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.UserEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.UserToGroupEntity;
-import be.henallux.masi.pedagogique.model.User;
+import be.henallux.masi.pedagogique.utils.ICryptographyService;
+import be.henallux.masi.pedagogique.utils.SHA256CryptographyService;
 
 
 /**
@@ -47,8 +48,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                     + UserEntity.COLUMN_ID + " integer primary key autoincrement, "
                     + UserEntity.COLUMN_FIRSTNAME + " varchar(45) not null,"
                     + UserEntity.COLUMN_LASTNAME + " varchar(45) not null,"
+                    + UserEntity.COLUMN_USERNAME + " varchar(45) not null,"
                     + UserEntity.COLUMN_PASSWORDHASH + " varchar(64) not null,"
-                    + UserEntity.COLUMN_GENRE + " integer not null,"
+                    + UserEntity.COLUMN_GENDER + " integer not null,"
                     + UserEntity.COLUMN_URI_AVATAR + " varchar(45),"
                     + UserEntity.COLUMN_FK_CLASS + " integer not null,"
                     + "foreign key (" + UserEntity.COLUMN_FK_CLASS + ") references " + ClassEntity.TABLE + "(" + ClassEntity.COLUMN_ID + "))";
@@ -108,15 +110,18 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                     + AnswerEntity.COLUMN_ID + " integer primary key autoincrement, "
                     + AnswerEntity.COLUMN_STATEMENT + " varchar(50) not null,"
                     + AnswerEntity.COLUMN_FK_QUESTION + " integer not null, foreign key (" + AnswerEntity.COLUMN_FK_QUESTION + ") references " + QuestionEntity.TABLE + "(" + QuestionEntity.COLUMN_ID + "))";
+
     private static final String DATABASE_NAME = "educative.db";
     private static final int DATABASE_VERSION = 1;
     private static SQLiteDatabase databaseInstance;
+    private ICryptographyService cryptographyService;
     private Context context;
 
 
     private SQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
+        this.cryptographyService = new SHA256CryptographyService();
     }
 
     public static SQLiteDatabase getDatabaseInstance(Context ctx) {
@@ -204,6 +209,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(ActivityMapBaseEntity.COLUMN_ZOOM, 8);
         int idActivityMap = (int) database.insert(ActivityMapBaseEntity.TABLE, null, values);
 
+        //endregion
+
         //region Locations
         values.clear();
         values.put(LocationEntity.COLUMN_TITLE, "Butte de Waterloo");
@@ -225,8 +232,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(CategoryToActivityEntity.COLUMN_FK_ACTIVITY, activityId);
         values.put(CategoryToActivityEntity.COLUMN_FK_CATEGORY, idCategorySuperior);
         database.insert(CategoryToActivityEntity.TABLE, null, values);
-
-        //endregion
 
         //endregion
 
@@ -269,7 +274,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         //endregion
 
-        //startUsers
+        //region users
         int iUser;
         String firstName,lastName;
         for (iUser = 1; iUser < 61; iUser++) {
@@ -279,24 +284,25 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             String pwd = "Tigrou007";
             values.put(UserEntity.COLUMN_FIRSTNAME,firstName);
             values.put(UserEntity.COLUMN_LASTNAME,lastName);
-            values.put(UserEntity.COLUMN_GENRE, "ToDetermineGenderFluidMaybe");
+            values.put(UserEntity.COLUMN_USERNAME,firstName+lastName);
+            values.put(UserEntity.COLUMN_GENDER, 1);
             values.put(UserEntity.COLUMN_FK_CLASS, 1);
-            String sha256pwd = Hashing.sha256().hashString(pwd, StandardCharsets.UTF_8).toString();
+            String sha256pwd = cryptographyService.hashPassword("Tigrou007");
             values.put(UserEntity.COLUMN_PASSWORDHASH,sha256pwd);
             database.insert(UserEntity.TABLE,null,values);
         }
-        //EndUsers
+        //endregion
 
-        //StartGroups
+        //region Groups
         values.clear();
         values.put(GroupEntity.COLUMN_FK_CATEGORY,1);
         database.insert(GroupEntity.TABLE,null,values);
         values.clear();
         values.put(GroupEntity.COLUMN_FK_CATEGORY,2);
         database.insert(GroupEntity.TABLE,null,values);
-        //EndGroups
+        //endregion
 
-        //UsersToGroups
+        //region UsersToGroups
         values.clear();
         int iUserToGroup;
         for (iUserToGroup = 1; iUserToGroup < 31; iUserToGroup++) {
@@ -311,7 +317,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             values.put(UserToGroupEntity.COLUMN_FK_GROUP,2);
             database.insert(UserToGroupEntity.TABLE, null, values);
         }
-        //EndUsersToGroup
+        //endregion
     }
 
 

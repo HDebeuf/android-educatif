@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#13433f</color>
     <color name="colorAccent">#ffffff</color>
     <color name="textInputGray">#bebebe</color>
+    <color name="background_material_light">#a80000</color>
 </resources>

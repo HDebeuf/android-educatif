@@ -1,5 +1,7 @@
 package be.henallux.masi.pedagogique.model;
 
+import com.github.javafaker.Faker;
+
 /**
  * Created by Le Roi Arthur on 17-12-17.
  */
@@ -10,6 +12,7 @@ public class Class {
 
     public Class(Integer id, String descritpion) {
         this.id = id;
+
         this.descritpion = descritpion;
     }
 

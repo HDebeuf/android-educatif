@@ -49,7 +49,7 @@ public class UITestActivity extends AppCompatActivity {
         buttonSynthesis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),R.string.correct_intent, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),R.string.ui_test_correct_intent, Toast.LENGTH_SHORT).show();
             }
         });
     }

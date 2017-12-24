@@ -1,5 +1,7 @@
 package be.henallux.masi.pedagogique.model;
 
+import android.net.Uri;
+
 import java.net.URI;
 import java.util.ArrayList;
 
@@ -10,16 +12,18 @@ import java.util.ArrayList;
 public class User {
 
     private Integer id;
+    private String username;
     private String firstName;
     private String lastName;
     private String passwordHash;
     private int genre;
-    private URI avatarUri;
+    private Uri avatarUri;
     private Class _class;
     private ArrayList<Group> groups;
 
-    public User(Integer id, String firstName, String lastName, String passwordHash, int genre, URI avatarUri, Class _class, ArrayList<Group> groups) {
+    public User(Integer id, String username, String firstName, String lastName, String passwordHash, int genre, Uri avatarUri, Class _class, ArrayList<Group> groups) {
         this.id = id;
+        this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.passwordHash = passwordHash;
@@ -27,6 +31,14 @@ public class User {
         this.avatarUri = avatarUri;
         this._class = _class;
         this.groups = groups;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getFirstName() {
@@ -61,11 +73,11 @@ public class User {
         this.genre = genre;
     }
 
-    public URI getAvatarUri() {
+    public Uri getAvatarUri() {
         return avatarUri;
     }
 
-    public void setAvatarUri(URI avatarUri) {
+    public void setAvatarUri(Uri avatarUri) {
         this.avatarUri = avatarUri;
     }
 
