@@ -47,6 +47,7 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
     
     private SQLiteLoginActivityRepository repository;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,10 +66,12 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
             }
         });
     }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.get_help, menu);
         return true;
     }
+
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_get_help:
