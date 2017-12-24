@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.google.common.hash.Hashing;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -36,11 +37,16 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
     @BindView(R.id.passwordWrapper)
     TextInputLayout passwordWrapper;
 
+
     @BindView(R.id.usernameEditText)
+    @NotEmpty
     EditText usernameEditText;
 
     @BindView(R.id.passwordEditText)
+    @NotEmpty
     EditText passwordEditText;
+    
+    SQLiteLoginActivityRepository repository = new SQLiteLoginActivityRepository(getApplicationContext());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,17 +56,10 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
         validator = new Validator(this);
         validator.setValidationListener(this);
 
-        final SQLiteLoginActivityRepository repository = new SQLiteLoginActivityRepository(getApplicationContext());
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               String loginId,pwd;
-               loginId = usernameEditText.getText().toString();
-               pwd = Hashing.sha256().hashString(passwordEditText.getText().toString(), StandardCharsets.UTF_8).toString();
-               if(repository.getPwdHash(repository.getID(loginId)).equals(pwd)){
-                   Toast.makeText(getApplicationContext(), R.string.working, Toast.LENGTH_SHORT).show();
-               }
-
+                validator.validate();
 
 
             }
@@ -90,7 +89,21 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
 
     @Override
     public void onValidationSucceeded() {
-
+        int id;
+        String loginId,pwd;
+        loginId = usernameEditText.getText().toString();
+        id = repository.getID(loginId);
+        if(id==0){
+            Toast.makeText(getApplicationContext(), R.string.not_found, Toast.LENGTH_LONG).show();
+        }else {
+            pwd = Hashing.sha256().hashString(passwordEditText.getText().toString(), StandardCharsets.UTF_8).toString();
+            if (repository.getPwdHash(id).equals(pwd)) {
+                Toast.makeText(getApplicationContext(), R.string.working, Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(getApplicationContext(), R.string.bad_password, Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     @Override

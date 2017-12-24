@@ -23,5 +23,7 @@
     <string name="login_username_field">Nom d\'utilisateur</string>
     <string name="login_field_password">Mot de passe</string>
     <string name="working">Good bye moonmen</string>
+    <string name="not_found">Ce n\'est pas un identifiant valide</string>
+    <string name="bad_password">Il ne s\'agit pas du bon mot de passe</string>
 
 </resources>
