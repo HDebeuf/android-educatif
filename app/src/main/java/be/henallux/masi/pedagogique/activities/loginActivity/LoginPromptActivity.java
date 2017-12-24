@@ -46,7 +46,6 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
     @NotEmpty
     EditText passwordEditText;
 
-    SQLiteLoginActivityRepository repository = new SQLiteLoginActivityRepository(getApplicationContext());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +92,7 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
     public void onValidationSucceeded() {
         int id;
         String loginId, pwd;
+        SQLiteLoginActivityRepository repository = new SQLiteLoginActivityRepository(this);
         loginId = usernameEditText.getText().toString();
         id = repository.getID(loginId);
         if (id == 0) {
@@ -112,7 +112,6 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
         for (ValidationError error : errors) {
             View view = error.getView();
             String message = error.getCollatedErrorMessage(this);
-
             // Display error messages ;)
             if (view instanceof EditText) {
                 ((EditText) view).setError(message);
