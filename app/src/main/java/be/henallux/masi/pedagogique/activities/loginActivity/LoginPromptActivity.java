@@ -45,7 +45,7 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
     @BindView(R.id.passwordEditText)
     @NotEmpty
     EditText passwordEditText;
-    
+
     SQLiteLoginActivityRepository repository = new SQLiteLoginActivityRepository(getApplicationContext());
 
     @Override
@@ -65,10 +65,12 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
             }
         });
     }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.get_help, menu);
         return true;
     }
+
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_get_help:
@@ -90,17 +92,16 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
     @Override
     public void onValidationSucceeded() {
         int id;
-        String loginId,pwd;
+        String loginId, pwd;
         loginId = usernameEditText.getText().toString();
         id = repository.getID(loginId);
-        if(id==0){
+        if (id == 0) {
             Toast.makeText(getApplicationContext(), R.string.not_found, Toast.LENGTH_LONG).show();
-        }else {
+        } else {
             pwd = Hashing.sha256().hashString(passwordEditText.getText().toString(), StandardCharsets.UTF_8).toString();
             if (repository.getPwdHash(id).equals(pwd)) {
                 Toast.makeText(getApplicationContext(), R.string.working, Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Toast.makeText(getApplicationContext(), R.string.bad_password, Toast.LENGTH_LONG).show();
             }
         }
@@ -108,6 +109,16 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
 
     @Override
     public void onValidationFailed(List<ValidationError> errors) {
+        for (ValidationError error : errors) {
+            View view = error.getView();
+            String message = error.getCollatedErrorMessage(this);
 
+            // Display error messages ;)
+            if (view instanceof EditText) {
+                ((EditText) view).setError(message);
+            } else {
+                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }
