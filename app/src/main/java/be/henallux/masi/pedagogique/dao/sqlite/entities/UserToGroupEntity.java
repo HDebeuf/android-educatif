@@ -7,6 +7,6 @@ package be.henallux.masi.pedagogique.dao.sqlite.entities;
 public class UserToGroupEntity {
     public static final String TABLE = "User_has_Group";
     public static final String COLUMN_ID = "idUserHasGroup";
-    public static final String COLUMN_FK_GROUP = "User_idUser";
-    public static final String COLUMN_FK_USER = "Group_idGroup";
+    public static final String COLUMN_FK_USER = "User_idUser";
+    public static final String COLUMN_FK_GROUP = "Group_idGroup";
 }

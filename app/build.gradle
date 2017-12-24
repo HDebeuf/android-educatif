@@ -23,7 +23,9 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    testCompile group: 'com.github.javafaker', name: 'javafaker', version: '0.14'
+    compile 'com.google.guava:guava:23.6-android' //very big API, used for SHA256there
+    compile 'com.github.moove-it:fakeit:v0.7' //generator, working
+    compile 'org.apache.commons:commons-lang3:3.5' //random password
     compile 'com.facebook.stetho:stetho-okhttp:1.5.0' //use chrome:inspect to show DB
     compile 'com.squareup.picasso:picasso:2.5.2' //img manager
     compile 'com.mobsandgeeks:android-saripaar:2.0.3' //validation engine

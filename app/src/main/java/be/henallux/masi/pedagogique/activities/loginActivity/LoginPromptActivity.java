@@ -10,11 +10,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.common.hash.Hashing;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import be.henallux.masi.pedagogique.R;
@@ -33,6 +36,12 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
     @BindView(R.id.passwordWrapper)
     TextInputLayout passwordWrapper;
 
+    @BindView(R.id.usernameEditText)
+    EditText usernameEditText;
+
+    @BindView(R.id.passwordEditText)
+    EditText passwordEditText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +54,15 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               repository.ifVoid();
+               String loginId,pwd;
+               loginId = usernameEditText.getText().toString();
+               pwd = Hashing.sha256().hashString(passwordEditText.getText().toString(), StandardCharsets.UTF_8).toString();
+               if(repository.getPwdHash(repository.getID(loginId)).equals(pwd)){
+                   Toast.makeText(getApplicationContext(), R.string.working, Toast.LENGTH_SHORT).show();
+               }
+
+
+
             }
         });
     }

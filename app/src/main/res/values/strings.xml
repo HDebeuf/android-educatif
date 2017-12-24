@@ -22,5 +22,6 @@
     <string name="login_welcome_title">Bienvenue !</string>
     <string name="login_username_field">Nom d\'utilisateur</string>
     <string name="login_field_password">Mot de passe</string>
+    <string name="working">Good bye moonmen</string>
 
 </resources>

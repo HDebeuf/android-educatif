@@ -5,5 +5,7 @@ package be.henallux.masi.pedagogique.activities.loginActivity;
  */
 
 public interface ILoginActivityRepository {
-    public void ifVoid();
+    public int getCount();
+    public int getID(String log);
+    public String getPwdHash(int id);
 }
