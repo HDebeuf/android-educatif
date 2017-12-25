@@ -23,13 +23,13 @@ public class ActivityMapBase extends Activity implements Parcelable {
     private LatLng defaultLocation; // The center of the map when the app is started
     private double zoom; // The default zoom
 
-    public ActivityMapBase(Integer id, String name, Class associatedClass) {
-        super(id, name, associatedClass);
+    public ActivityMapBase(Integer id, String name, Class associatedClass,Uri uriIcon) {
+        super(id, name, associatedClass,uriIcon);
     }
 
 
-    public ActivityMapBase(Integer id, String name, Class associatedClass, Uri jsonFileStyle, LatLng defaultLocation, double zoom, ArrayList<Location> locations) {
-        super(id,name,associatedClass);
+    public ActivityMapBase(Integer id, String name, Class associatedClass, Uri jsonFileStyle, Uri uriIcon, LatLng defaultLocation, double zoom, ArrayList<Location> locations) {
+        super(id,name,associatedClass,uriIcon);
         this.id = id;
         this.jsonFileStyleURI = jsonFileStyle;
         this.defaultLocation = defaultLocation;

@@ -66,19 +66,25 @@ public class SQLiteMapActivityRepository implements IMapActivityRepository {
             String name = cursor.getString(1);
             activityClass = Class.forName(cursor.getString(3));
 
-            String stringURI = cursor.getString(4);
+
+            String stringIcon = cursor.getString(4);
+            Uri uriIcon = null;
+            if(!TextUtils.isEmpty(stringIcon))
+                uriIcon = Uri.parse(stringIcon);
+
+            String stringURI = cursor.getString(5);
             Uri uriJson = null;
             if(!TextUtils.isEmpty(stringURI))
                 uriJson = Uri.parse(stringURI);
 
-            double latitudeCenter = cursor.getDouble(5);
-            double longitudeCenter = cursor.getDouble(6);
-            double zoom = cursor.getDouble(7);
+            double latitudeCenter = cursor.getDouble(6);
+            double longitudeCenter = cursor.getDouble(7);
+            double zoom = cursor.getDouble(8);
             LatLng defaultLocation = new LatLng(latitudeCenter,longitudeCenter);
 
             ArrayList<Location> locations = getAllPointsOfInterestById(id);
 
-            return new ActivityMapBase(id,name,activityClass,uriJson, defaultLocation, zoom,locations);
+            return new ActivityMapBase(id,name,activityClass,uriJson, uriIcon,defaultLocation, zoom,locations);
         } catch (ClassNotFoundException e) {
             Log.e("Database","Could not get class for name " + cursor.getString(3));
             return null;

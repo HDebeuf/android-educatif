@@ -35,6 +35,7 @@ public class ActivityMapBaseEntity {
             TABLE + "." + COLUMN_NAME + "," +
             ActivityEntity.COLUMN_CLASS_CANONICAL_CLASS_NAME + "," +
             ActivityEntity.COLUMN_ACTIVITY_CANONICAL_CLASS_NAME + "," +
+            ActivityEntity.COLUMN_URI_ICON + "," +
             COLUMN_STYLE  + "," +
             COLUMN_LATITUDE_CENTER  + "," +
             COLUMN_LONGITUDE_CENTER + "," +
@@ -53,6 +54,7 @@ public class ActivityMapBaseEntity {
             TABLE + "." + COLUMN_NAME + "," +
             ActivityEntity.COLUMN_CLASS_CANONICAL_CLASS_NAME + "," +
             ActivityEntity.COLUMN_ACTIVITY_CANONICAL_CLASS_NAME + "," +
+            ActivityEntity.COLUMN_URI_ICON + "," +
             COLUMN_STYLE  + "," +
             COLUMN_LATITUDE_CENTER  + "," +
             COLUMN_LONGITUDE_CENTER + "," +

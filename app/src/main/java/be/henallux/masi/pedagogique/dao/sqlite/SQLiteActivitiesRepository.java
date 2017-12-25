@@ -47,7 +47,8 @@ public class SQLiteActivitiesRepository implements IActivitiesRepository {
                 new String[]{ActivityEntity.COLUMN_ID,
                         ActivityEntity.COLUMN_NAME,
                         ActivityEntity.COLUMN_ACTIVITY_CANONICAL_CLASS_NAME,
-                        ActivityEntity.COLUMN_CLASS_CANONICAL_CLASS_NAME},
+                        ActivityEntity.COLUMN_CLASS_CANONICAL_CLASS_NAME,
+                        ActivityEntity.COLUMN_URI_ICON},
                 null, null, null, null, null);
         cursor.moveToFirst();
 
@@ -55,7 +56,13 @@ public class SQLiteActivitiesRepository implements IActivitiesRepository {
             Class _class = null;
             try {
                 _class = Class.forName(cursor.getString(2));
-                activities.add(new Activity(cursor.getInt(0),cursor.getString(1), _class));
+                String uriString = cursor.getString(4);
+                Uri uriIcon = null;
+                if(!TextUtils.isEmpty(uriString)){
+                    uriIcon = Uri.parse(uriString);
+                }
+
+                activities.add(new Activity(cursor.getInt(0),cursor.getString(1), _class,uriIcon));
             } catch (ClassNotFoundException e) {
                 Log.e("Database","Could not get class for name " + cursor.getString(2));
             }
@@ -97,16 +104,22 @@ public class SQLiteActivitiesRepository implements IActivitiesRepository {
                 String name = cursor.getString(1);
                 activityClass = Class.forName(cursor.getString(3));
 
-                String stringURI = cursor.getString(4);
+                String stringIcon = cursor.getString(4);
+                Uri uriIcon = null;
+                if(!TextUtils.isEmpty(stringIcon))
+                    uriIcon = Uri.parse(stringIcon);
+
+                String stringURI = cursor.getString(5);
                 Uri uriJson = null;
                 if(!TextUtils.isEmpty(stringURI))
                     uriJson = Uri.parse(stringURI);
-                double latitudeCenter = cursor.getDouble(5);
-                double longitudeCenter = cursor.getDouble(6);
-                double zoom = cursor.getDouble(7);
+
+                double latitudeCenter = cursor.getDouble(6);
+                double longitudeCenter = cursor.getDouble(7);
+                double zoom = cursor.getDouble(8);
                 LatLng defaultLocation = new LatLng(latitudeCenter,longitudeCenter);
 
-                activities.add(new ActivityMapBase(id,name,activityClass,uriJson, defaultLocation, zoom,null));
+                activities.add(new ActivityMapBase(id,name,activityClass,uriJson, uriIcon,defaultLocation, zoom,null));
             } catch (ClassNotFoundException e) {
                 Log.e("Database","Could not get class for name " + cursor.getString(3));
             }

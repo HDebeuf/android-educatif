@@ -1,8 +1,11 @@
 package be.henallux.masi.pedagogique.model;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import java.lang.*;
 
 /**
  * Created by Le Roi Arthur on 17-12-17.
@@ -13,20 +16,31 @@ public class Activity implements Parcelable {
     private String name;
     private Category category;
     private java.lang.Class associatedClass;
+    private Uri uriIcon;
 
     public Activity(){};
 
-    public Activity(Integer id, String name, java.lang.Class associatedClass) {
+    public Activity(Integer id, String name, java.lang.Class associatedClass,Uri uriIcon) {
         this.id = id;
         this.name = name;
         this.associatedClass = associatedClass;
+        this.uriIcon = uriIcon;
     }
 
-    public Activity(Integer id, String name, Category category, java.lang.Class associatedClass) {
+    public Activity(Integer id, String name, Category category, java.lang.Class associatedClass, Uri uriIcon) {
         this.id = id;
         this.name = name;
         this.category = category;
         this.associatedClass = associatedClass;
+        this.uriIcon = uriIcon;
+    }
+
+    public Uri getUriIcon() {
+        return uriIcon;
+    }
+
+    public void setUriIcon(Uri uriIcon) {
+        this.uriIcon = uriIcon;
     }
 
     public String getName() {

@@ -1,6 +1,9 @@
 package be.henallux.masi.pedagogique.activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 
@@ -72,7 +76,7 @@ public class MainMenuActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(ActivityViewHolder holder, int position) {
+        public void onBindViewHolder(final ActivityViewHolder holder, int position) {
             final Activity act = activities.get(position);
             holder.buttonStart.setText(act.getName());
             holder.buttonStart.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +87,29 @@ public class MainMenuActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
+
+            Target target = new Target() {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    Drawable drawable = new BitmapDrawable(MainMenuActivity.this.getResources(), bitmap);
+                    holder.buttonStart.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null);
+                }
+
+                @Override
+                public void onBitmapFailed(Drawable errorDrawable) {
+
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                }
+            };
+            Picasso.with(MainMenuActivity.this)
+                    .load(act.getUriIcon())
+                    .resize(90, 90)
+                    .onlyScaleDown()
+                    .into(target);
         }
 
         @Override

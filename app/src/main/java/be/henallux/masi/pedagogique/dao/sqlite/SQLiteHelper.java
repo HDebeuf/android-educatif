@@ -91,6 +91,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                     + ActivityEntity.COLUMN_ACTIVITY_CANONICAL_CLASS_NAME + " varchar(150) not null,"
                     + ActivityEntity.COLUMN_CLASS_CANONICAL_CLASS_NAME + " varchar(150) not null,"
                     + ActivityEntity.COLUMN_FK_QUESTIONNAIRE + " integer not null,"
+                    + ActivityEntity.COLUMN_URI_ICON + " varchar(20) not null,"
                     + "foreign key (" + ActivityEntity.COLUMN_FK_QUESTIONNAIRE + ") references " + QuestionnaireEntity.TABLE + "(" + QuestionnaireEntity.COLUMN_ID + "))";
     public static final String CREATE_TABLE_QUESTIONNAIRE =
             "create table "
@@ -197,18 +198,19 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(ActivityEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaire);
         values.put(ActivityEntity.COLUMN_ACTIVITY_CANONICAL_CLASS_NAME, MapsActivity.class.getName());
         values.put(ActivityEntity.COLUMN_CLASS_CANONICAL_CLASS_NAME, ActivityMapBase.class.getName());
+        Uri uriIcon = Uri.parse("android.resource://" + context.getPackageName() + "/drawable/book_icon");
+        values.put(ActivityEntity.COLUMN_URI_ICON,uriIcon.toString());
         int activityId = (int) database.insert(ActivityEntity.TABLE, null, values);
 
         values.clear();
         values.put(ActivityMapBaseEntity.COLUMN_FK_ACTIVITY, activityId);
         values.put(ActivityMapBaseEntity.COLUMN_NAME, "Histoire de la Belgique");
-        Uri uri = Uri.parse("android.resource://" + context.getPackageName() + "/raw/maps_activity_history_json_style");
-        values.put(ActivityMapBaseEntity.COLUMN_STYLE, uri.toString());
+        Uri uriJsonStyle = Uri.parse("android.resource://" + context.getPackageName() + "/raw/maps_activity_history_json_style");
+        values.put(ActivityMapBaseEntity.COLUMN_STYLE, uriJsonStyle.toString());
         values.put(ActivityMapBaseEntity.COLUMN_LATITUDE_CENTER, 50.8468);
         values.put(ActivityMapBaseEntity.COLUMN_LONGITUDE_CENTER, 4.3775);
         values.put(ActivityMapBaseEntity.COLUMN_ZOOM, 8);
         int idActivityMap = (int) database.insert(ActivityMapBaseEntity.TABLE, null, values);
-
         //endregion
 
         //region Locations

@@ -5,7 +5,7 @@ package be.henallux.masi.pedagogique.dao.sqlite.entities;
  */
 
 public class QuestionnaireEntity {
-    public static final String TABLE = "Activity";
-    public static final String COLUMN_ID = "idActivity";
+    public static final String TABLE = "Questionnaire";
+    public static final String COLUMN_ID = "idQuestionnaire";
     public static final String COLUMN_STATEMENT = "statement";
 }
