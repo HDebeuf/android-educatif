@@ -58,7 +58,7 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
         setContentView(R.layout.activity_login_prompt);
         ButterKnife.bind(this);
 
-         repository = new SQLiteLoginActivityRepository(getApplicationContext());
+        repository = new SQLiteLoginActivityRepository(getApplicationContext());
 
         validator = new Validator(this);
         validator.setValidationListener(this);

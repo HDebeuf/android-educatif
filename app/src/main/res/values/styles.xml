@@ -12,8 +12,7 @@
     </style>
 
     <style name="DefaultBackgroundTheme" parent="AppTheme">
-        <item name="android:windowBackground">@drawable/wallpaper_material</item>
-        <item name="android:scaleType">fitCenter</item>
+        <item name="android:windowBackground">@drawable/background</item>
     </style>
 
     <style name="DefaultButtonTheme" parent="Widget.AppCompat.Button.Colored">

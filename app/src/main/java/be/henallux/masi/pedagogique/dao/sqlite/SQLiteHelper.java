@@ -296,9 +296,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         //region Groups
         values.clear();
+        values.put(GroupEntity.COLUMN_ID,1);
         database.insert(GroupEntity.TABLE,null,values);
 
         values.clear();
+        values.put(GroupEntity.COLUMN_ID,2);
         database.insert(GroupEntity.TABLE,null,values);
         //endregion
 
