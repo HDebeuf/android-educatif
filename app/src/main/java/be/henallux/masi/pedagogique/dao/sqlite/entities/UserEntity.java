@@ -12,6 +12,7 @@ public class UserEntity {
     public static final String COLUMN_LASTNAME = "lastname";
     public static final String COLUMN_PASSWORDHASH = "passwordHash";
     public static final String COLUMN_GENDER = "genre";
-    public static final String COLUMN_URI_AVATAR = "URIAvater";
+    public static final String COLUMN_URI_AVATAR = "URIAvatar";
     public static final String COLUMN_FK_CLASS = "Class_idClass";
+    public static final String COLUMN_FK_CATEGORY = "Category_idCategory";
 }

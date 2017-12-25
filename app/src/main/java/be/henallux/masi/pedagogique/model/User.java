@@ -19,9 +19,10 @@ public class User {
     private int genre;
     private Uri avatarUri;
     private Class _class;
+    private Category category;
     private ArrayList<Group> groups;
 
-    public User(Integer id, String username, String firstName, String lastName, String passwordHash, int genre, Uri avatarUri, Class _class, ArrayList<Group> groups) {
+    public User(Integer id, String username, String firstName, String lastName, String passwordHash, int genre, Uri avatarUri, Category category, Class _class, ArrayList<Group> groups) {
         this.id = id;
         this.username = username;
         this.firstName = firstName;
@@ -31,6 +32,7 @@ public class User {
         this.avatarUri = avatarUri;
         this._class = _class;
         this.groups = groups;
+        this.category = category;
     }
 
     public String getUsername() {
@@ -95,5 +97,13 @@ public class User {
 
     public void setGroups(ArrayList<Group> groups) {
         this.groups = groups;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

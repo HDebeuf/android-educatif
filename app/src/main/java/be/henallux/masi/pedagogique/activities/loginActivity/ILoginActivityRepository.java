@@ -9,5 +9,5 @@ import be.henallux.masi.pedagogique.model.User;
 public interface ILoginActivityRepository {
     int getCount();
     User getUserByUsername(String username);
-    boolean accessGranted(String username, String password);
+    User accessGranted(String username, String password);
 }

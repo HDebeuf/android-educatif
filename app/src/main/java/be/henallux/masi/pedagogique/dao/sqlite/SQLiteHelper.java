@@ -53,6 +53,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                     + UserEntity.COLUMN_GENDER + " integer not null,"
                     + UserEntity.COLUMN_URI_AVATAR + " varchar(45),"
                     + UserEntity.COLUMN_FK_CLASS + " integer not null,"
+                    + UserEntity.COLUMN_FK_CATEGORY + " integer not null,"
+                    + "foreign key (" + UserEntity.COLUMN_FK_CATEGORY + ") references " + CategoryEntity.TABLE + "(" + CategoryEntity.COLUMN_ID + "),"
                     + "foreign key (" + UserEntity.COLUMN_FK_CLASS + ") references " + ClassEntity.TABLE + "(" + ClassEntity.COLUMN_ID + "))";
     public static final String CREATE_TABLE_USERTOGROUP =
             "create table "
@@ -65,9 +67,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public static final String CREATE_TABLE_GROUP =
             "create table "
                     + GroupEntity.TABLE + "("
-                    + GroupEntity.COLUMN_ID + " integer primary key autoincrement, "
-                    + GroupEntity.COLUMN_FK_CATEGORY + " integer not null,"
-                    + "foreign key (" + GroupEntity.COLUMN_FK_CATEGORY + ") references " + CategoryEntity.TABLE + "(" + CategoryEntity.COLUMN_ID + "))";
+                    + GroupEntity.COLUMN_ID + " integer primary key autoincrement);";
     public static final String CREATE_TABLE_CATEGORY =
             "create table "
                     + CategoryEntity.TABLE + "("
@@ -287,6 +287,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             values.put(UserEntity.COLUMN_USERNAME,firstName+lastName);
             values.put(UserEntity.COLUMN_GENDER, 1);
             values.put(UserEntity.COLUMN_FK_CLASS, 1);
+            values.put(UserEntity.COLUMN_FK_CATEGORY,idCategorySuperior);
             String sha256pwd = cryptographyService.hashPassword("Tigrou007");
             values.put(UserEntity.COLUMN_PASSWORDHASH,sha256pwd);
             database.insert(UserEntity.TABLE,null,values);
@@ -295,10 +296,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         //region Groups
         values.clear();
-        values.put(GroupEntity.COLUMN_FK_CATEGORY,1);
         database.insert(GroupEntity.TABLE,null,values);
+
         values.clear();
-        values.put(GroupEntity.COLUMN_FK_CATEGORY,2);
         database.insert(GroupEntity.TABLE,null,values);
         //endregion
 

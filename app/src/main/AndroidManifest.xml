@@ -20,11 +20,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/DefaultBackgroundTheme">
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -47,7 +46,7 @@
         <activity android:name=".activities.MainMenuActivity" />
         <activity android:name=".activities.musicalActivity.MusicalActivity" />
         <activity android:name=".activities.historyActivity.LocationInfoActivity" />
-        <activity android:name=".activities.loginActivity.LoginPromptActivity"></activity>
+        <activity android:name=".activities.loginActivity.LoginPromptActivity"/>
     </application>
 
 </manifest>

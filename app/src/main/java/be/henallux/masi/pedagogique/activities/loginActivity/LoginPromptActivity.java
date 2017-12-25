@@ -1,6 +1,7 @@
 package be.henallux.masi.pedagogique.activities.loginActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import be.henallux.masi.pedagogique.R;
+import be.henallux.masi.pedagogique.activities.MainMenuActivity;
+import be.henallux.masi.pedagogique.model.User;
+import be.henallux.masi.pedagogique.utils.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -94,8 +98,16 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
     public void onValidationSucceeded() {
         String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
-        String message = repository.accessGranted(username,password) ? "Access granted" : "Authorization failure";
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        User foundUser = repository.accessGranted(username,password);
+        if(foundUser != null){
+            Intent intent = new Intent(this, MainMenuActivity.class);
+            intent.putExtra(Constants.KEY_CATEGORY_USER,foundUser.getCategory());
+            startActivity(intent);
+        }
+        else
+        {
+            //Toast erreur
+        }
     }
 
     @Override

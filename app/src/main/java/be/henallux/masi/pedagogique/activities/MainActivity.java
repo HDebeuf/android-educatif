@@ -8,6 +8,8 @@ import com.facebook.stetho.Stetho;
 
 import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
 
+import be.henallux.masi.pedagogique.activities.loginActivity.LoginPromptActivity;
+import be.henallux.masi.pedagogique.activities.loginActivity.LoginPromptActivity_ViewBinding;
 import be.henallux.masi.pedagogique.model.Category;
 import be.henallux.masi.pedagogique.utils.Constants;
 
@@ -18,11 +20,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Stetho.initializeWithDefaults(this);//Allow to visualize DB from chrome://inspect
-        //setContentView(R.layout.activity_main);
-       // Intent intent = new Intent(this, MainMenuActivity.class);
-       // intent.putExtra(Constants.KEY_CATEGORY_USER,new Category(2,"Cycle inférieur",6,8)); //TODO : replace with prompt to user
-        // startActivity(intent);
-        Intent i = new Intent(this, UITestActivity.class);
-        startActivity(i);
+
+        Intent intent = new Intent(this, LoginPromptActivity.class);
+        startActivity(intent);
+        //Intent i = new Intent(this, UITestActivity.class);
+        //startActivity(i);
     }
 }
