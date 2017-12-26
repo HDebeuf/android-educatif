@@ -12,7 +12,6 @@ public class ActivityMapBaseEntity {
     public static final String TABLE = "ActivityMapBase";
     public static final String COLUMN_ID = "idActivityMapBase";
     public static final String COLUMN_STYLE = "URIJsonFile";
-    public static final String COLUMN_NAME = "name";
     public static final String COLUMN_LATITUDE_CENTER = "latitudeCenter";
     public static final String COLUMN_LONGITUDE_CENTER = "longitudeCenter";
     public static final String COLUMN_ZOOM = "zoomFactor";
@@ -23,7 +22,6 @@ public class ActivityMapBaseEntity {
                     + ActivityMapBaseEntity.TABLE + "("
                     + ActivityMapBaseEntity.COLUMN_ID + " integer primary key autoincrement, "
                     + ActivityMapBaseEntity.COLUMN_STYLE + " varchar(500),"
-                    + ActivityMapBaseEntity.COLUMN_NAME + " varchar(20) not null,"
                     + ActivityMapBaseEntity.COLUMN_LATITUDE_CENTER + " decimal(8,5) not null,"
                     + ActivityMapBaseEntity.COLUMN_LONGITUDE_CENTER + " decimal(8,5) not null,"
                     + ActivityMapBaseEntity.COLUMN_ZOOM + " decimal(8,5) not null,"
@@ -32,7 +30,7 @@ public class ActivityMapBaseEntity {
 
 
     public static final String SELECT_REQUEST_WHERE_CATEGORY = "select " + COLUMN_ID + "," +
-            TABLE + "." + COLUMN_NAME + "," +
+            ActivityEntity.COLUMN_NAME + "," +
             ActivityEntity.COLUMN_CLASS_CANONICAL_CLASS_NAME + "," +
             ActivityEntity.COLUMN_ACTIVITY_CANONICAL_CLASS_NAME + "," +
             ActivityEntity.COLUMN_URI_ICON + "," +
@@ -51,7 +49,7 @@ public class ActivityMapBaseEntity {
 
 
     public static final String SELECT_REQUEST_WHERE_ID = "select " + COLUMN_ID + "," +
-            TABLE + "." + COLUMN_NAME + "," +
+            ActivityEntity.COLUMN_NAME + "," +
             ActivityEntity.COLUMN_CLASS_CANONICAL_CLASS_NAME + "," +
             ActivityEntity.COLUMN_ACTIVITY_CANONICAL_CLASS_NAME + "," +
             ActivityEntity.COLUMN_URI_ICON + "," +

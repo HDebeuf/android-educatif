@@ -21,5 +21,9 @@
     <string name="login_success">Good bye moonmen</string>
     <string name="login_wrong_credentials">Le nom d\'utilisateur ou le mot de passe est incorrect</string>
     <string name="help_title">Informations</string>
+    <string name="map_activity_dialog_finish_title">Confirmation</string>
+    <string name="map_activity_dialog_finish_description">Les éléments suivants seront ajoutés à la fresque</string>
+    <string name="map_activity_dialog_finish_cancel">Annuler</string>
+    <string name="map_activity_dialog_finish_confirm">Confirmer</string>
 
 </resources>

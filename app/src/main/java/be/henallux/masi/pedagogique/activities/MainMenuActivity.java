@@ -96,14 +96,10 @@ public class MainMenuActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onBitmapFailed(Drawable errorDrawable) {
-
-                }
+                public void onBitmapFailed(Drawable errorDrawable) {}
 
                 @Override
-                public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                }
+                public void onPrepareLoad(Drawable placeHolderDrawable) {}
             };
             Picasso.with(MainMenuActivity.this)
                     .load(act.getUriIcon())

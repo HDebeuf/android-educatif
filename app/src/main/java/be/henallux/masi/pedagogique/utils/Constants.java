@@ -8,4 +8,5 @@ public class Constants {
     public static final String ACTIVITY_KEY = "Key_intent_map_activity";
     public static final String KEY_CATEGORY_USER = "Key_category_user";
     public static final String KEY_LOCATION_CLICKED = "Key_location_clicked";
+    public static final String KEY_LOCATIONS_CHOSEN = "Key_locations_chosen";
 }

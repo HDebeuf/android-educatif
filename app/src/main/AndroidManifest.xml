@@ -21,11 +21,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".activities.MainActivity"
+        <activity
+            android:name=".activities.MainActivity"
             android:theme="@style/DefaultBackgroundTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -44,20 +45,20 @@
 
         <activity
             android:name=".activities.mapActivity.MapsActivity"
-            android:label="@string/title_activity_maps"/>
-
-        <activity android:name=".activities.MainMenuActivity"
-            android:theme="@style/DefaultBackgroundTheme"/>
-
-        <activity android:name=".activities.musicalActivity.MusicalActivity"
-            android:theme="@style/DefaultBackgroundTheme"/>
-
-        <activity android:name=".activities.historyActivity.LocationInfoActivity"
-            android:theme="@style/DefaultBackgroundTheme"/>
-
-        <activity android:name=".activities.loginActivity.LoginPromptActivity"
-            android:theme="@style/DefaultBackgroundTheme"/>
-
+            android:label="@string/title_activity_maps" />
+        <activity
+            android:name=".activities.MainMenuActivity"
+            android:theme="@style/DefaultBackgroundTheme" />
+        <activity
+            android:name=".activities.musicalActivity.MusicalActivity"
+            android:theme="@style/DefaultBackgroundTheme" />
+        <activity
+            android:name=".activities.historyActivity.LocationInfoActivity"
+            android:theme="@style/DefaultBackgroundTheme" />
+        <activity
+            android:name=".activities.loginActivity.LoginPromptActivity"
+            android:theme="@style/DefaultBackgroundTheme" />
+        <activity android:name=".activities.historyActivity.MapHistoryActivity"></activity>
     </application>
 
 </manifest>
