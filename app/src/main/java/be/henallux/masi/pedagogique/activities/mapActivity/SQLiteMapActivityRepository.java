@@ -26,7 +26,7 @@ public class SQLiteMapActivityRepository implements IMapActivityRepository {
     }
 
     @Override
-    public ArrayList<Location> getAllPointsOfInterestById(int id) {
+    public ArrayList<Location> getAllPointsOfInterestOfActivity(int id) {
         SQLiteDatabase db = SQLiteHelper.getDatabaseInstance(ctx);
         ArrayList<Location> locations = new ArrayList<>();
         Cursor cursor = db.query(LocationEntity.TABLE,
@@ -82,7 +82,7 @@ public class SQLiteMapActivityRepository implements IMapActivityRepository {
             double zoom = cursor.getDouble(8);
             LatLng defaultLocation = new LatLng(latitudeCenter,longitudeCenter);
 
-            ArrayList<Location> locations = getAllPointsOfInterestById(id);
+            ArrayList<Location> locations = getAllPointsOfInterestOfActivity(id);
 
             return new ActivityMapBase(id,name,activityClass,uriJson, uriIcon,defaultLocation, zoom,locations);
         } catch (ClassNotFoundException e) {

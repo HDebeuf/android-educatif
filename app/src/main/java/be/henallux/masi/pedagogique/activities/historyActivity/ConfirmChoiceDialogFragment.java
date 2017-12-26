@@ -29,11 +29,7 @@ public class ConfirmChoiceDialogFragment extends DialogFragment {
 
     public static ConfirmChoiceDialogFragment newInstance(ArrayList<Location> locations) {
         ConfirmChoiceDialogFragment f = new ConfirmChoiceDialogFragment();
-
         Bundle args = new Bundle();
-        for(Location l : locations){
-            l.setClassToThrow(null);
-        }
         args.putParcelableArrayList(Constants.KEY_LOCATIONS_CHOSEN,locations);
         f.setArguments(args);
         return f;

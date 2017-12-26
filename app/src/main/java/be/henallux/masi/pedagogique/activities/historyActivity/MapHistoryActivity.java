@@ -60,8 +60,7 @@ public class MapHistoryActivity extends FragmentActivity implements OnMapReadyCa
             }
         });
         //Retrieves the ID of the ActivityMapBase that is currently active
-        int activityId = getIntent().getExtras().getInt(Constants.ACTIVITY_KEY);
-        activity = repository.getActivityById(activityId);
+        activity = getIntent().getExtras().getParcelable(Constants.ACTIVITY_KEY);
 
         chosenLocations.addAll(activity.getPointsOfInterest());
 

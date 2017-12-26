@@ -13,6 +13,9 @@ import java.util.ArrayList;
 
 import be.henallux.masi.pedagogique.activities.mapActivity.ActivityMapBase;
 import be.henallux.masi.pedagogique.activities.mapActivity.ActivityMapBaseEntity;
+import be.henallux.masi.pedagogique.activities.mapActivity.IMapActivityRepository;
+import be.henallux.masi.pedagogique.activities.mapActivity.Location;
+import be.henallux.masi.pedagogique.activities.mapActivity.SQLiteMapActivityRepository;
 import be.henallux.masi.pedagogique.dao.interfaces.IActivitiesRepository;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.ActivityEntity;
 import be.henallux.masi.pedagogique.model.Activity;
@@ -90,6 +93,7 @@ public class SQLiteActivitiesRepository implements IActivitiesRepository {
 
     private ArrayList<ActivityMapBase> getMapsActivities(SQLiteDatabase database, Category c){
 
+        IMapActivityRepository mapRepository = new SQLiteMapActivityRepository(context);
         ArrayList<ActivityMapBase> activities = new ArrayList<>();
 
         String statement = ActivityMapBaseEntity.SELECT_REQUEST_WHERE_CATEGORY;
@@ -118,8 +122,9 @@ public class SQLiteActivitiesRepository implements IActivitiesRepository {
                 double longitudeCenter = cursor.getDouble(7);
                 double zoom = cursor.getDouble(8);
                 LatLng defaultLocation = new LatLng(latitudeCenter,longitudeCenter);
+                ArrayList<Location> locations = mapRepository.getAllPointsOfInterestOfActivity(id);
 
-                activities.add(new ActivityMapBase(id,name,activityClass,uriJson, uriIcon,defaultLocation, zoom,null));
+                activities.add(new ActivityMapBase(id,name,activityClass,uriJson, uriIcon,defaultLocation, zoom,locations));
             } catch (ClassNotFoundException e) {
                 Log.e("Database","Could not get class for name " + cursor.getString(3));
             }

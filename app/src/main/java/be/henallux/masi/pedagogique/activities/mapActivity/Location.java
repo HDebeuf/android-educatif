@@ -12,7 +12,6 @@ import java.lang.Class;
  * Created by Le Roi Arthur on 17-12-17.
  * A point of interest on a map
  */
-
 public class Location implements Parcelable {
 
     private int id;
@@ -55,10 +54,16 @@ public class Location implements Parcelable {
         return id;
     }
 
+
     protected Location(Parcel in) {
+        id = in.readInt();
         title = in.readString();
         location = (LatLng) in.readValue(LatLng.class.getClassLoader());
-        classToThrow = (java.lang.Class) in.readValue(java.lang.Class.class.getClassLoader());
+        try {
+            classToThrow = Class.forName(in.readString());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -68,9 +73,10 @@ public class Location implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
         dest.writeString(title);
         dest.writeValue(location);
-        dest.writeValue(classToThrow);
+        dest.writeString(classToThrow.getName());
     }
 
     @SuppressWarnings("unused")

@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 
 public interface IMapActivityRepository {
-    ArrayList<Location> getAllPointsOfInterestById(int id);
+    ArrayList<Location> getAllPointsOfInterestOfActivity(int id);
     ActivityMapBase getActivityById(int id);
     Location getLocationById(int id);
 }

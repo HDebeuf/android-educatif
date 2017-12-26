@@ -83,7 +83,7 @@ public class MainMenuActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(MainMenuActivity.this,act.getAssociatedClass());
-                    intent.putExtra(Constants.ACTIVITY_KEY,act.getId());
+                    intent.putExtra(Constants.ACTIVITY_KEY,act);
                     startActivity(intent);
                 }
             });

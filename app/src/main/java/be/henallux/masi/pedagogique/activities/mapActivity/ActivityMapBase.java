@@ -85,7 +85,7 @@ public class ActivityMapBase extends Activity implements Parcelable {
         id = in.readByte() == 0x00 ? null : in.readInt();
         jsonFileStyleURI = (Uri) in.readValue(Uri.class.getClassLoader());
         if (in.readByte() == 0x01) {
-            pointsOfInterest = new ArrayList<>();
+            pointsOfInterest = new ArrayList<Location>();
             in.readList(pointsOfInterest, Location.class.getClassLoader());
         } else {
             pointsOfInterest = null;
