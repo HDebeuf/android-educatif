@@ -2,7 +2,6 @@ package be.henallux.masi.pedagogique.model;
 
 import android.net.Uri;
 
-import java.net.URI;
 import java.util.ArrayList;
 
 /**
@@ -34,6 +33,10 @@ public class User {
         this.groups = groups;
         this.category = category;
     }
+
+    public Integer getId() {return id;}
+
+    public void setId(Integer id) {this.id = id;}
 
     public String getUsername() {
         return username;

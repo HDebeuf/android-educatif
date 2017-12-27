@@ -102,6 +102,7 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
         if(foundUser != null){
             Intent intent = new Intent(this, MainMenuActivity.class);
             intent.putExtra(Constants.KEY_CATEGORY_USER,foundUser.getCategory());
+            intent.putExtra(Constants.KEY_ID_USER,foundUser.getId());
             startActivity(intent);
         }
         else
