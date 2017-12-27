@@ -1,14 +1,17 @@
 package be.henallux.masi.pedagogique.model;
 
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Le Roi Arthur on 17-12-17.
  */
 
-public class User {
+public class User implements Parcelable {
 
     private Integer id;
     private String username;
@@ -122,4 +125,66 @@ public class User {
     public void setIsSelected(boolean isSelected) {
         this.isSelected = isSelected;
     }
+
+    protected User(Parcel in) {
+        id = in.readByte() == 0x00 ? null : in.readInt();
+        username = in.readString();
+        firstName = in.readString();
+        lastName = in.readString();
+        passwordHash = in.readString();
+        genre = in.readInt();
+        avatarUri = (Uri) in.readValue(Uri.class.getClassLoader());
+        _class = (Class) in.readValue(Class.class.getClassLoader());
+        category = (Category) in.readValue(Category.class.getClassLoader());
+        if (in.readByte() == 0x01) {
+            groups = new ArrayList<Group>();
+            in.readList(groups, Group.class.getClassLoader());
+        } else {
+            groups = null;
+        }
+        isSelected = in.readByte() != 0x00;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(id);
+        }
+        dest.writeString(username);
+        dest.writeString(firstName);
+        dest.writeString(lastName);
+        dest.writeString(passwordHash);
+        dest.writeInt(genre);
+        dest.writeValue(avatarUri);
+        dest.writeValue(_class);
+        dest.writeValue(category);
+        if (groups == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(groups);
+        }
+        dest.writeByte((byte) (isSelected ? 0x01 : 0x00));
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }

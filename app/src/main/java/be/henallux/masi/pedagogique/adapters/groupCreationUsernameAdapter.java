@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import be.henallux.masi.pedagogique.R;
@@ -21,7 +22,7 @@ import be.henallux.masi.pedagogique.model.User;
 public class GroupCreationUsernameAdapter extends RecyclerView.Adapter<GroupCreationUsernameAdapter.MyViewHolder>{
 
     Context context;
-    ArrayList<User> userArrayList;
+    ArrayList<User> userArrayList = new ArrayList<>();
 
 
     public GroupCreationUsernameAdapter(Context context, ArrayList<User> userArrayList) {
@@ -42,7 +43,7 @@ public class GroupCreationUsernameAdapter extends RecyclerView.Adapter<GroupCrea
         holder.checkboxChoiceGroup.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                userArrayList.get(holder.getAdapterPosition()).setIsSelected(isChecked);
+                userArrayList.get(holder.getAdapterPosition()).setIsSelected(isChecked); //used to memorize who is selected with recyclerview
             }
         });
         holder.textviewUser.setText(userArrayList.get(position).getFirstName() + " " + userArrayList.get(position).getLastName());
@@ -51,6 +52,21 @@ public class GroupCreationUsernameAdapter extends RecyclerView.Adapter<GroupCrea
     @Override
     public int getItemCount() {
         return userArrayList.size();
+    }
+
+    /**
+     * Used to retrieve only selected users
+     * @return participating users
+     */
+    public ArrayList<User> getParticipatingUsers(){
+        int i;
+        ArrayList<User> participatingUsers = new ArrayList<>();
+        for(i=0;i<userArrayList.size();i++){
+            if(userArrayList.get(i).getIsSelected()){
+                participatingUsers.add(userArrayList.get(i));
+            }
+        }
+        return participatingUsers;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{

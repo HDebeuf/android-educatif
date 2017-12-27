@@ -1,10 +1,12 @@
 package be.henallux.masi.pedagogique.activities.groupCreation;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -12,8 +14,12 @@ import java.util.ArrayList;
 import be.henallux.masi.pedagogique.R;
 import be.henallux.masi.pedagogique.dao.sqlite.SQLiteHelper;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.CategoryEntity;
+import be.henallux.masi.pedagogique.dao.sqlite.entities.ClassEntity;
+import be.henallux.masi.pedagogique.dao.sqlite.entities.GroupEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.UserEntity;
+import be.henallux.masi.pedagogique.dao.sqlite.entities.UserToGroupEntity;
 import be.henallux.masi.pedagogique.model.Category;
+import be.henallux.masi.pedagogique.model.Group;
 import be.henallux.masi.pedagogique.model.User;
 
 /**
@@ -23,6 +29,7 @@ import be.henallux.masi.pedagogique.model.User;
 public class SQLiteGroupCreationRepository implements IGroupCreationRepository {
     private Context context;
     private SQLiteDatabase db;
+    ArrayList<User> usersList = new ArrayList<>();
 
     public SQLiteGroupCreationRepository(Context context) {
         this.context = context;
@@ -32,6 +39,7 @@ public class SQLiteGroupCreationRepository implements IGroupCreationRepository {
     public void getDB(){
         this.db = SQLiteHelper.getDatabaseInstance(this.context);
     }
+
 
     public Category getCategoryOfUser(int categoryId) {
         SQLiteDatabase db = SQLiteHelper.getDatabaseInstance(context);
@@ -53,17 +61,49 @@ public class SQLiteGroupCreationRepository implements IGroupCreationRepository {
         cursor.close();
         return new Category(id,description,ageMin,ageMax);
     }
+
+    @Override
+    public Group createGroup(ArrayList<User> users) {
+        int idGroup,i;
+        ContentValues values = new ContentValues();
+        SQLiteDatabase db = SQLiteHelper.getDatabaseInstance(context);
+        String query = "SELECT * FROM " + GroupEntity.TABLE;
+        Cursor cursor = db.rawQuery(query,null);
+        if (cursor==null) {
+            idGroup = 1;
+        } else {
+            idGroup = cursor.getCount() +1;
+        }
+        values.put(GroupEntity.COLUMN_ID,idGroup);
+        db.insert(GroupEntity.TABLE, null, values);
+        values.clear();
+        for(i=0;i<users.size();i++){
+            values.put(GroupEntity.COLUMN_ID,idGroup);
+            values.put(UserEntity.COLUMN_ID,users.get(i).getId());
+            db.insert(UserToGroupEntity.TABLE,null,values);
+            values.clear();
+        }
+        Group usersGroup = new Group(idGroup,users);
+        return usersGroup;
+    }
+
+    /**
+     * Used to retrieve users to be displayed on the recycler
+     * @param categoryId
+     * @param userHimselfId
+     * @return users to be displayed
+     */
     @Override
     public ArrayList<User> GetUsersByCaterogy(int categoryId,int userHimselfId) {
-        ArrayList<User> usersList = null;
+
         SQLiteDatabase db = SQLiteHelper.getDatabaseInstance(context);
         Cursor cursor = db.query(UserEntity.TABLE,
                 new String[]{UserEntity.COLUMN_ID, UserEntity.COLUMN_USERNAME, UserEntity.COLUMN_FIRSTNAME,UserEntity.COLUMN_LASTNAME,UserEntity.COLUMN_PASSWORDHASH,UserEntity.COLUMN_GENDER,UserEntity.COLUMN_URI_AVATAR, UserEntity.COLUMN_FK_CATEGORY},
-                UserEntity.COLUMN_USERNAME + "=?" + " AND " + UserEntity.COLUMN_ID + "!=?",
-                new String[]{String.valueOf(categoryId),String.valueOf(userHimselfId)},
+                UserEntity.COLUMN_FK_CATEGORY + "=?",
+                new String[]{String.valueOf(categoryId)},
                 null, null, null);
 
-        if(cursor.getCount() == 0) Toast.makeText(context, context.getResources().getString(R.string.group_no_camarade), Toast.LENGTH_SHORT).show();
+        if(cursor.getCount() == 0) Log.v("Void","Void query");
 
         cursor.moveToFirst();
 while(cursor.moveToNext()) {
@@ -80,7 +120,10 @@ while(cursor.moveToNext()) {
     }
     Category cat = getCategoryOfUser(cursor.getInt(7));
     User toInsert = new User(userId,userName,firstName,lastName,passwordHash,gender,uri,cat,null,null);
-    usersList.add(toInsert);
+    if(userId!=userHimselfId){
+        usersList.add(toInsert);
+    }
+
 }
         cursor.close();
 return usersList;

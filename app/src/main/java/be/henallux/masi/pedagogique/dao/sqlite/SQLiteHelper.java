@@ -298,7 +298,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         }
         //endregion
 
-        //region Groups
+        /*//region Groups
         values.clear();
         values.put(GroupEntity.COLUMN_ID,1);
         database.insert(GroupEntity.TABLE,null,values);
@@ -306,9 +306,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.clear();
         values.put(GroupEntity.COLUMN_ID,2);
         database.insert(GroupEntity.TABLE,null,values);
-        //endregion
+        //endregion*/
 
-        //region UsersToGroups
+       /* //region UsersToGroups
         values.clear();
         int iUserToGroup;
         for (iUserToGroup = 1; iUserToGroup < 31; iUserToGroup++) {
@@ -323,7 +323,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             values.put(UserToGroupEntity.COLUMN_FK_GROUP,2);
             database.insert(UserToGroupEntity.TABLE, null, values);
         }
-        //endregion
+        //endregion*/
     }
 
 

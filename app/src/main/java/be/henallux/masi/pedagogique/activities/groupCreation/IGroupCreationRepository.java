@@ -3,6 +3,7 @@ package be.henallux.masi.pedagogique.activities.groupCreation;
 import java.util.ArrayList;
 
 import be.henallux.masi.pedagogique.model.Category;
+import be.henallux.masi.pedagogique.model.Group;
 import be.henallux.masi.pedagogique.model.User;
 
 /**
@@ -12,5 +13,6 @@ import be.henallux.masi.pedagogique.model.User;
 public interface IGroupCreationRepository {
     ArrayList<User> GetUsersByCaterogy(int categoryId, int userId);
     Category getCategoryOfUser(int categoryId);
+    Group createGroup(ArrayList<User> users);
 
 }
