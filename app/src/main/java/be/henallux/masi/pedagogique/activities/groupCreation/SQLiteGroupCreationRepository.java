@@ -78,8 +78,8 @@ public class SQLiteGroupCreationRepository implements IGroupCreationRepository {
         db.insert(GroupEntity.TABLE, null, values);
         values.clear();
         for(i=0;i<users.size();i++){
-            values.put(GroupEntity.COLUMN_ID,idGroup);
-            values.put(UserEntity.COLUMN_ID,users.get(i).getId());
+            values.put(UserToGroupEntity.COLUMN_FK_GROUP,idGroup);
+            values.put(UserToGroupEntity.COLUMN_FK_USER,users.get(i).getId());
             db.insert(UserToGroupEntity.TABLE,null,values);
             values.clear();
         }
