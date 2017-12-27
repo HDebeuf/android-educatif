@@ -14,5 +14,6 @@ public interface IGroupCreationRepository {
     ArrayList<User> GetUsersByCaterogy(int categoryId, int userId);
     Category getCategoryOfUser(int categoryId);
     Group createGroup(ArrayList<User> users);
+    User getUserById(int userId);
 
 }

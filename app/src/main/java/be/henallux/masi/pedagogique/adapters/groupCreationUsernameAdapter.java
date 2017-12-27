@@ -23,11 +23,13 @@ public class GroupCreationUsernameAdapter extends RecyclerView.Adapter<GroupCrea
 
     Context context;
     ArrayList<User> userArrayList = new ArrayList<>();
+    private User aloneUser;
 
 
-    public GroupCreationUsernameAdapter(Context context, ArrayList<User> userArrayList) {
+    public GroupCreationUsernameAdapter(Context context, ArrayList<User> userArrayList, User aloneUser) {
         this.context = context;
         this.userArrayList = userArrayList;
+        this.aloneUser = aloneUser;
     }
 
     @Override
@@ -61,6 +63,7 @@ public class GroupCreationUsernameAdapter extends RecyclerView.Adapter<GroupCrea
     public ArrayList<User> getParticipatingUsers(){
         int i;
         ArrayList<User> participatingUsers = new ArrayList<>();
+        participatingUsers.add(aloneUser);
         for(i=0;i<userArrayList.size();i++){
             if(userArrayList.get(i).getIsSelected()){
                 participatingUsers.add(userArrayList.get(i));

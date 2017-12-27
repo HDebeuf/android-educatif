@@ -87,6 +87,32 @@ public class SQLiteGroupCreationRepository implements IGroupCreationRepository {
         return usersGroup;
     }
 
+    @Override
+    public User getUserById(int userId) {
+        SQLiteDatabase db = SQLiteHelper.getDatabaseInstance(context);
+        Cursor cursor = db.query(UserEntity.TABLE,
+                new String[]{UserEntity.COLUMN_ID, UserEntity.COLUMN_USERNAME, UserEntity.COLUMN_FIRSTNAME,UserEntity.COLUMN_LASTNAME,UserEntity.COLUMN_PASSWORDHASH,UserEntity.COLUMN_GENDER,UserEntity.COLUMN_URI_AVATAR, UserEntity.COLUMN_FK_CATEGORY},
+                UserEntity.COLUMN_ID + "=?",
+                new String[]{String.valueOf(userId)},
+                null, null, null);
+        if(cursor.getCount() == 0) return null;
+        cursor.moveToFirst();
+        int userIdToAdd = cursor.getInt(0);
+        String userName= cursor.getString(1);
+        String firstName = cursor.getString(2);
+        String lastName = cursor.getString(3);
+        String passwordHash = cursor.getString(4);
+        int gender = cursor.getInt(5);
+        String avatarURI = cursor.getString(6);
+        Uri uri = null;
+        if(!TextUtils.isEmpty(avatarURI)){
+            uri = Uri.parse(avatarURI);
+        }
+        Category cat = getCategoryOfUser(cursor.getInt(7));
+        cursor.close();
+        return new User(userIdToAdd,userName,firstName,lastName,passwordHash,gender,uri,cat,null,null);
+    }
+
     /**
      * Used to retrieve users to be displayed on the recycler
      * @param categoryId

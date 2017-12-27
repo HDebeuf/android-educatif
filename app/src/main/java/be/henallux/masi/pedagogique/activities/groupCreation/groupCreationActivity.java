@@ -42,7 +42,7 @@ public class GroupCreationActivity extends AppCompatActivity {
         categoryId = categoryOfUser.getId();
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
         groupRecyclerView.setLayoutManager(linearLayoutManager);
-        groupCreationAdapter=new GroupCreationUsernameAdapter(this,repository.GetUsersByCaterogy(categoryId,userId));
+        groupCreationAdapter=new GroupCreationUsernameAdapter(this,repository.GetUsersByCaterogy(categoryId,userId),repository.getUserById(userId));
         groupRecyclerView.setAdapter(groupCreationAdapter);
     }
     public boolean onCreateOptionsMenu(Menu menu) {
