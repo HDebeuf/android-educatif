@@ -20,6 +20,7 @@ public class User {
     private Class _class;
     private Category category;
     private ArrayList<Group> groups;
+    private boolean isSelected; //Used for the recycler view and checkboxes
 
     public User(Integer id, String username, String firstName, String lastName, String passwordHash, int genre, Uri avatarUri, Category category, Class _class, ArrayList<Group> groups) {
         this.id = id;
@@ -34,9 +35,13 @@ public class User {
         this.category = category;
     }
 
-    public Integer getId() {return id;}
+    public Integer getId() {
+        return id;
+    }
 
-    public void setId(Integer id) {this.id = id;}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;
@@ -108,5 +113,13 @@ public class User {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public boolean getIsSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(boolean isSelected) {
+        this.isSelected = isSelected;
     }
 }

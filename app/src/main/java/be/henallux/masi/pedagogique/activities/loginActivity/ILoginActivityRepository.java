@@ -1,5 +1,6 @@
 package be.henallux.masi.pedagogique.activities.loginActivity;
 
+import be.henallux.masi.pedagogique.model.Category;
 import be.henallux.masi.pedagogique.model.User;
 
 /**
@@ -10,4 +11,6 @@ public interface ILoginActivityRepository {
     int getCount();
     User getUserByUsername(String username);
     User accessGranted(String username, String password);
+    Category getCategoryOfUser(int categoryId);
+
 }

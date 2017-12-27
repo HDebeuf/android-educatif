@@ -25,5 +25,6 @@
     <string name="map_activity_dialog_finish_description">Les éléments suivants seront ajoutés à la fresque</string>
     <string name="map_activity_dialog_finish_cancel">Annuler</string>
     <string name="map_activity_dialog_finish_confirm">Confirmer</string>
+    <string name="group_no_camarade">Il n\'y a pas de camarade pour ton activité</string>
 
 </resources>

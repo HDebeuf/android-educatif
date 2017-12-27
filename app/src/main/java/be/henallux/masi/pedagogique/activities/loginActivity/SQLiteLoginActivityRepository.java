@@ -80,7 +80,7 @@ public class SQLiteLoginActivityRepository implements ILoginActivityRepository{
         return new User(userId,userName,firstName,lastName,passwordHash,gender,uri,cat,null,null);
     }
 
-    private Category getCategoryOfUser(int categoryId) {
+    public Category getCategoryOfUser(int categoryId) {
         SQLiteDatabase db = SQLiteHelper.getDatabaseInstance(context);
         Cursor cursor = db.query(CategoryEntity.TABLE,
                 new String[]{CategoryEntity.COLUMN_ID,CategoryEntity.COLUMN_AGE_MIN,CategoryEntity.COLUMN_AGE_MAX,CategoryEntity.COLUMN_DESCRIPTION},
