@@ -1,14 +1,12 @@
-package be.henallux.masi.pedagogique.activities.loginActivity;
+package be.henallux.masi.pedagogique.dao.sqlite;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.text.TextUtils;
 
-import be.henallux.masi.pedagogique.activities.mapActivity.LocationEntity;
-import be.henallux.masi.pedagogique.dao.sqlite.SQLiteHelper;
+import be.henallux.masi.pedagogique.dao.interfaces.IUserRepository;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.CategoryEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.UserEntity;
 import be.henallux.masi.pedagogique.model.Category;
@@ -17,16 +15,16 @@ import be.henallux.masi.pedagogique.utils.ICryptographyService;
 import be.henallux.masi.pedagogique.utils.SHA256CryptographyService;
 
 /**
- * Created by haubo on 12/22/2017.
+ * Created by Le Roi Arthur on 28-12-17.
  */
 
-public class SQLiteLoginActivityRepository implements ILoginActivityRepository{
+public class SQLiteUserRepository implements IUserRepository{
     private Context context;
     private SQLiteDatabase db;
     private ICryptographyService cryptographyService;
 
 
-    public SQLiteLoginActivityRepository(Context context) {
+    public SQLiteUserRepository(Context context) {
         this.context = context;
         this.cryptographyService = new SHA256CryptographyService();
         getDB();
@@ -34,20 +32,6 @@ public class SQLiteLoginActivityRepository implements ILoginActivityRepository{
 
     public void getDB(){
         this.db = SQLiteHelper.getDatabaseInstance(this.context);
-    }
-
-    /**
-     * Used to probe if the user table contains data or not, if not, adding Exemples users
-     * @return
-     */
-    @Override
-    public int getCount() {
-        //https://stackoverflow.com/questions/18097748/how-to-get-row-count-in-sqlite-using-android
-        int count;
-        String query = "SELECT * FROM " + UserEntity.TABLE;
-        Cursor cursor = db.rawQuery(query,null);
-        count = cursor.getCount();
-        return count;
     }
 
     @Override
@@ -80,7 +64,7 @@ public class SQLiteLoginActivityRepository implements ILoginActivityRepository{
         return new User(userId,userName,firstName,lastName,passwordHash,gender,uri,cat,null,null);
     }
 
-    public Category getCategoryOfUser(int categoryId) {
+    private Category getCategoryOfUser(int categoryId) {
         SQLiteDatabase db = SQLiteHelper.getDatabaseInstance(context);
         Cursor cursor = db.query(CategoryEntity.TABLE,
                 new String[]{CategoryEntity.COLUMN_ID,CategoryEntity.COLUMN_AGE_MIN,CategoryEntity.COLUMN_AGE_MAX,CategoryEntity.COLUMN_DESCRIPTION},
@@ -119,5 +103,4 @@ public class SQLiteLoginActivityRepository implements ILoginActivityRepository{
             return null;
         }
     }
-
 }

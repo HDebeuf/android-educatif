@@ -12,8 +12,11 @@ import java.util.ArrayList;
 
 import be.henallux.masi.pedagogique.R;
 import be.henallux.masi.pedagogique.activities.MainMenuActivity;
-import be.henallux.masi.pedagogique.activities.historyActivity.ConfirmLocationChosenDialogFragment;
 import be.henallux.masi.pedagogique.adapters.GroupCreationUsernameAdapter;
+import be.henallux.masi.pedagogique.dao.interfaces.ICategoryRepository;
+import be.henallux.masi.pedagogique.dao.interfaces.IGroupRepository;
+import be.henallux.masi.pedagogique.dao.sqlite.SQLiteCategoryRepository;
+import be.henallux.masi.pedagogique.dao.sqlite.SQLiteGroupRepository;
 import be.henallux.masi.pedagogique.model.Category;
 import be.henallux.masi.pedagogique.model.Group;
 import be.henallux.masi.pedagogique.model.User;
@@ -23,28 +26,35 @@ import butterknife.ButterKnife;
 
 public class GroupCreationActivity extends AppCompatActivity implements ConfirmGroupChosenDialogFragment.ConfirmGroupChosenCallback{
 
-    private int categoryId,userId;
+    private User currentUser;
     private ArrayList<User> usersList;
-    private Category categoryOfUser;
     @BindView(R.id.recyclerview_item_group_creation)
     RecyclerView groupRecyclerView;
 
     private GroupCreationUsernameAdapter groupCreationAdapter;
-    private SQLiteGroupCreationRepository repository;
+    private IGroupRepository groupRepository;
+    private ICategoryRepository categoryRepository;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recyclerview_group_creation);
         ButterKnife.bind(this);
 
-        repository = new SQLiteGroupCreationRepository(getApplicationContext());
-        categoryOfUser = getIntent().getExtras().getParcelable(Constants.KEY_CATEGORY_USER);
-        userId = getIntent().getIntExtra(Constants.KEY_ID_USER,0);
-        categoryId = categoryOfUser.getId();
+        groupRepository = new SQLiteGroupRepository(getApplicationContext());
+        categoryRepository = new SQLiteCategoryRepository(getApplicationContext());
+
+
+        currentUser = getIntent().getParcelableExtra(Constants.KEY_CURRENT_USER);
+        ArrayList<User> allUsers = categoryRepository.getAllUsersOfCategory(currentUser.getCategory());
+        allUsers.remove(currentUser); //Current user may not choose himself
 
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
         groupRecyclerView.setLayoutManager(linearLayoutManager);
-        groupCreationAdapter=new GroupCreationUsernameAdapter(this,repository.GetUsersByCaterogy(categoryId,userId),repository.getUserById(userId));
+        groupCreationAdapter =
+                new GroupCreationUsernameAdapter(this,
+                        allUsers,
+                        currentUser);
+
         groupRecyclerView.setAdapter(groupCreationAdapter);
     }
 
@@ -59,7 +69,8 @@ public class GroupCreationActivity extends AppCompatActivity implements ConfirmG
 
                 this.usersList = groupCreationAdapter.getParticipatingUsers();
 
-                ConfirmGroupChosenDialogFragment dialogFragment = ConfirmGroupChosenDialogFragment.newInstance(this,usersList);
+                ConfirmGroupChosenDialogFragment dialogFragment =
+                        ConfirmGroupChosenDialogFragment.newInstance(this,usersList);
                 dialogFragment.show(getFragmentManager(), "ConfirmUserDialog");
 
                 return true;
@@ -69,9 +80,9 @@ public class GroupCreationActivity extends AppCompatActivity implements ConfirmG
 
     @Override
     public void onConfirm() {
-        Group groupCreated = repository.createGroup(usersList);
+        Group groupCreated = groupRepository.createGroup(usersList);
         Intent intent = new Intent(this, MainMenuActivity.class);
-        intent.putExtra(Constants.KEY_CATEGORY_USER, categoryOfUser);
+        intent.putExtra(Constants.KEY_CATEGORY_USER, currentUser.getCategory());
         intent.putExtra(Constants.KEY_GROUP_CREATED, groupCreated);
         startActivity(intent);
     }

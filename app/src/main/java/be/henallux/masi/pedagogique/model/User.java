@@ -4,7 +4,6 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -18,19 +17,19 @@ public class User implements Parcelable {
     private String firstName;
     private String lastName;
     private String passwordHash;
-    private int genre;
+    private int gender;
     private Uri avatarUri;
     private Class _class;
     private Category category;
     private ArrayList<Group> groups;
 
-    public User(Integer id, String username, String firstName, String lastName, String passwordHash, int genre, Uri avatarUri, Category category, Class _class, ArrayList<Group> groups) {
+    public User(Integer id, String username, String firstName, String lastName, String passwordHash, int gender, Uri avatarUri, Category category, Class _class, ArrayList<Group> groups) {
         this.id = id;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.passwordHash = passwordHash;
-        this.genre = genre;
+        this.gender = gender;
         this.avatarUri = avatarUri;
         this._class = _class;
         this.groups = groups;
@@ -77,12 +76,12 @@ public class User implements Parcelable {
         this.passwordHash = passwordHash;
     }
 
-    public int getGenre() {
-        return genre;
+    public int getGender() {
+        return gender;
     }
 
-    public void setGenre(int genre) {
-        this.genre = genre;
+    public void setGender(int gender) {
+        this.gender = gender;
     }
 
     public Uri getAvatarUri() {
@@ -117,13 +116,19 @@ public class User implements Parcelable {
         this.category = category;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof User)) return false;
+        return ((User)obj).getId().equals(id);
+    }
+
     protected User(Parcel in) {
         id = in.readByte() == 0x00 ? null : in.readInt();
         username = in.readString();
         firstName = in.readString();
         lastName = in.readString();
         passwordHash = in.readString();
-        genre = in.readInt();
+        gender = in.readInt();
         avatarUri = (Uri) in.readValue(Uri.class.getClassLoader());
         _class = (Class) in.readValue(Class.class.getClassLoader());
         category = (Category) in.readValue(Category.class.getClassLoader());
@@ -152,7 +157,7 @@ public class User implements Parcelable {
         dest.writeString(firstName);
         dest.writeString(lastName);
         dest.writeString(passwordHash);
-        dest.writeInt(genre);
+        dest.writeInt(gender);
         dest.writeValue(avatarUri);
         dest.writeValue(_class);
         dest.writeValue(category);

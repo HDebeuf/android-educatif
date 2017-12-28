@@ -24,6 +24,8 @@ import java.util.List;
 import be.henallux.masi.pedagogique.R;
 import be.henallux.masi.pedagogique.activities.MainMenuActivity;
 import be.henallux.masi.pedagogique.activities.groupCreation.GroupCreationActivity;
+import be.henallux.masi.pedagogique.dao.interfaces.IUserRepository;
+import be.henallux.masi.pedagogique.dao.sqlite.SQLiteUserRepository;
 import be.henallux.masi.pedagogique.model.User;
 import be.henallux.masi.pedagogique.utils.Constants;
 import butterknife.BindView;
@@ -50,7 +52,7 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
     @NotEmpty(messageResId = R.string.error_field_required)
     EditText passwordEditText;
     
-    private SQLiteLoginActivityRepository repository;
+    private IUserRepository repository;
 
 
     @Override
@@ -59,7 +61,7 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
         setContentView(R.layout.activity_login_prompt);
         ButterKnife.bind(this);
 
-        repository = new SQLiteLoginActivityRepository(getApplicationContext());
+        repository = new SQLiteUserRepository(getApplicationContext());
 
         validator = new Validator(this);
         validator.setValidationListener(this);
@@ -102,7 +104,7 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
         User foundUser = repository.accessGranted(username,password);
         if(foundUser != null){
             Intent intent = new Intent(this, GroupCreationActivity.class);
-            intent.putExtra(Constants.KEY_CATEGORY_USER,foundUser.getCategory());
+            intent.putExtra(Constants.KEY_CURRENT_USER,foundUser);
             intent.putExtra(Constants.KEY_ID_USER,foundUser.getId());
             startActivity(intent);
         }
