@@ -1,9 +1,6 @@
 package be.henallux.masi.pedagogique.activities.groupCreation;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Parcelable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +12,7 @@ import java.util.ArrayList;
 
 import be.henallux.masi.pedagogique.R;
 import be.henallux.masi.pedagogique.activities.MainMenuActivity;
+import be.henallux.masi.pedagogique.activities.historyActivity.ConfirmLocationChosenDialogFragment;
 import be.henallux.masi.pedagogique.adapters.GroupCreationUsernameAdapter;
 import be.henallux.masi.pedagogique.model.Category;
 import be.henallux.masi.pedagogique.model.Group;
@@ -23,9 +21,10 @@ import be.henallux.masi.pedagogique.utils.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GroupCreationActivity extends AppCompatActivity {
+public class GroupCreationActivity extends AppCompatActivity implements ConfirmGroupChosenDialogFragment.ConfirmGroupChosenCallback{
 
     private int categoryId,userId;
+    private ArrayList<User> usersList;
     private Category categoryOfUser;
     @BindView(R.id.recyclerview_item_group_creation)
     RecyclerView groupRecyclerView;
@@ -58,18 +57,27 @@ public class GroupCreationActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_continue:
 
-                Group groupCreated;
-                ArrayList<User> usersList;
+                this.usersList = groupCreationAdapter.getParticipatingUsers();
 
-                usersList = groupCreationAdapter.getParticipatingUsers();
-                groupCreated = repository.createGroup(usersList);
+                ConfirmGroupChosenDialogFragment dialogFragment = ConfirmGroupChosenDialogFragment.newInstance(this,usersList);
+                dialogFragment.show(getFragmentManager(), "ConfirmUserDialog");
 
-                Intent intent = new Intent(this, MainMenuActivity.class);
-                intent.putExtra(Constants.KEY_CATEGORY_USER, categoryOfUser);
-                intent.putExtra(Constants.KEY_GROUP_CREATED, groupCreated);
-                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onConfirm() {
+        Group groupCreated = repository.createGroup(usersList);
+        Intent intent = new Intent(this, MainMenuActivity.class);
+        intent.putExtra(Constants.KEY_CATEGORY_USER, categoryOfUser);
+        intent.putExtra(Constants.KEY_GROUP_CREATED, groupCreated);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onCancel() {
+
     }
 }

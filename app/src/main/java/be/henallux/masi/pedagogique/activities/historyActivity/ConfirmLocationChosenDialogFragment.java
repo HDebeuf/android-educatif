@@ -6,6 +6,7 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,21 +19,27 @@ import java.util.ArrayList;
 
 import be.henallux.masi.pedagogique.R;
 import be.henallux.masi.pedagogique.activities.mapActivity.Location;
-import be.henallux.masi.pedagogique.model.Activity;
 import be.henallux.masi.pedagogique.utils.Constants;
 
 /**
  * Created by Le Roi Arthur on 26-12-17.
  */
 
-public class ConfirmChoiceDialogFragment extends DialogFragment {
+public class ConfirmLocationChosenDialogFragment extends DialogFragment {
 
-    public static ConfirmChoiceDialogFragment newInstance(ArrayList<Location> locations) {
-        ConfirmChoiceDialogFragment f = new ConfirmChoiceDialogFragment();
+    public static ConfirmLocationChosenDialogFragment newInstance(ArrayList<Location> locations) {
+        ConfirmLocationChosenDialogFragment f = new ConfirmLocationChosenDialogFragment();
         Bundle args = new Bundle();
         args.putParcelableArrayList(Constants.KEY_LOCATIONS_CHOSEN,locations);
         f.setArguments(args);
         return f;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(this.getActivity(),R.color.colorPrimary));
+        ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(this.getActivity(),R.color.colorPrimary));
     }
 
     @Override
@@ -43,14 +50,10 @@ public class ConfirmChoiceDialogFragment extends DialogFragment {
         builder.setView(view)
                 .setPositiveButton(R.string.map_activity_dialog_finish_confirm, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int id) {
-
-                    }
+                    public void onClick(DialogInterface dialog, int id) {}
                 })
                 .setNegativeButton(R.string.map_activity_dialog_finish_cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-
-                    }
+                    public void onClick(DialogInterface dialog, int id) {}
                 });
 
         ArrayList<Location> locations = getArguments().getParcelableArrayList(Constants.KEY_LOCATIONS_CHOSEN);

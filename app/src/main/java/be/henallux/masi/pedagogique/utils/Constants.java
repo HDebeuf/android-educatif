@@ -11,4 +11,5 @@ public class Constants {
     public static final String KEY_LOCATION_CLICKED = "Key_location_clicked";
     public static final String KEY_LOCATIONS_CHOSEN = "Key_locations_chosen";
     public static final String KEY_GROUP_CREATED = "Key_group_created";
+    public static final String KEY_USERS_CHOSEN = "Key_user_chosen";
 }

@@ -1,11 +1,8 @@
 package be.henallux.masi.pedagogique.activities.historyActivity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
@@ -26,7 +23,6 @@ import be.henallux.masi.pedagogique.R;
 import be.henallux.masi.pedagogique.activities.mapActivity.ActivityMapBase;
 import be.henallux.masi.pedagogique.activities.mapActivity.IMapActivityRepository;
 import be.henallux.masi.pedagogique.activities.mapActivity.Location;
-import be.henallux.masi.pedagogique.activities.mapActivity.MapsActivity;
 import be.henallux.masi.pedagogique.activities.mapActivity.SQLiteMapActivityRepository;
 import be.henallux.masi.pedagogique.utils.Constants;
 import butterknife.BindView;
@@ -71,8 +67,8 @@ public class MapHistoryActivity extends FragmentActivity implements OnMapReadyCa
     }
 
     private void finishAction() {
-        ConfirmChoiceDialogFragment dialogFragment = ConfirmChoiceDialogFragment.newInstance(chosenLocations);
-        dialogFragment.show(getFragmentManager(), "AddOrUpdateShopDialog");
+        ConfirmLocationChosenDialogFragment dialogFragment = ConfirmLocationChosenDialogFragment.newInstance(chosenLocations);
+        dialogFragment.show(getFragmentManager(), "ConfirmChoiceDialog");
     }
 
     @Override

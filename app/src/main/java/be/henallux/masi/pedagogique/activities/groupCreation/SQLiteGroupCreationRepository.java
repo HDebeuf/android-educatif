@@ -132,26 +132,26 @@ public class SQLiteGroupCreationRepository implements IGroupCreationRepository {
         if(cursor.getCount() == 0) Log.v("Void","Void query");
 
         cursor.moveToFirst();
-while(cursor.moveToNext()) {
-    int userId = cursor.getInt(0);
-    String userName = cursor.getString(1);
-    String firstName = cursor.getString(2);
-    String lastName = cursor.getString(3);
-    String passwordHash = cursor.getString(4);
-    int gender = cursor.getInt(5);
-    String avatarURI = cursor.getString(6);
-    Uri uri = null;
-    if (!TextUtils.isEmpty(avatarURI)) {
-        uri = Uri.parse(avatarURI);
-    }
-    Category cat = getCategoryOfUser(cursor.getInt(7));
-    User toInsert = new User(userId,userName,firstName,lastName,passwordHash,gender,uri,cat,null,null);
-    if(userId!=userHimselfId){
-        usersList.add(toInsert);
-    }
+        while(cursor.moveToNext()) {
+            int userId = cursor.getInt(0);
+            String userName = cursor.getString(1);
+            String firstName = cursor.getString(2);
+            String lastName = cursor.getString(3);
+            String passwordHash = cursor.getString(4);
+            int gender = cursor.getInt(5);
+            String avatarURI = cursor.getString(6);
+            Uri uri = null;
+            if (!TextUtils.isEmpty(avatarURI)) {
+                uri = Uri.parse(avatarURI);
+            }
+            Category cat = getCategoryOfUser(cursor.getInt(7));
+            User toInsert = new User(userId,userName,firstName,lastName,passwordHash,gender,uri,cat,null,null);
+            if(userId!=userHimselfId){
+                usersList.add(toInsert);
+            }
 
-}
+        }
         cursor.close();
-return usersList;
+        return usersList;
     }
 }
