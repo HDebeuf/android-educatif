@@ -23,7 +23,6 @@ public class User implements Parcelable {
     private Class _class;
     private Category category;
     private ArrayList<Group> groups;
-    private boolean isSelected; //Used for the recycler view and checkboxes
 
     public User(Integer id, String username, String firstName, String lastName, String passwordHash, int genre, Uri avatarUri, Category category, Class _class, ArrayList<Group> groups) {
         this.id = id;
@@ -118,14 +117,6 @@ public class User implements Parcelable {
         this.category = category;
     }
 
-    public boolean getIsSelected() {
-        return isSelected;
-    }
-
-    public void setIsSelected(boolean isSelected) {
-        this.isSelected = isSelected;
-    }
-
     protected User(Parcel in) {
         id = in.readByte() == 0x00 ? null : in.readInt();
         username = in.readString();
@@ -142,7 +133,6 @@ public class User implements Parcelable {
         } else {
             groups = null;
         }
-        isSelected = in.readByte() != 0x00;
     }
 
     @Override
@@ -172,7 +162,6 @@ public class User implements Parcelable {
             dest.writeByte((byte) (0x01));
             dest.writeList(groups);
         }
-        dest.writeByte((byte) (isSelected ? 0x01 : 0x00));
     }
 
     @SuppressWarnings("unused")

@@ -1,6 +1,7 @@
 package be.henallux.masi.pedagogique.adapters;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import be.henallux.masi.pedagogique.R;
@@ -22,33 +22,40 @@ import be.henallux.masi.pedagogique.model.User;
 public class GroupCreationUsernameAdapter extends RecyclerView.Adapter<GroupCreationUsernameAdapter.MyViewHolder>{
 
     Context context;
-    ArrayList<User> userArrayList = new ArrayList<>();
-    private User aloneUser;
+    ArrayList<ItemBindingModel> userArrayList = new ArrayList<>();
+    private User currentUser;
 
 
-    public GroupCreationUsernameAdapter(Context context, ArrayList<User> userArrayList, User aloneUser) {
+    public GroupCreationUsernameAdapter(Context context, ArrayList<User> userArrayList, User currentUser) {
         this.context = context;
-        this.userArrayList = userArrayList;
-        this.aloneUser = aloneUser;
+        for(User u : userArrayList){
+            ItemBindingModel bm = new ItemBindingModel(u,false);
+            this.userArrayList.add(bm);
+        }
+        this.currentUser = currentUser;
     }
 
     @Override
     public GroupCreationUsernameAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_username_item,parent,false);
-        MyViewHolder myViewHolder=new MyViewHolder(v);
-        return myViewHolder;
+        final MyViewHolder holder=new MyViewHolder(v);
+        return holder;
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
-        holder.checkboxChoiceGroup.setChecked(userArrayList.get(position).getIsSelected());
-        holder.checkboxChoiceGroup.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                userArrayList.get(holder.getAdapterPosition()).setIsSelected(isChecked); //used to memorize who is selected with recyclerview
-            }
-        });
-        holder.textviewUser.setText(userArrayList.get(position).getFirstName() + " " + userArrayList.get(position).getLastName());
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+        if(position % 2 == 0){
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(context,R.color.recyclerview_background_1));
+        }
+        else
+        {
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(context,R.color.recyclerview_background_2));
+        }
+        holder.textviewUser.setText(userArrayList.get(position).user.getFirstName() + " " + userArrayList.get(position).user.getLastName());
+
+        holder.checkboxChoiceGroup.setOnCheckedChangeListener(null); //remove previous listener
+        holder.checkboxChoiceGroup.setOnCheckedChangeListener(new CustomCheckedListener(holder.getAdapterPosition()));
+        holder.checkboxChoiceGroup.setChecked(userArrayList.get(holder.getAdapterPosition()).checked);
     }
 
     @Override
@@ -61,14 +68,12 @@ public class GroupCreationUsernameAdapter extends RecyclerView.Adapter<GroupCrea
      * @return participating users
      */
     public ArrayList<User> getParticipatingUsers(){
-        int i;
         ArrayList<User> participatingUsers = new ArrayList<>();
-        participatingUsers.add(aloneUser);
-        for(i=0;i<userArrayList.size();i++){
-            if(userArrayList.get(i).getIsSelected()){
-                participatingUsers.add(userArrayList.get(i));
-            }
+        for(ItemBindingModel bm : userArrayList){
+            if(bm.checked)
+                participatingUsers.add(bm.user);
         }
+        participatingUsers.add(currentUser);
         return participatingUsers;
     }
 
@@ -79,20 +84,34 @@ public class GroupCreationUsernameAdapter extends RecyclerView.Adapter<GroupCrea
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            checkboxChoiceGroup = (CheckBox) itemView.findViewById(R.id.checkbox_username_group_choice);
-            textviewUser = (TextView) itemView.findViewById(R.id.textview_username_group);
-
+            checkboxChoiceGroup = itemView.findViewById(R.id.checkbox_username_group_choice);
+            textviewUser = itemView.findViewById(R.id.textview_username_group);
         }
-
-       /* public void display(User user) { //We're using this method to access easyly current data selected in the others methods
-            this.currentUser = user;
-        itemName.setText(item.getItemName());
-        itemQuantity.setText("" + item.getItemQuantity()); //little trick to cast in string
-        itemMeasure.setText(item.getItemMeasure());
-        itemCheck.setText("OK");
-        }*/
     }
 
+    private class ItemBindingModel{
+        public User user;
+        public boolean checked;
 
+        public ItemBindingModel(User user, boolean checked) {
+            this.user = user;
+            this.checked = checked;
+        }
 
+        public void toggleChecked(){
+            checked = !checked;
+        }
+    }
+
+    private class CustomCheckedListener implements CompoundButton.OnCheckedChangeListener {
+        private int position;
+        public CustomCheckedListener(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            userArrayList.get(position).checked = b;
+        }
+    }
 }

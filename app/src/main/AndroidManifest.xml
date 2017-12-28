@@ -59,7 +59,8 @@
             android:name=".activities.loginActivity.LoginPromptActivity"
             android:theme="@style/DefaultBackgroundTheme" />
         <activity android:name=".activities.historyActivity.MapHistoryActivity" />
-        <activity android:name=".activities.groupCreation.GroupCreationActivity"></activity>
+        <activity android:name=".activities.groupCreation.GroupCreationActivity"
+            android:theme="@style/DefaultBackgroundTheme"/>
     </application>
 
 </manifest>

@@ -109,7 +109,6 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
         else
         {
             Toast.makeText(getApplicationContext(), R.string.login_wrong_credentials, Toast.LENGTH_SHORT).show();
-
         }
     }
 

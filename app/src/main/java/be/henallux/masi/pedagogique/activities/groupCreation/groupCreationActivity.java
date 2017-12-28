@@ -24,6 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class GroupCreationActivity extends AppCompatActivity {
+
     private int categoryId,userId;
     private Category categoryOfUser;
     @BindView(R.id.recyclerview_item_group_creation)
@@ -36,15 +37,18 @@ public class GroupCreationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recyclerview_group_creation);
         ButterKnife.bind(this);
+
         repository = new SQLiteGroupCreationRepository(getApplicationContext());
         categoryOfUser = getIntent().getExtras().getParcelable(Constants.KEY_CATEGORY_USER);
         userId = getIntent().getIntExtra(Constants.KEY_ID_USER,0);
         categoryId = categoryOfUser.getId();
+
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
         groupRecyclerView.setLayoutManager(linearLayoutManager);
         groupCreationAdapter=new GroupCreationUsernameAdapter(this,repository.GetUsersByCaterogy(categoryId,userId),repository.getUserById(userId));
         groupRecyclerView.setAdapter(groupCreationAdapter);
     }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.group_create_menu, menu);
         return true;
@@ -53,10 +57,13 @@ public class GroupCreationActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_continue:
+
                 Group groupCreated;
-                ArrayList<User> usersList = new ArrayList<>();
+                ArrayList<User> usersList;
+
                 usersList = groupCreationAdapter.getParticipatingUsers();
                 groupCreated = repository.createGroup(usersList);
+
                 Intent intent = new Intent(this, MainMenuActivity.class);
                 intent.putExtra(Constants.KEY_CATEGORY_USER, categoryOfUser);
                 intent.putExtra(Constants.KEY_GROUP_CREATED, groupCreated);

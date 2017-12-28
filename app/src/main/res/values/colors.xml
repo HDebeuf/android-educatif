@@ -5,4 +5,6 @@
     <color name="colorAccent">#ffffff</color>
     <color name="textInputColor">#ffffff</color>
     <color name="background_material_light">#a80000</color>
+    <color name="recyclerview_background_1">#bcd9d6</color>
+    <color name="recyclerview_background_2">#79c7c0</color>
 </resources>
