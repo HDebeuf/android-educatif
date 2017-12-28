@@ -45,8 +45,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ButterKnife.bind(this);
 
         //Retrieves the ID of the ActivityMapBase that is currently active
-        int activityId = getIntent().getExtras().getInt(Constants.ACTIVITY_KEY);
-        activity = repository.getActivityById(activityId);
+        activity = getIntent().getExtras().getParcelable(Constants.ACTIVITY_KEY);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
