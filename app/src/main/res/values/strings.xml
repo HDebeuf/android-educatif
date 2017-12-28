@@ -28,5 +28,6 @@
     <string name="group_no_camarade">Il n\'y a pas de camarade pour ton activité</string>
     <string name="group_participate">Participe à l\'activité</string>
     <string name="name">Nom</string>
+    <string name="confirm_user_chosen">Les utilisateurs suivants seront ajoutés au groupe</string>
 
 </resources>
