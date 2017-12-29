@@ -370,8 +370,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         values.clear();
         values.put(SynthesisWebViewEntity.COLUMN_FK_LOCATION, idGermanophone);
-        values.put(SynthesisWebViewEntity.COLUMN_URL, "Région germanophone");
-        values.put(SynthesisWebViewEntity.COLUMN_TEXT,"https://www.belgium.be/fr/la_belgique/connaitre_le_pays/la_belgique_en_bref/symboles/fete_nationale");
+        values.put(SynthesisWebViewEntity.COLUMN_TEXT, "Région germanophone");
+        values.put(SynthesisWebViewEntity.COLUMN_URL,"https://www.belgium.be/fr/la_belgique/connaitre_le_pays/la_belgique_en_bref/symboles/fete_nationale");
         database.insert(SynthesisWebViewEntity.TABLE, null, values);
 
         values.clear();
@@ -434,7 +434,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(SynthesisWebViewEntity.COLUMN_FK_LOCATION, idBastogne);
         values.put(SynthesisWebViewEntity.COLUMN_URL, "http://www.bastognewarmuseum.be/video/video_page_accueil.mp4");
         values.put(SynthesisWebViewEntity.COLUMN_TEXT,"Bastogne est connue suite à la bataille des Ardennes lors de la deuxième guerre mondiale. La ville de Bastogne contient de nombreux monuments qui commémore cette période. La ville est visitée par beaucoup d'Américains qui étaient nos alliés de combat.");
-        database.insert(SynthesisVideoEntity.TABLE, null, values);
+        database.insert(SynthesisWebViewEntity.TABLE, null, values);
 
 
         //region

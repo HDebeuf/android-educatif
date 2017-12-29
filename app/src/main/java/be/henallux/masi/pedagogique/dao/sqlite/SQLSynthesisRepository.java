@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import be.henallux.masi.pedagogique.activities.historyActivity.synthesis.Synthesis;
 import be.henallux.masi.pedagogique.activities.historyActivity.synthesis.SynthesisImage;
 import be.henallux.masi.pedagogique.activities.historyActivity.synthesis.SynthesisVideo;
+import be.henallux.masi.pedagogique.activities.historyActivity.synthesis.SynthesisWebView;
 import be.henallux.masi.pedagogique.activities.historyActivity.synthesis.entities.SynthesisImageEntity;
 import be.henallux.masi.pedagogique.activities.historyActivity.synthesis.entities.SynthesisVideoEntity;
 import be.henallux.masi.pedagogique.activities.historyActivity.synthesis.entities.SynthesisWebViewEntity;
@@ -123,7 +124,7 @@ public class SQLSynthesisRepository implements ISynthesisRepository {
                 url = new URL(urlString);
             } catch (MalformedURLException e) {
                 Log.e("malformedURL","Malformed URL : " + urlString);}
-            synthesises.add(new SynthesisImage(id,text,url));
+            synthesises.add(new SynthesisWebView(id,text,url));
             cursor.moveToNext();
         }
 

@@ -28,5 +28,9 @@ public class LocationInfoActivity extends AppCompatActivity {
         int idLocationClicked = getIntent().getExtras().getInt(Constants.KEY_LOCATION_CLICKED);
         Location clickedLocation = mapRepository.getLocationById(idLocationClicked);
         ArrayList<Synthesis> synthesis =  synthesisRepository.getAllSynthesisOfLocation(clickedLocation);
+
+        for(Synthesis s : synthesis){
+            Log.i("synthesis","Synthesis of type : " + s.getClass().getSimpleName() + " with text : " + s.getText());
+        }
     }
 }
