@@ -9,6 +9,7 @@ public class Answer {
     private Integer id;
     private String statement;
     private Question question;
+    private boolean isTrue;
 
     public Answer(Integer id, String statement, Question question) {
         this.id = id;
@@ -38,5 +39,13 @@ public class Answer {
 
     public void setStatement(String statement) {
         this.statement = statement;
+    }
+
+    public boolean getIsTrue() {
+        return isTrue;
+    }
+
+    public void setTrue(boolean aTrue) {
+        isTrue = aTrue;
     }
 }
