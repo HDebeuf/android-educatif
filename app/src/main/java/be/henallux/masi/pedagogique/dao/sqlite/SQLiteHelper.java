@@ -21,12 +21,14 @@ import be.henallux.masi.pedagogique.activities.mapActivity.MapsActivity;
 import be.henallux.masi.pedagogique.activities.musicalActivity.MusicalActivity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.ActivityEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.AnswerEntity;
+import be.henallux.masi.pedagogique.dao.sqlite.entities.AnswerToQuestionEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.CategoryEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.CategoryToActivityEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.ClassEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.GroupEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.QuestionEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.QuestionnaireEntity;
+import be.henallux.masi.pedagogique.dao.sqlite.entities.ResultEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.UserEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.UserToGroupEntity;
 import be.henallux.masi.pedagogique.utils.ICryptographyService;
@@ -106,13 +108,32 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                     + QuestionEntity.COLUMN_ID + " integer primary key autoincrement, "
                     + QuestionEntity.COLUMN_STATEMENT + " varchar(50) not null, "
                     + QuestionEntity.COLUMN_TYPE + " integer not null,"
-                    + QuestionEntity.COLUMN_FK_QUESTIONNAIRE + " integer not null, foreign key (" + QuestionEntity.COLUMN_FK_QUESTIONNAIRE + ") references " + QuestionnaireEntity.TABLE + "(" + QuestionnaireEntity.COLUMN_ID + "))";
+                    + QuestionEntity.COLUMN_FK_QUESTIONNAIRE + " integer not null,"
+                    + " foreign key (" + QuestionEntity.COLUMN_FK_QUESTIONNAIRE + ") references " + QuestionnaireEntity.TABLE + "(" + QuestionnaireEntity.COLUMN_ID + "))";
     public static final String CREATE_TABLE_ANSWER =
             "create table "
                     + AnswerEntity.TABLE + "("
                     + AnswerEntity.COLUMN_ID + " integer primary key autoincrement, "
                     + AnswerEntity.COLUMN_STATEMENT + " varchar(50) not null,"
-                    + AnswerEntity.COLUMN_FK_QUESTION + " integer not null, foreign key (" + AnswerEntity.COLUMN_FK_QUESTION + ") references " + QuestionEntity.TABLE + "(" + QuestionEntity.COLUMN_ID + "))";
+                    + AnswerEntity.COLUMN_FK_QUESTION + " integer not null,"
+                    + " foreign key (" + AnswerEntity.COLUMN_FK_QUESTION + ") references " + QuestionEntity.TABLE + "(" + QuestionEntity.COLUMN_ID + "))";
+    public static final String CREATE_TABLE_RESULT =
+            "create table "
+                    + ResultEntity.TABLE + "("
+                    + ResultEntity.COLUMN_ID + " integer primary key autoincrement, "
+                    + ResultEntity.COLUMN_NB_CORRECT + " integer not null,"
+                    + ResultEntity.COLUMN_NB_WRONG + " integer not null,"
+                    + " foreign key (" + ResultEntity.COLUMN_FK_GROUP + ") references " + GroupEntity.TABLE + "(" + GroupEntity.COLUMN_ID + "))";
+    public static final String CREATE_TABLE_ANSWER_TO_QUESTION =
+            "create table "
+                    + AnswerToQuestionEntity.TABLE + "("
+                    + AnswerToQuestionEntity.COLUMN_ID + " integer primary key autoincrement, "
+                    + AnswerToQuestionEntity.COLUMN_FK_QUESTION + " integer not null,"
+                    + " foreign key (" + AnswerToQuestionEntity.COLUMN_FK_QUESTION + ") references " + QuestionEntity.TABLE + "(" + QuestionEntity.COLUMN_ID + "),"
+                    + AnswerToQuestionEntity.COLUMN_FK_RESULT + " integer not null,"
+                    + " foreign key (" + AnswerToQuestionEntity.COLUMN_FK_RESULT + ") references " + ResultEntity.TABLE + "(" + ResultEntity.COLUMN_ID + "))"
+                    + AnswerToQuestionEntity.COLUMN_FK_ANSWER + " integer not null,"
+                    + " foreign key (" + AnswerToQuestionEntity.COLUMN_FK_ANSWER + ") references " + AnswerEntity.TABLE + "(" + AnswerEntity.COLUMN_ID + "))";
 
     private static final String DATABASE_NAME = "educative.db";
     private static final int DATABASE_VERSION = 1;
@@ -244,13 +265,15 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(ActivityEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaire);
         values.put(ActivityEntity.COLUMN_ACTIVITY_CANONICAL_CLASS_NAME, MapsActivity.class.getName());
         values.put(ActivityEntity.COLUMN_CLASS_CANONICAL_CLASS_NAME, ActivityMapBase.class.getName());
+        uriIcon = Uri.parse("android.resource://" + context.getPackageName() + "/drawable/ic_music_icon");
+        values.put(ActivityEntity.COLUMN_URI_ICON,uriIcon.toString());
         activityId = (int) database.insert(ActivityEntity.TABLE, null, values);
 
         values.clear();
         values.put(ActivityMapBaseEntity.COLUMN_FK_ACTIVITY, activityId);
         values.put(ActivityMapBaseEntity.COLUMN_LATITUDE_CENTER, 50.8468);
         values.put(ActivityMapBaseEntity.COLUMN_LONGITUDE_CENTER, 4.3775);
-        values.put(ActivityMapBaseEntity.COLUMN_ZOOM, 0.5);
+        values.put(ActivityMapBaseEntity.COLUMN_ZOOM, 0);
         idActivityMap = (int) database.insert(ActivityMapBaseEntity.TABLE, null, values);
 
         values.clear();
