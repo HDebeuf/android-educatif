@@ -170,6 +170,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("drop table if exists " + ActivityMapBaseEntity.TABLE);
         sqLiteDatabase.execSQL("drop table if exists " + ActivityEntity.TABLE);
         sqLiteDatabase.execSQL("drop table if exists " + LocationEntity.TABLE);
+        sqLiteDatabase.execSQL("drop table if exists " + ResultEntity.TABLE);
+        sqLiteDatabase.execSQL("drop table if exists " + AnswerToQuestionEntity.TABLE);
 
         sqLiteDatabase.execSQL(CREATE_TABLE_CLASS);
         sqLiteDatabase.execSQL(CREATE_TABLE_USER);
@@ -180,6 +182,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_TABLE_QUESTION);
         sqLiteDatabase.execSQL(CREATE_TABLE_ANSWER);
         sqLiteDatabase.execSQL(CREATE_TABLE_ACTIVITY);
+        sqLiteDatabase.execSQL(CREATE_TABLE_RESULT);
+        sqLiteDatabase.execSQL(CREATE_TABLE_ANSWER_TO_QUESTION);
 
 
         // For all modules
