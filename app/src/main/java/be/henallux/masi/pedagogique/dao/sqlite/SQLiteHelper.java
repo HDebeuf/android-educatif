@@ -482,14 +482,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         //region users
         int iUser;
-        String firstName,lastName;
+        String firstName = "Test";
+        String lastName = "Test";
 
         for (iUser = 1; iUser < 61; iUser++) {
             values.clear();
-            firstName = Fakeit.name().firstName();
-            lastName = Fakeit.name().lastName();
 
-            String pwd = "Tigrou007";
             values.put(UserEntity.COLUMN_FIRSTNAME,firstName);
             values.put(UserEntity.COLUMN_LASTNAME,lastName);
             values.put(UserEntity.COLUMN_USERNAME,firstName+lastName);
@@ -499,6 +497,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             String sha256pwd = cryptographyService.hashPassword("Tigrou007");
             values.put(UserEntity.COLUMN_PASSWORDHASH,sha256pwd);
             database.insert(UserEntity.TABLE,null,values);
+
+
+            firstName = Fakeit.name().firstName();
+            lastName = Fakeit.name().lastName();
         }
         //endregion
 

@@ -91,4 +91,10 @@ public class Location implements Parcelable {
             return new Location[size];
         }
     };
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof  Location)) return false;
+        return ((Location) obj).getId() == id;
+    }
 }
