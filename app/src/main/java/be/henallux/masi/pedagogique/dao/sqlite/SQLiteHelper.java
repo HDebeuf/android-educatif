@@ -17,6 +17,7 @@ import be.henallux.masi.pedagogique.activities.mapActivity.ActivityMapBase;
 import be.henallux.masi.pedagogique.activities.mapActivity.ActivityMapBaseEntity;
 import be.henallux.masi.pedagogique.activities.mapActivity.LocationEntity;
 import be.henallux.masi.pedagogique.activities.mapActivity.MapsActivity;
+import be.henallux.masi.pedagogique.activities.musicalActivity.MapMusicalActivity;
 import be.henallux.masi.pedagogique.activities.musicalActivity.MusicalActivity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.ActivityEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.AnswerEntity;
@@ -443,7 +444,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.clear();
         values.put(ActivityEntity.COLUMN_NAME, "Histoire de la musique");
         values.put(ActivityEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaire);
-        values.put(ActivityEntity.COLUMN_ACTIVITY_CANONICAL_CLASS_NAME, MapsActivity.class.getName());
+        values.put(ActivityEntity.COLUMN_ACTIVITY_CANONICAL_CLASS_NAME, MapMusicalActivity.class.getName());
         values.put(ActivityEntity.COLUMN_CLASS_CANONICAL_CLASS_NAME, ActivityMapBase.class.getName());
         uriIcon = Uri.parse("android.resource://" + context.getPackageName() + "/drawable/ic_music_icon");
         values.put(ActivityEntity.COLUMN_URI_ICON,uriIcon.toString());

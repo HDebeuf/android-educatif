@@ -63,7 +63,9 @@
             android:name=".activities.groupCreation.GroupCreationActivity"
             android:theme="@style/DefaultBackgroundTheme" />
         <activity android:name=".activities.musicalActivity.MapMusicalActivity" />
-        <activity android:name=".activities.musicalActivity.MakeMusicActivity"></activity>
+        <activity
+            android:name=".activities.musicalActivity.MakeMusicActivity"
+            android:theme="@style/DefaultBackgroundTheme" />
     </application>
 
 </manifest>

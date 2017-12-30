@@ -49,7 +49,7 @@ public class MapMusicalActivity extends FragmentActivity implements OnMapReadyCa
         repository = new SQLiteMapActivityRepository(this);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map_history);
+        setContentView(R.layout.activity_map_musical);
 
         ButterKnife.bind(this);
 
