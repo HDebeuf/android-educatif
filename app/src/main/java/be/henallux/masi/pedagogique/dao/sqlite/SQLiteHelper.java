@@ -8,6 +8,8 @@ import android.net.Uri;
 
 import com.mooveit.library.Fakeit;
 
+import java.net.URI;
+
 import be.henallux.masi.pedagogique.activities.historyActivity.LocationInfoActivity;
 import be.henallux.masi.pedagogique.activities.historyActivity.MapHistoryActivity;
 import be.henallux.masi.pedagogique.activities.historyActivity.synthesis.entities.SynthesisImageEntity;
@@ -16,9 +18,9 @@ import be.henallux.masi.pedagogique.activities.historyActivity.synthesis.entitie
 import be.henallux.masi.pedagogique.activities.mapActivity.ActivityMapBase;
 import be.henallux.masi.pedagogique.activities.mapActivity.ActivityMapBaseEntity;
 import be.henallux.masi.pedagogique.activities.mapActivity.LocationEntity;
-import be.henallux.masi.pedagogique.activities.mapActivity.MapsActivity;
 import be.henallux.masi.pedagogique.activities.musicalActivity.MapMusicalActivity;
 import be.henallux.masi.pedagogique.activities.musicalActivity.MusicalActivity;
+import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.Instrument;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.ActivityEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.AnswerEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.AnswerToQuestionEntity;
@@ -26,6 +28,7 @@ import be.henallux.masi.pedagogique.dao.sqlite.entities.CategoryEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.CategoryToActivityEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.ClassEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.GroupEntity;
+import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.entities.InstrumentEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.QuestionEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.QuestionnaireEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.ResultEntity;
@@ -177,6 +180,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("drop table if exists " + SynthesisVideoEntity.TABLE);
         sqLiteDatabase.execSQL("drop table if exists " + SynthesisImageEntity.TABLE);
         sqLiteDatabase.execSQL("drop table if exists " + SynthesisWebViewEntity.TABLE);
+        sqLiteDatabase.execSQL("drop table if exists " + InstrumentEntity.TABLE);
 
         sqLiteDatabase.execSQL(CREATE_TABLE_CLASS);
         sqLiteDatabase.execSQL(CREATE_TABLE_USER);
@@ -197,6 +201,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(SynthesisImageEntity.CREATE_TABLE_SYNTHESIS_IMAGE);
         sqLiteDatabase.execSQL(SynthesisVideoEntity.CREATE_TABLE_SYNTHESIS_VIDEO);
         sqLiteDatabase.execSQL(SynthesisWebViewEntity.CREATE_TABLE_SYNTHESIS_WEBVIEW);
+        sqLiteDatabase.execSQL(InstrumentEntity.CREATE_TABLE_INSTRUMENTS);
         // End modules
 
         sqLiteDatabase.execSQL(CREATE_TABLE_CATEGORYTOACTIVITY);
@@ -454,7 +459,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(ActivityMapBaseEntity.COLUMN_FK_ACTIVITY, activityId);
         values.put(ActivityMapBaseEntity.COLUMN_LATITUDE_CENTER, 50.8468);
         values.put(ActivityMapBaseEntity.COLUMN_LONGITUDE_CENTER, 4.3775);
-        values.put(ActivityMapBaseEntity.COLUMN_ZOOM, 0);
+        values.put(ActivityMapBaseEntity.COLUMN_ZOOM, 0.01);
         idActivityMap = (int) database.insert(ActivityMapBaseEntity.TABLE, null, values);
 
         values.clear();
@@ -463,7 +468,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(LocationEntity.COLUMN_LONGITUDE, 97.346919);
         values.put(LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME, MusicalActivity.class.getName());
         values.put(LocationEntity.COLUMN_FK_ACTIVITYMAPBASE, idActivityMap);
-        database.insert(LocationEntity.TABLE, null, values);
+        int idAsie = (int) database.insert(LocationEntity.TABLE, null, values);
 
         values.clear();
         values.put(LocationEntity.COLUMN_TITLE, "Afrique");
@@ -471,21 +476,55 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(LocationEntity.COLUMN_LONGITUDE, 21.880014);
         values.put(LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME, MusicalActivity.class.getName());
         values.put(LocationEntity.COLUMN_FK_ACTIVITYMAPBASE, idActivityMap);
-        database.insert(LocationEntity.TABLE, null, values);
+        int idAfrique = (int) database.insert(LocationEntity.TABLE, null, values);
 
         values.clear();
         values.put(CategoryToActivityEntity.COLUMN_FK_ACTIVITY, activityId);
         values.put(CategoryToActivityEntity.COLUMN_FK_CATEGORY, idCategoryInferior);
         database.insert(CategoryToActivityEntity.TABLE, null, values);
 
+        //region Instruments
+        values.clear();
+        values.put(InstrumentEntity.COLUMN_FK_LOCATION, idAfrique);
+        values.put(InstrumentEntity.COLUMN_NAME, "Djembe");
+        values.put(InstrumentEntity.COLUMN_DESCRIPTION, "Lorem Impus Dolor... ");
+        uriIcon = Uri.parse("android.resource://" + context.getPackageName() + "/drawable/ic_instrument_africa");
+        values.put(InstrumentEntity.COLUMN_IMAGE_PATH, uriIcon.toString());
+        Uri uriSample = Uri.parse("android.resource://" + context.getPackageName() + "/raw/djembe_sample.mp3");
+        values.put(InstrumentEntity.COLUMN_SAMPLE_PATH, uriSample.toString());
+        values.put(InstrumentEntity.COLUMN_UNLOCKED, "1");
+        database.insert(InstrumentEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(InstrumentEntity.COLUMN_FK_LOCATION, idAsie);
+        values.put(InstrumentEntity.COLUMN_NAME, "Ta Quan Dong");
+        values.put(InstrumentEntity.COLUMN_DESCRIPTION, "Lorem Impus Dolor... ");
+        uriIcon = Uri.parse("android.resource://" + context.getPackageName() + "/drawable/ic_instrument_africa");
+        values.put(InstrumentEntity.COLUMN_IMAGE_PATH, uriIcon.toString());
+        values.put(InstrumentEntity.COLUMN_SAMPLE_PATH, "PATH IS COMMING");
+        values.put(InstrumentEntity.COLUMN_UNLOCKED, "0");
+        database.insert(InstrumentEntity.TABLE, null, values);
+
         //endregion
 
         //region users
         int iUser;
         String firstName,lastName;
+        values.clear();
+
+        //TO DELETE
+        //Test User because it's too annoying to check every tim db
+        values.put(UserEntity.COLUMN_FIRSTNAME,"Music");
+        values.put(UserEntity.COLUMN_LASTNAME,"User");
+        values.put(UserEntity.COLUMN_USERNAME,"MusicUser");
+        values.put(UserEntity.COLUMN_GENDER, 1);
+        values.put(UserEntity.COLUMN_FK_CLASS, 1);
+        values.put(UserEntity.COLUMN_FK_CATEGORY,2);
+        String sha256pwd = cryptographyService.hashPassword("Tigrou007");
+        values.put(UserEntity.COLUMN_PASSWORDHASH,sha256pwd);
+        database.insert(UserEntity.TABLE,null,values);
 
         for (iUser = 1; iUser < 61; iUser++) {
-            values.clear();
             firstName = Fakeit.name().firstName();
             lastName = Fakeit.name().lastName();
 
@@ -496,7 +535,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             values.put(UserEntity.COLUMN_GENDER, 1);
             values.put(UserEntity.COLUMN_FK_CLASS, 1);
             values.put(UserEntity.COLUMN_FK_CATEGORY,iUser % 2 == 0 ? idCategoryInferior : idCategorySuperior);
-            String sha256pwd = cryptographyService.hashPassword("Tigrou007");
+            sha256pwd = cryptographyService.hashPassword("Tigrou007");
             values.put(UserEntity.COLUMN_PASSWORDHASH,sha256pwd);
             database.insert(UserEntity.TABLE,null,values);
         }

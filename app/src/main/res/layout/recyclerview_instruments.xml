@@ -9,20 +9,13 @@
     tools:context=".activities.musicalActivity.MakeMusicActivity"
     tools:showIn="@layout/activity_make_music">
 
-    <HorizontalScrollView
-        android:id="@+id/horizontalScrollView"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview_item_instruments"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout android:orientation="horizontal"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent">
-
-        </LinearLayout>
-    </HorizontalScrollView>
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

@@ -16,14 +16,16 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         map:layout_constraintBottom_toTopOf="@+id/include"
+        map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintLeft_toLeftOf="parent"
         map:layout_constraintRight_toRightOf="parent"
+        map:layout_constraintStart_toStartOf="parent"
         map:layout_constraintTop_toTopOf="parent"
         tools:context=".activities.musicalActivity.MakeMusicActivity" />
 
     <include
         android:id="@+id/include"
-        layout="@layout/content_music_maker"
+        layout="@layout/recyclerview_instruments"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
