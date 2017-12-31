@@ -509,11 +509,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         //region users
         int iUser;
-        String firstName,lastName;
         values.clear();
 
         //TO DELETE
-        //Test User because it's too annoying to check every tim db
+        //Test User because it's too annoying to check every time the db
         values.put(UserEntity.COLUMN_FIRSTNAME,"Music");
         values.put(UserEntity.COLUMN_LASTNAME,"User");
         values.put(UserEntity.COLUMN_USERNAME,"MusicUser");
@@ -524,11 +523,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(UserEntity.COLUMN_PASSWORDHASH,sha256pwd);
         database.insert(UserEntity.TABLE,null,values);
 
+        String firstName = "Test";
+        String lastName = "Test";
+      
         for (iUser = 1; iUser < 61; iUser++) {
-            firstName = Fakeit.name().firstName();
-            lastName = Fakeit.name().lastName();
+          values.clear();
 
-            String pwd = "Tigrou007";
             values.put(UserEntity.COLUMN_FIRSTNAME,firstName);
             values.put(UserEntity.COLUMN_LASTNAME,lastName);
             values.put(UserEntity.COLUMN_USERNAME,firstName+lastName);
@@ -538,6 +538,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             sha256pwd = cryptographyService.hashPassword("Tigrou007");
             values.put(UserEntity.COLUMN_PASSWORDHASH,sha256pwd);
             database.insert(UserEntity.TABLE,null,values);
+
+
+            firstName = Fakeit.name().firstName();
+            lastName = Fakeit.name().lastName();
         }
         //endregion
 

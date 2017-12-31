@@ -58,8 +58,6 @@ public class MapHistoryActivity extends FragmentActivity implements OnMapReadyCa
         //Retrieves the ID of the ActivityMapBase that is currently active
         activity = getIntent().getExtras().getParcelable(Constants.ACTIVITY_KEY);
 
-        chosenLocations.addAll(activity.getPointsOfInterest());
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -99,10 +97,29 @@ public class MapHistoryActivity extends FragmentActivity implements OnMapReadyCa
             public boolean onMarkerClick(Marker marker) {
                 Location l = hashMapMarkersLocation.get(marker);
                 Intent intent = new Intent(MapHistoryActivity.this,l.getClassToThrow());
-                intent.putExtra(Constants.KEY_LOCATION_CLICKED,l.getId());
-                startActivity(intent);
+                intent.putExtra(Constants.KEY_LOCATION_CLICKED,l);
+                intent.putExtra(Constants.KEY_IS_IN_DELETE_MODE,chosenLocations.contains(l));
+                startActivityForResult(intent,Constants.ACTIVITY_RESULT_SYNTHESIS);
                 return true;
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == Constants.ACTIVITY_RESULT_SYNTHESIS && resultCode == RESULT_OK){
+            boolean hasChoosenLocation = data.getBooleanExtra(Constants.RESULT_DATA_HAS_CHOOSEN_LOCATION,false);
+            if(hasChoosenLocation){ //The activity returned with the user clicking on "ADD"
+                boolean hasDeletedItem = data.getBooleanExtra(Constants.KEY_IS_IN_DELETE_MODE,false);
+                Location clickedLocation = data.getParcelableExtra(Constants.KEY_LOCATION_CLICKED);
+
+                if(hasDeletedItem)
+                    chosenLocations.remove(clickedLocation);
+                else
+                    chosenLocations.add(clickedLocation);
+            }
+        }
     }
 }
