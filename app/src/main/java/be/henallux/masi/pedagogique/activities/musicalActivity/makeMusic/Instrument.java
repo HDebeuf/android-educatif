@@ -1,6 +1,7 @@
 package be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic;
 
 import android.net.Uri;
+import android.support.annotation.RawRes;
 
 /**
  * Created by hendrikdebeuf2 on 30/12/17.

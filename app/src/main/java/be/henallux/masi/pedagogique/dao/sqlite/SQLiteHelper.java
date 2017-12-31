@@ -490,8 +490,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(InstrumentEntity.COLUMN_DESCRIPTION, "Lorem Impus Dolor... ");
         uriIcon = Uri.parse("android.resource://" + context.getPackageName() + "/drawable/ic_instrument_africa");
         values.put(InstrumentEntity.COLUMN_IMAGE_PATH, uriIcon.toString());
-        Uri uriSample = Uri.parse("android.resource://" + context.getPackageName() + "/raw/djembe_sample.mp3");
-        values.put(InstrumentEntity.COLUMN_SAMPLE_PATH, uriSample.toString());
+        Uri uriSong = Uri.parse("android.resource://" + context.getPackageName() + "/raw/djembe_sample");
+        values.put(InstrumentEntity.COLUMN_SAMPLE_PATH, uriSong.toString());
         values.put(InstrumentEntity.COLUMN_UNLOCKED, "1");
         database.insert(InstrumentEntity.TABLE, null, values);
 
@@ -501,8 +501,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(InstrumentEntity.COLUMN_DESCRIPTION, "Lorem Impus Dolor... ");
         uriIcon = Uri.parse("android.resource://" + context.getPackageName() + "/drawable/ic_instrument_africa");
         values.put(InstrumentEntity.COLUMN_IMAGE_PATH, uriIcon.toString());
-        values.put(InstrumentEntity.COLUMN_SAMPLE_PATH, "PATH IS COMMING");
-        values.put(InstrumentEntity.COLUMN_UNLOCKED, "0");
+        uriSong = Uri.parse("android.resource://" + context.getPackageName() + "/raw/djembe_sample2");
+        values.put(InstrumentEntity.COLUMN_SAMPLE_PATH, uriSong.toString());
+        values.put(InstrumentEntity.COLUMN_UNLOCKED, "1");
         database.insert(InstrumentEntity.TABLE, null, values);
 
         //endregion
