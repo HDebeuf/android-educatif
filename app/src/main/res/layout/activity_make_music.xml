@@ -29,7 +29,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/recPlayPauseButton"
+        app:layout_constraintBottom_toTopOf="@+id/recButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
@@ -44,18 +44,19 @@
         android:clickable="true"
         app:backgroundTint="@color/colorPrimary"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
-        app:layout_constraintEnd_toStartOf="@+id/recPlayPauseButton"
+        app:layout_constraintEnd_toStartOf="@+id/recButton"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_delete" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/recPlayPauseButton"
+        android:id="@+id/recButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:clickable="true"
+        android:onClick="recording"
         app:backgroundTint="@color/colorAccent"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -73,7 +74,7 @@
         app:backgroundTint="@color/colorPrimary"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/recPlayPauseButton"
+        app:layout_constraintStart_toEndOf="@+id/recButton"
         app:srcCompat="@drawable/ic_done_white_24dp" />
 
     <android.support.constraint.ConstraintLayout

@@ -8,8 +8,6 @@ import android.net.Uri;
 
 import com.mooveit.library.Fakeit;
 
-import java.net.URI;
-
 import be.henallux.masi.pedagogique.activities.historyActivity.LocationInfoActivity;
 import be.henallux.masi.pedagogique.activities.historyActivity.MapHistoryActivity;
 import be.henallux.masi.pedagogique.activities.historyActivity.synthesis.entities.SynthesisImageEntity;
@@ -20,7 +18,6 @@ import be.henallux.masi.pedagogique.activities.mapActivity.ActivityMapBaseEntity
 import be.henallux.masi.pedagogique.activities.mapActivity.LocationEntity;
 import be.henallux.masi.pedagogique.activities.musicalActivity.MapMusicalActivity;
 import be.henallux.masi.pedagogique.activities.musicalActivity.MusicalActivity;
-import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.Instrument;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.ActivityEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.AnswerEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.AnswerToQuestionEntity;
@@ -490,8 +487,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(InstrumentEntity.COLUMN_DESCRIPTION, "Lorem Impus Dolor... ");
         uriIcon = Uri.parse("android.resource://" + context.getPackageName() + "/drawable/ic_instrument_africa");
         values.put(InstrumentEntity.COLUMN_IMAGE_PATH, uriIcon.toString());
-        Uri uriSong = Uri.parse("android.resource://" + context.getPackageName() + "/raw/djembe_sample");
-        values.put(InstrumentEntity.COLUMN_SAMPLE_PATH, uriSong.toString());
+        values.put(InstrumentEntity.COLUMN_SAMPLE_FILE_NAME, "djembe_sample");
         values.put(InstrumentEntity.COLUMN_UNLOCKED, "1");
         database.insert(InstrumentEntity.TABLE, null, values);
 
@@ -501,8 +497,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(InstrumentEntity.COLUMN_DESCRIPTION, "Lorem Impus Dolor... ");
         uriIcon = Uri.parse("android.resource://" + context.getPackageName() + "/drawable/ic_instrument_africa");
         values.put(InstrumentEntity.COLUMN_IMAGE_PATH, uriIcon.toString());
-        uriSong = Uri.parse("android.resource://" + context.getPackageName() + "/raw/djembe_sample2");
-        values.put(InstrumentEntity.COLUMN_SAMPLE_PATH, uriSong.toString());
+        values.put(InstrumentEntity.COLUMN_SAMPLE_FILE_NAME, "djembe_sample2");
         values.put(InstrumentEntity.COLUMN_UNLOCKED, "1");
         database.insert(InstrumentEntity.TABLE, null, values);
 

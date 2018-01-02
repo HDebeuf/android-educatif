@@ -2,9 +2,7 @@ package be.henallux.masi.pedagogique.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.AudioAttributes;
 import android.media.SoundPool;
-import android.net.Uri;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,7 +19,9 @@ import java.util.ArrayList;
 
 import be.henallux.masi.pedagogique.R;
 import be.henallux.masi.pedagogique.activities.musicalActivity.MusicalActivity;
+import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers.ISoundPoolHandler;
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.Instrument;
+import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers.SoundPoolHandler;
 import be.henallux.masi.pedagogique.utils.Constants;
 
 /**
@@ -32,6 +32,7 @@ public class InstrumentListAdapter extends RecyclerView.Adapter<InstrumentListAd
 
     private Context context;
     private ArrayList<Instrument> instrumentArrayList;
+    private ISoundPoolHandler soundPoolHandler;
     private SoundPool soundPool;
     private int soundID;
     private boolean loaded;
@@ -39,7 +40,8 @@ public class InstrumentListAdapter extends RecyclerView.Adapter<InstrumentListAd
     public InstrumentListAdapter(Context context, ArrayList<Instrument> instrumentArrayList) {
         this.context = context;
         this.instrumentArrayList = instrumentArrayList;
-        buildSoundPool();
+        soundPoolHandler = new SoundPoolHandler(context);
+        soundPoolHandler.buildSoundPool();
     }
 
     @Override
@@ -63,20 +65,25 @@ public class InstrumentListAdapter extends RecyclerView.Adapter<InstrumentListAd
         Picasso.with(context).load(instrumentArrayList.get(position).getImagePath()).into(holder.instrumentImage);
 
 
-        //player = MediaPlayer.create(context, instrumentArrayList.get(position).getSamplePath());
+        //player = MediaPlayer.create(context, instrumentArrayList.get(position).getSampleFileName());
 
         holder.lockedImage.setImageResource(R.drawable.ic_locked);
         Log.d("mediainfo",String.valueOf(instrumentArrayList.get(position).isUnlocked()));
-        Log.d("mediainfo",String.valueOf(instrumentArrayList.get(position).getSamplePath()));
+        Log.d("mediainfo",String.valueOf(instrumentArrayList.get(position).getSampleFileName()));
         if (instrumentArrayList.get(position).isUnlocked()){
             holder.lockedImage.setVisibility(View.GONE);
-            // Load the sound
-            soundID = loadSample(instrumentArrayList.get(position).getSamplePath());
+
+            //Manage multiple sound play in a SoundPool
+
+            String fileName = instrumentArrayList.get(position).getSampleFileName();
+            String fileType = "raw";
+
+            soundID = soundPoolHandler.loadSample(fileName, fileType);
             holder.instrumentImage.setTag(soundID);
             holder.instrumentImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    playSample(Integer.valueOf(holder.instrumentImage.getTag().toString()));
+                    soundPoolHandler.playSample(Integer.valueOf(holder.instrumentImage.getTag().toString()));
                 }
             });
 
@@ -99,40 +106,6 @@ public class InstrumentListAdapter extends RecyclerView.Adapter<InstrumentListAd
         });
 
     }
-
-    private void buildSoundPool(){
-        AudioAttributes attributes = new AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_MEDIA)
-                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                .build();
-
-        soundPool = new SoundPool.Builder()
-                .setAudioAttributes(attributes)
-                .setMaxStreams(10)
-                .build();
-    }
-
-    private int loadSample(Uri samplePath) {
-
-        int resourceID = context.getResources().getIdentifier("djembe_sample","raw",context.getPackageName());
-
-        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
-            @Override
-            public void onLoadComplete(SoundPool soundPool, int sampleId,int status) {
-                loaded = true;
-            }
-        });
-        soundID = soundPool.load(context, resourceID,1);
-        return soundID;
-    }
-
-    private void playSample(int soundID){
-        if (loaded) {
-            soundPool.play(soundID, 1,1,1,0,1f);
-            Log.e("Test", "Played sound");
-        }
-    }
-
 
     @Override
     public int getItemCount() {

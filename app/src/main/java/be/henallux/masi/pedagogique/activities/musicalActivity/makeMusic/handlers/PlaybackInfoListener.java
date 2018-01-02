@@ -1,4 +1,4 @@
-package be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic;
+package be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers;
 
 import android.support.annotation.IntDef;
 

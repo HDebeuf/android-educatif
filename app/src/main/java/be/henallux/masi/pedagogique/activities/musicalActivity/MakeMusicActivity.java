@@ -1,36 +1,56 @@
 package be.henallux.masi.pedagogique.activities.musicalActivity;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import be.henallux.masi.pedagogique.R;
-import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.IMediaPlayerAdapter;
+import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers.IMediaPlayerHandler;
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.Instrument;
-import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.MediaPlayerAdapter;
+import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers.IMediaRecorderHandler;
+import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers.MediaPlayerHandler;
+import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers.MediaRecorderHandler;
 import be.henallux.masi.pedagogique.adapters.InstrumentListAdapter;
 import be.henallux.masi.pedagogique.dao.interfaces.IInstrumentRepository;
 import be.henallux.masi.pedagogique.dao.sqlite.SQLiteInstrumentRepository;
+import be.henallux.masi.pedagogique.model.Activity;
+import be.henallux.masi.pedagogique.utils.IPermissionsHandler;
+import be.henallux.masi.pedagogique.utils.PermissionsHandler;
 
 public class MakeMusicActivity extends AppCompatActivity {
 
     private RecyclerView instrumentRecyclerView;
     private RecyclerView.LayoutManager instrumentLayoutManager;
     private RecyclerView.Adapter instrumentListAdapter;
-    private IInstrumentRepository instrumentRepository;
     private ArrayList<Instrument> instrumentArrayList;
     private Context context;
-    private IMediaPlayerAdapter playerAdapter;
+
+    private IInstrumentRepository instrumentRepository;
+    private IMediaPlayerHandler playerHandler;
+    private IMediaRecorderHandler recorderHandler;
+    private IPermissionsHandler permissionHandler;
+
+    private FloatingActionButton recButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_music);
+        recButton = (FloatingActionButton) findViewById(R.id.recButton);
 
         context = getApplicationContext();
 
@@ -42,6 +62,7 @@ public class MakeMusicActivity extends AppCompatActivity {
         instrumentRecyclerView.setHasFixedSize(true);
         instrumentLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         instrumentRecyclerView.setLayoutManager(instrumentLayoutManager);
+
         instrumentListAdapter = new InstrumentListAdapter(getApplicationContext(), instrumentArrayList);
         instrumentRecyclerView.setAdapter(instrumentListAdapter);
 
@@ -49,23 +70,78 @@ public class MakeMusicActivity extends AppCompatActivity {
         //initializeSeekbar();
         initializePlaybackController();
 
+        recorderHandler = new MediaRecorderHandler(context);
+        permissionHandler = new PermissionsHandler();
+
+        recButton.setOnClickListener(new View.OnClickListener() {
+            int i = 0;
+            @Override
+            public void onClick (View view){
+
+                if (!permissionHandler.isStoragePermissionGranted(MakeMusicActivity.this,context) || !permissionHandler.isAudioRecordPermissionGranted(MakeMusicActivity.this, context)) {
+                    permissionHandler.requestPermissions(MakeMusicActivity.this);
+                } else if (permissionHandler.isStoragePermissionGranted(MakeMusicActivity.this, context) && permissionHandler.isAudioRecordPermissionGranted(MakeMusicActivity.this, context)) {
+                    i++;
+                    if (i % 2 != 0) {
+                        try {
+                            Log.d("recordinfo", "rec");
+                            recorderHandler.startRecording(view);
+                            recordBlink(recButton, i);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        recorderHandler.stopRecording(view);
+                        recButton.setImageResource(R.drawable.ic_rec);
+                    }
+                }
+
+
+
+            }
+        });
+    }
+
+    private void recordBlink (final FloatingActionButton recButton, int i){
+
+        final int []imageArray={R.drawable.ic_rec2,R.drawable.ic_rec};
+
+        final Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
+            int i=0;
+            public void run() {
+                boolean recordStatus = recorderHandler.getRecordStatus();
+                if (recordStatus){
+                    recButton.setImageResource(imageArray[i]);
+                    i++;
+                    if (i > imageArray.length - 1) {
+                        i = 0;
+                    }
+                    handler.postDelayed(this, 500);  //for interval...
+                }
+            }
+        };
+        handler.postDelayed(runnable, 2000); //for initial delay..
+
+
+    /*here the button click counter start */
 
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        //playerAdapter.loadMedia();
+        //playerHandler.loadMedia();
         Log.d("mediainfo", "onStart: create MediaPlayer");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (isChangingConfigurations() && playerAdapter.isPlaying()) {
+        if (isChangingConfigurations() && playerHandler.isPlaying()) {
             Log.d("mediainfo", "onStop: don't release MediaPlayer as screen is rotating & playing");
         } else {
-            playerAdapter.release();
+            playerHandler.release();
             Log.d("mediainfo", "onStop: release MediaPlayer");
         }
     }
@@ -78,19 +154,21 @@ public class MakeMusicActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // TO DO manage samples
-                playerAdapter.play();
-                //playAudio(String.valueOf(instrumentArrayList.get(position).getSamplePath()));
+                playerHandler.play();
+                //playAudio(String.valueOf(instrumentArrayList.get(position).getSampleFileName()));
             }
         });*/
     }
 
     private void initializePlaybackController() {
-        MediaPlayerAdapter mediaPlayerAdapter = new MediaPlayerAdapter(context);
+        MediaPlayerHandler mediaPlayerAdapter = new MediaPlayerHandler(context);
         Log.d("mediainfo", "initializePlaybackController: created MediaPlayerHolder");
         //mediaPlayerAdapter.setPlaybackInfoListener(new PlaybackListener());
-        playerAdapter = mediaPlayerAdapter;
+        playerHandler = mediaPlayerAdapter;
         Log.d("mediainfo", "initializePlaybackController: MediaPlayerHolder progress callback set");
     }
+
+
 
     /*
     private void initializeSeekbar() {

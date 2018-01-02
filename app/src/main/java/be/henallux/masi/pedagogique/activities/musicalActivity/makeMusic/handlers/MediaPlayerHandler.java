@@ -1,7 +1,6 @@
-package be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic;
+package be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers;
 
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.util.Log;
@@ -14,7 +13,7 @@ import java.util.concurrent.TimeUnit;
  * Created by hendrikdebeuf2 on 31/12/17.
  */
 
-public class MediaPlayerAdapter implements IMediaPlayerAdapter {
+public class MediaPlayerHandler implements IMediaPlayerHandler {
 
     public static final int PLAYBACK_POSITION_REFRESH_INTERVAL_MS = 1000;
 
@@ -25,7 +24,7 @@ public class MediaPlayerAdapter implements IMediaPlayerAdapter {
     private ScheduledExecutorService executor;
     private Runnable seekbarPositionUpdateTask;
 
-    public MediaPlayerAdapter(Context context) {
+    public MediaPlayerHandler(Context context) {
         this.context = context.getApplicationContext();
     }
 
@@ -159,7 +158,7 @@ public class MediaPlayerAdapter implements IMediaPlayerAdapter {
         );
     }
 
-    // Reports media playback position to mPlaybackProgressCallback.
+    // Reports media playback position to playbackProgressCallback.
     private void stopUpdatingCallbackWithPosition(boolean resetUIPlaybackPosition) {
         if (executor != null) {
             executor.shutdownNow();

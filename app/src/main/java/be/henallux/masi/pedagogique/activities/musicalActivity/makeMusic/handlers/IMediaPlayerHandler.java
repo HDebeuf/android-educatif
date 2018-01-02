@@ -1,4 +1,4 @@
-package be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic;
+package be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers;
 
 import android.net.Uri;
 
@@ -6,7 +6,7 @@ import android.net.Uri;
  * Created by hendrikdebeuf2 on 31/12/17.
  */
 
-public interface IMediaPlayerAdapter {
+public interface IMediaPlayerHandler {
 
     // Implements PlaybackControl.
     void loadMedia(Uri sampleUri);
