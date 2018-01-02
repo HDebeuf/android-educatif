@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import be.henallux.masi.pedagogique.R;
+import be.henallux.masi.pedagogique.activities.historyActivity.ConfirmLocationChosenDialogFragment.ConfirmLocationListener;
 import be.henallux.masi.pedagogique.activities.mapActivity.ActivityMapBase;
 import be.henallux.masi.pedagogique.activities.mapActivity.IMapActivityRepository;
 import be.henallux.masi.pedagogique.activities.mapActivity.Location;
@@ -28,7 +30,7 @@ import be.henallux.masi.pedagogique.utils.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MapHistoryActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapHistoryActivity extends FragmentActivity implements OnMapReadyCallback, ConfirmLocationListener {
 
     private GoogleMap mMap;
     private IMapActivityRepository repository;
@@ -121,5 +123,17 @@ public class MapHistoryActivity extends FragmentActivity implements OnMapReadyCa
                     chosenLocations.add(clickedLocation);
             }
         }
+    }
+
+    @Override
+    public void onConfirm() {
+        Intent intent = new Intent(this,FrescoActivity.class);
+        intent.putExtra(Constants.KEY_LOCATIONS_CHOSEN,chosenLocations);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onDismiss() {
+        Log.i("ok","ok");
     }
 }

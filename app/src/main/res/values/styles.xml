@@ -13,6 +13,7 @@
 
     <style name="DefaultBackgroundTheme" parent="AppTheme">
         <item name="android:windowBackground">@drawable/background</item>
+
     </style>
 
     <style name="ButtonThemeAccent" parent="Widget.AppCompat.Button.Colored">

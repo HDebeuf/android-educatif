@@ -73,11 +73,13 @@
         <activity
             android:name=".activities.musicalActivity.MakeMusicActivity"
             android:theme="@style/DefaultBackgroundTheme" />
-
         <service
             android:name=".activities.musicalActivity.makeMusic.MediaPlayerService"
             android:enabled="true"
             android:exported="true"></service>
+        <activity
+            android:name=".activities.historyActivity.FrescoActivity"
+            android:theme="@style/DefaultBackgroundTheme" />
     </application>
 
 </manifest>

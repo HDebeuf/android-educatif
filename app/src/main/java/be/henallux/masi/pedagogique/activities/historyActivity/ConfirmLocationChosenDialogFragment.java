@@ -47,18 +47,23 @@ public class ConfirmLocationChosenDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.map_activity_dialog_confirm, null);
+        final ConfirmLocationListener listener = (ConfirmLocationListener) getActivity();
         builder.setView(view)
                 .setPositiveButton(R.string.map_activity_dialog_finish_confirm, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int id) {}
+                    public void onClick(DialogInterface dialog, int id) {
+                        listener.onConfirm();
+                    }
                 })
                 .setNegativeButton(R.string.map_activity_dialog_finish_cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {}
+                    public void onClick(DialogInterface dialog, int id) {
+                        listener.onDismiss();
+                    }
                 });
 
         ArrayList<Location> locations = getArguments().getParcelableArrayList(Constants.KEY_LOCATIONS_CHOSEN);
 
-        RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.recyclerViewChosenLocations);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewChosenLocations);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         recyclerView.setAdapter(new LocationAdapter(locations));
         return builder.create();
@@ -75,7 +80,7 @@ public class ConfirmLocationChosenDialogFragment extends DialogFragment {
         @Override
         public LocationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             ConstraintLayout c = (ConstraintLayout) LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.fresco_item_layout,parent,false);
+                    .inflate(R.layout.location_chosen_item_layout,parent,false);
             viewHolder = new LocationViewHolder(c);
             return viewHolder;
         }
@@ -102,5 +107,10 @@ public class ConfirmLocationChosenDialogFragment extends DialogFragment {
             textViewName = itemView.findViewById(R.id.textViewName);
             imageViewIcon = itemView.findViewById(R.id.imageViewIcon);
         }
+    }
+
+    public interface ConfirmLocationListener{
+        void onConfirm();
+        void onDismiss();
     }
 }
