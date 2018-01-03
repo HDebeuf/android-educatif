@@ -22,6 +22,7 @@ import java.util.HashMap;
 
 import be.henallux.masi.pedagogique.R;
 import be.henallux.masi.pedagogique.activities.historyActivity.ConfirmLocationChosenDialogFragment.ConfirmLocationListener;
+import be.henallux.masi.pedagogique.activities.historyActivity.synthesis.Synthesis;
 import be.henallux.masi.pedagogique.activities.mapActivity.ActivityMapBase;
 import be.henallux.masi.pedagogique.activities.mapActivity.IMapActivityRepository;
 import be.henallux.masi.pedagogique.activities.mapActivity.Location;
@@ -37,6 +38,7 @@ public class MapHistoryActivity extends FragmentActivity implements OnMapReadyCa
     private ActivityMapBase activity;
     private HashMap<Marker,Location> hashMapMarkersLocation = new HashMap<>();
     private ArrayList<Location> chosenLocations = new ArrayList<>();
+
 
     @BindView(R.id.floatingActionButtonFinish)
     FloatingActionButton buttonFinish;
