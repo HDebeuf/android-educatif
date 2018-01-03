@@ -15,4 +15,6 @@ public interface ISoundPoolHandler {
 
     void playSample(int soundID);
 
+    void stopAllSamples(int nbSamples);
+
 }

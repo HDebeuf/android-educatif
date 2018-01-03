@@ -25,4 +25,8 @@ public interface IMediaPlayerHandler {
 
     void seekTo(int position);
 
+    int getCurrentPosition();
+
+    int getDuration();
+
 }
