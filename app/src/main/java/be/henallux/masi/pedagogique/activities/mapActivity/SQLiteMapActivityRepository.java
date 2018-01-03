@@ -11,6 +11,9 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
+import be.henallux.masi.pedagogique.activities.historyActivity.synthesis.Synthesis;
+import be.henallux.masi.pedagogique.dao.interfaces.ISynthesisRepository;
+import be.henallux.masi.pedagogique.dao.sqlite.SQLSynthesisRepository;
 import be.henallux.masi.pedagogique.dao.sqlite.SQLiteHelper;
 
 /**
@@ -20,9 +23,11 @@ import be.henallux.masi.pedagogique.dao.sqlite.SQLiteHelper;
 public class SQLiteMapActivityRepository implements IMapActivityRepository {
 
     private Context ctx;
+    private ISynthesisRepository synthesisRepository;
 
     public SQLiteMapActivityRepository(Context ctx) {
         this.ctx = ctx;
+        synthesisRepository = new SQLSynthesisRepository(ctx);
     }
 
     @Override
@@ -43,7 +48,10 @@ public class SQLiteMapActivityRepository implements IMapActivityRepository {
                 String locationName = cursor.getString(1);
                 LatLng lt = new LatLng(cursor.getDouble(2),cursor.getDouble(3));
                 Class classToThrow = java.lang.Class.forName(cursor.getString(4));
-                locations.add(new Location(idLocation,locationName,lt, classToThrow));
+                Location location = new Location(idLocation,locationName,lt, classToThrow, null);
+                ArrayList<Synthesis> synthesisArrayList = synthesisRepository.getAllSynthesisOfLocation(location);
+                location.setSynthesisArrayList(synthesisArrayList);
+                locations.add(location);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
@@ -108,7 +116,10 @@ public class SQLiteMapActivityRepository implements IMapActivityRepository {
             String locationName = cursor.getString(1);
             LatLng lt = new LatLng(cursor.getDouble(2),cursor.getDouble(3));
             Class classToThrow = java.lang.Class.forName(cursor.getString(4));
-            return new Location(idLocation,locationName,lt, classToThrow);
+            Location location = new Location(idLocation,locationName,lt, classToThrow, null);
+            ArrayList<Synthesis> synthesisArrayList = synthesisRepository.getAllSynthesisOfLocation(location);
+            location.setSynthesisArrayList(synthesisArrayList);
+            return location;
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             return null;

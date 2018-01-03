@@ -55,8 +55,6 @@ public class SQLSynthesisRepository implements ISynthesisRepository {
                 new String[]{String.valueOf(l.getId())},
                 null, null, null);
 
-
-
         cursor.moveToFirst();
 
         while(!cursor.isAfterLast()) {
@@ -68,7 +66,7 @@ public class SQLSynthesisRepository implements ISynthesisRepository {
                 url = new URL(urlString);
             } catch (MalformedURLException e) {
                 Log.e("malformedURL","Malformed URL : " + urlString);}
-            synthesises.add(new SynthesisVideo(id,text,url));
+            synthesises.add(new SynthesisVideo(id,text,url,l));
             cursor.moveToNext();
         }
 
@@ -96,7 +94,7 @@ public class SQLSynthesisRepository implements ISynthesisRepository {
                 url = new URL(urlString);
             } catch (MalformedURLException e) {
                 Log.e("malformedURL","Malformed URL : " + urlString);}
-            synthesises.add(new SynthesisImage(id,text,url));
+            synthesises.add(new SynthesisImage(id,text,url,l));
             cursor.moveToNext();
         }
 
@@ -124,7 +122,7 @@ public class SQLSynthesisRepository implements ISynthesisRepository {
                 url = new URL(urlString);
             } catch (MalformedURLException e) {
                 Log.e("malformedURL","Malformed URL : " + urlString);}
-            synthesises.add(new SynthesisWebView(id,text,url));
+            synthesises.add(new SynthesisWebView(id,text,url,l));
             cursor.moveToNext();
         }
 

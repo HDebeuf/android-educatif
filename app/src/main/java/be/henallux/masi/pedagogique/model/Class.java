@@ -3,7 +3,6 @@ package be.henallux.masi.pedagogique.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.github.javafaker.Faker;
 
 /**
  * Created by Le Roi Arthur on 17-12-17.
