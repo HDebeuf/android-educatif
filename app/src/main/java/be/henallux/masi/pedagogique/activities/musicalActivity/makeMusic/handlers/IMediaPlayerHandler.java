@@ -8,7 +8,6 @@ import android.net.Uri;
 
 public interface IMediaPlayerHandler {
 
-    // Implements PlaybackControl.
     void loadMedia(Uri sampleUri);
 
     void release();

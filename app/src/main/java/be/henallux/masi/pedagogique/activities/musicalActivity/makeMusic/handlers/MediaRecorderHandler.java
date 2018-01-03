@@ -1,36 +1,26 @@
 package be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers;
 
-import android.Manifest;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
 import android.net.Uri;
-import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Environment;
-import android.os.Handler;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import be.henallux.masi.pedagogique.activities.musicalActivity.MakeMusicActivity;
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.RecordAudio;
 
-import static android.support.v4.app.ShareCompat.getCallingActivity;
 
 /**
  * Created by hendrikdebeuf2 on 1/01/18.
+ *
+ * source: http://www.vogella.com/tutorials/AndroidMedia/article.html
  */
 
 public class MediaRecorderHandler implements IMediaRecorderHandler {
@@ -40,10 +30,7 @@ public class MediaRecorderHandler implements IMediaRecorderHandler {
     private boolean recordStatus = false;
     private int maxDuration = 30000;
     private File audiofile;
-    private String audioFilePath;
     private RecordAudio recordAudio;
-
-    private Timer timer;
 
     public MediaRecorderHandler(Context context, RecordAudio recordAudio) {
         this.context = context;
@@ -61,7 +48,7 @@ public class MediaRecorderHandler implements IMediaRecorderHandler {
             Log.e("mediaRecord", "sdcard access error");
             Log.e("mediaRecord", String.valueOf(e));
         }
-        audioFilePath = audiofile.getAbsolutePath();
+        String audioFilePath = audiofile.getAbsolutePath();
         recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
@@ -76,19 +63,16 @@ public class MediaRecorderHandler implements IMediaRecorderHandler {
         recordAudio.setFilePath(audioFilePath);
         recordAudio.setMaxDuration(maxDuration);
         recordTimer();
-        /*timer = new Timer();
-        timer.scheduleAtFixedRate(timerTask, 0, 1000);*/
     }
 
     public void stopRecording() {
-        //startButton.setEnabled(true);
         recorder.stop();
         recorder.release();
         addRecordingToMediaLibrary();
         recordStatus = false;
     }
 
-    protected void addRecordingToMediaLibrary() {
+    private void addRecordingToMediaLibrary() {
         ContentValues values = new ContentValues(4);
         long current = System.currentTimeMillis();
         values.put(MediaStore.Audio.Media.TITLE, "audio" + audiofile.getName());
@@ -101,33 +85,14 @@ public class MediaRecorderHandler implements IMediaRecorderHandler {
         Uri newUri = contentResolver.insert(base, values);
 
         context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, newUri));
-        Toast.makeText(context, "Added File " + newUri, Toast.LENGTH_LONG).show();
     }
 
     public boolean getRecordStatus() {
         return recordStatus;
     }
 
-    /*private TimerTask timerTask = new TimerTask() {
 
-        int time = 0;
-        @Override
-        public void run() {
-            Log.d("record2",String.valueOf(time));
-            recordAudio.setActualTimeMs(time);
-
-            recordAudio.setActualTime(milliSecondsToTimer(time));
-            recordAudio.setReverseActualTime(milliSecondsToTimer(maxDuration-time));
-            time = time + 1000;
-            Log.d("record2", String.valueOf(recordAudio.getActualTimeMs()));
-            if (time == maxDuration) {
-                stopRecording();
-            }
-        }
-    };*/
-
-
-    public void recordTimer(){
+    private void recordTimer(){
 
         new CountDownTimer(maxDuration, 200) {
 
@@ -153,30 +118,9 @@ public class MediaRecorderHandler implements IMediaRecorderHandler {
             }
         }.start();
 
-/*
-        Handler handler2 = new Handler();
-        Runnable runnable2 = new Runnable() {
-
-            int timer = 0;
-            public void run() {
-
-                Log.d("record2",String.valueOf(timer));
-                recordAudio.setActualTimeMs(timer);
-
-                recordAudio.setActualTime(milliSecondsToTimer(timer));
-                recordAudio.setReverseActualTime(milliSecondsToTimer(maxDuration-timer));
-                timer = timer + 1000;
-                Log.d("record2", String.valueOf(recordAudio.getActualTimeMs()));
-                if (timer == maxDuration) {
-                    stopRecording();
-                }
-            }
-        };
-        handler2.postDelayed(runnable2, 1000);  //for interval...
-*/
     }
 
-    public String milliSecondsToTimer(long milliseconds){
+    private String milliSecondsToTimer(long milliseconds){
         String finalTimerString = "";
         String secondsString = "";
 
@@ -197,7 +141,6 @@ public class MediaRecorderHandler implements IMediaRecorderHandler {
 
         finalTimerString = finalTimerString + minutes + ":" + secondsString;
 
-        // return timer string
         return finalTimerString;
     }
 

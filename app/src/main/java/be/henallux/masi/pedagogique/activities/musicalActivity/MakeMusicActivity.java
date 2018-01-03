@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.os.Looper;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +22,7 @@ import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.RecordA
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers.IMediaPlayerHandler;
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.Instrument;
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers.IMediaRecorderHandler;
+import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers.ISoundPoolHandler;
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers.MediaPlayerHandler;
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers.MediaRecorderHandler;
 import be.henallux.masi.pedagogique.adapters.InstrumentListAdapter;
@@ -32,11 +32,6 @@ import be.henallux.masi.pedagogique.utils.IPermissionsHandler;
 import be.henallux.masi.pedagogique.utils.PermissionsHandler;
 
 public class MakeMusicActivity extends AppCompatActivity {
-
-    private RecyclerView instrumentRecyclerView;
-    private RecyclerView.LayoutManager instrumentLayoutManager;
-    private RecyclerView.Adapter instrumentListAdapter;
-    private ArrayList<Instrument> instrumentArrayList;
 
     private FloatingActionButton recButton;
     private TextView actualTimeView;
@@ -54,6 +49,7 @@ public class MakeMusicActivity extends AppCompatActivity {
     private IMediaPlayerHandler playerHandler;
     private IMediaRecorderHandler recorderHandler;
     private IPermissionsHandler permissionHandler;
+    private ISoundPoolHandler soundPoolHandler;
 
     private RecordAudio recordAudioFile;
     private int maxDuration;
@@ -77,18 +73,17 @@ public class MakeMusicActivity extends AppCompatActivity {
 
         instrumentRepository = new SQLiteInstrumentRepository(getApplicationContext());
 
-        instrumentArrayList = instrumentRepository.getAllInstruments();
+        ArrayList<Instrument> instrumentArrayList = instrumentRepository.getAllInstruments();
 
-        instrumentRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_item_instruments);
+        RecyclerView instrumentRecyclerView = findViewById(R.id.recyclerview_item_instruments);
         instrumentRecyclerView.setHasFixedSize(true);
-        instrumentLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView.LayoutManager instrumentLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         instrumentRecyclerView.setLayoutManager(instrumentLayoutManager);
 
-        instrumentListAdapter = new InstrumentListAdapter(getApplicationContext(), instrumentArrayList);
+        RecyclerView.Adapter instrumentListAdapter = new InstrumentListAdapter(getApplicationContext(), instrumentArrayList);
         instrumentRecyclerView.setAdapter(instrumentListAdapter);
 
         initializeProgressBar();
-        //initializePlaybackController();
 
         recordAudioFile = new RecordAudio();
         recorderHandler = new MediaRecorderHandler(context, recordAudioFile);
@@ -113,7 +108,6 @@ public class MakeMusicActivity extends AppCompatActivity {
                     i++;
                     if (i % 2 != 0) {
                         try {
-                            Log.d("recordinfo", "rec");
                             recorderHandler.startRecording();
                             maxDuration = recordAudioFile.getMaxDuration();
                             recordBlink(recButton);
@@ -142,9 +136,10 @@ public class MakeMusicActivity extends AppCompatActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                recordAudioFile.getAudioFile().delete();
-                playerHandler.reset();
                 playerAdvancementHandler.removeCallbacks(runnable2);
+                playerHandler.reset();
+                recordAudioFile.getAudioFile().delete();
+
                 deleteButton.setVisibility(View.GONE);
                 playPauseButton.setVisibility(View.GONE);
                 saveButton.setVisibility(View.GONE);
@@ -156,7 +151,9 @@ public class MakeMusicActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 playerAdvancementHandler.removeCallbacks(runnable2);
+                playerHandler.reset();
                 recordAudioFile = new RecordAudio();
+
                 deleteButton.setVisibility(View.GONE);
                 playPauseButton.setVisibility(View.GONE);
                 saveButton.setVisibility(View.GONE);
@@ -321,42 +318,8 @@ public class MakeMusicActivity extends AppCompatActivity {
 
         finalTimerString = finalTimerString + minutes + ":" + secondsString;
 
-        // return timer string
         return finalTimerString;
     }
-
-    /*
-    public class PlaybackListener extends PlaybackInfoListener {
-
-        @Override
-        public void onDurationChanged(int duration) {
-            progressBar.setMax(duration);
-            Log.d("playback", String.format("setPlaybackDuration: setMax(%d)", duration));
-        }
-
-        @Override
-        public void onPositionChanged(int position) {
-            if (!userIsSeeking) {
-                progressBar.setProgress(position);
-                actualTimeView.setText(milliSecondsToTimer(position));
-                Log.d("playback", String.format("setPlaybackPosition: setProgress(%d)", position));
-            }
-        }
-
-        @Override
-        public void onStateChanged(@State int state) {
-            String stateToString = PlaybackInfoListener.convertStateToString(state);
-            onLogUpdated(String.format("onStateChanged(%s)", stateToString));
-        }
-
-        @Override
-        public void onPlaybackCompleted() {
-            playPauseButton.setImageResource(R.drawable.ic_play_arrow_24dp);
-            playerHandler.reset();
-        }
-
-
-    }*/
 
     @Override
     protected void onDestroy(){

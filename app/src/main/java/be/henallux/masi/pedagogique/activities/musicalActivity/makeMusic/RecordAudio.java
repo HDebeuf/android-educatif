@@ -21,11 +21,6 @@ public class RecordAudio implements Serializable {
 
     }
 
-    /*public RecordAudio(File audioFile, String filePath) {
-        this.audioFile = audioFile;
-        this.filePath = filePath;
-    }*/
-
     public File getAudioFile() {
         return audioFile;
     }
