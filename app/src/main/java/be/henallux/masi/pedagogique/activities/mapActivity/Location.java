@@ -7,6 +7,9 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.lang.*;
 import java.lang.Class;
+import java.util.ArrayList;
+
+import be.henallux.masi.pedagogique.activities.historyActivity.synthesis.Synthesis;
 
 /**
  * Created by Le Roi Arthur on 17-12-17.
@@ -18,12 +21,14 @@ public class Location implements Parcelable {
     private String title;
     private LatLng location;
     private java.lang.Class classToThrow; //The class that will be thrown in intent when the location is touched
+    private ArrayList<Synthesis> synthesisArrayList;
 
-    public Location(int id, String title, LatLng location, Class classToThrow) {
+    public Location(int id, String title, LatLng location, Class classToThrow, ArrayList<Synthesis> synthesisArrayList) {
         this.id = id;
         this.title = title;
         this.location = location;
         this.classToThrow = classToThrow;
+        this.synthesisArrayList = synthesisArrayList;
     }
 
     public String getTitle() {
@@ -54,15 +59,36 @@ public class Location implements Parcelable {
         return id;
     }
 
+    public ArrayList<Synthesis> getSynthesisArrayList() {
+        return synthesisArrayList;
+    }
+
+    public void setSynthesisArrayList(ArrayList<Synthesis> synthesisArrayList) {
+        this.synthesisArrayList = synthesisArrayList;
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof  Location)) return false;
+        return ((Location) obj).getId() == id;
+    }
 
     protected Location(Parcel in) {
         id = in.readInt();
         title = in.readString();
         location = (LatLng) in.readValue(LatLng.class.getClassLoader());
+        String classToThrowString = in.readString();
         try {
-            classToThrow = Class.forName(in.readString());
+            classToThrow = Class.forName(classToThrowString);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        }
+        if (in.readByte() == 0x01) {
+            synthesisArrayList = new ArrayList<Synthesis>();
+            in.readTypedList(synthesisArrayList, Synthesis.CREATOR);
+        } else {
+            synthesisArrayList = null;
         }
     }
 
@@ -77,6 +103,12 @@ public class Location implements Parcelable {
         dest.writeString(title);
         dest.writeValue(location);
         dest.writeString(classToThrow.getName());
+        if (synthesisArrayList == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeTypedList(synthesisArrayList);
+        }
     }
 
     @SuppressWarnings("unused")
@@ -91,10 +123,4 @@ public class Location implements Parcelable {
             return new Location[size];
         }
     };
-
-    @Override
-    public boolean equals(Object obj) {
-        if(!(obj instanceof  Location)) return false;
-        return ((Location) obj).getId() == id;
-    }
 }

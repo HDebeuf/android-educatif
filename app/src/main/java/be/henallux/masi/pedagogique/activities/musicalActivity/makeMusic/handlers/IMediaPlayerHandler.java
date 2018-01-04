@@ -8,7 +8,6 @@ import android.net.Uri;
 
 public interface IMediaPlayerHandler {
 
-    // Implements PlaybackControl.
     void loadMedia(Uri sampleUri);
 
     void release();
@@ -24,5 +23,9 @@ public interface IMediaPlayerHandler {
     void initializeProgressCallback();
 
     void seekTo(int position);
+
+    int getCurrentPosition();
+
+    int getDuration();
 
 }

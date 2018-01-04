@@ -11,18 +11,23 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Created by hendrikdebeuf2 on 31/12/17.
+ *
+ * source: https://github.com/googlesamples/android-SimpleMediaPlayer
  */
 
-public class MediaPlayerHandler implements IMediaPlayerHandler {
+public final class MediaPlayerHandler implements IMediaPlayerHandler {
 
-    public static final int PLAYBACK_POSITION_REFRESH_INTERVAL_MS = 1000;
+    private static final int PLAYBACK_POSITION_REFRESH_INTERVAL_MS = 1000;
 
     private final Context context;
     private MediaPlayer mediaPlayer;
-    private Uri sampleUri;
+    private Uri resourceUri;
     private PlaybackInfoListener playbackInfoListener;
     private ScheduledExecutorService executor;
     private Runnable seekbarPositionUpdateTask;
+
+    private int currentPosition;
+    private int duration;
 
     public MediaPlayerHandler(Context context) {
         this.context = context.getApplicationContext();
@@ -35,7 +40,6 @@ public class MediaPlayerHandler implements IMediaPlayerHandler {
                 @Override
                 public void onCompletion(MediaPlayer mediaPlayer) {
                     stopUpdatingCallbackWithPosition(true);
-                    Log.d("mediainfo","MediaPlayer playback completed");
                     if (playbackInfoListener != null) {
                         playbackInfoListener.onStateChanged(PlaybackInfoListener.State.COMPLETED);
                         playbackInfoListener.onPlaybackCompleted();
@@ -51,33 +55,30 @@ public class MediaPlayerHandler implements IMediaPlayerHandler {
 
     // Implements PlaybackControl.
     @Override
-    public void loadMedia(Uri sampleUri) {
-        this.sampleUri = sampleUri;
+    public void loadMedia(Uri resourceUri) {
+        this.resourceUri = resourceUri;
 
         initializeMediaPlayer();
 
+
         try {
-            Log.d("mediainfo", "load() {1. setDataSource}");
-            mediaPlayer.setDataSource(context, sampleUri);
+            mediaPlayer.setDataSource(context, resourceUri);
         } catch (Exception e) {
-            Log.d("mediainfo",e.toString());
+            Log.d("MediaPlayer", e.toString());
         }
 
         try {
-            Log.d("mediainfo", "load() {2. prepare}");
             mediaPlayer.prepare();
         } catch (Exception e) {
-            Log.d("mediainfo", e.toString());
+            Log.d("MediaPlayer", e.toString());
         }
 
         initializeProgressCallback();
-        Log.d("mediainfo", "initializeProgressCallback()");
     }
 
     @Override
     public void release() {
         if (mediaPlayer != null) {
-            Log.d("mediainfo", "release() and mediaPlayer = null");
             mediaPlayer.release();
             mediaPlayer = null;
         }
@@ -94,7 +95,7 @@ public class MediaPlayerHandler implements IMediaPlayerHandler {
     @Override
     public void play() {
         if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
-            Log.d("mediainfo", String.format("playbackStart() %s", sampleUri));
+
             mediaPlayer.start();
             if (playbackInfoListener != null) {
                 playbackInfoListener.onStateChanged(PlaybackInfoListener.State.PLAYING);
@@ -106,9 +107,8 @@ public class MediaPlayerHandler implements IMediaPlayerHandler {
     @Override
     public void reset() {
         if (mediaPlayer != null) {
-            Log.d("mediainfo","playbackReset()");
             mediaPlayer.reset();
-            loadMedia(sampleUri);
+            loadMedia(resourceUri);
             if (playbackInfoListener != null) {
                 playbackInfoListener.onStateChanged(PlaybackInfoListener.State.RESET);
             }
@@ -123,21 +123,16 @@ public class MediaPlayerHandler implements IMediaPlayerHandler {
             if (playbackInfoListener != null) {
                 playbackInfoListener.onStateChanged(PlaybackInfoListener.State.PAUSED);
             }
-            Log.d("mediainfo","playbackPause()");
         }
     }
 
     @Override
     public void seekTo(int position) {
         if (mediaPlayer != null) {
-            Log.d("mediainfo",String.format("seekTo() %d ms", position));
             mediaPlayer.seekTo(position);
         }
     }
 
-    /**
-     * Syncs the mediaPlayer position with playbackProgressCallback via recurring task.
-     */
     private void startUpdatingCallbackWithPosition() {
         if (executor == null) {
             executor = Executors.newSingleThreadScheduledExecutor();
@@ -158,7 +153,7 @@ public class MediaPlayerHandler implements IMediaPlayerHandler {
         );
     }
 
-    // Reports media playback position to playbackProgressCallback.
+    // Reports media playback position to mPlaybackProgressCallback.
     private void stopUpdatingCallbackWithPosition(boolean resetUIPlaybackPosition) {
         if (executor != null) {
             executor.shutdownNow();
@@ -172,7 +167,7 @@ public class MediaPlayerHandler implements IMediaPlayerHandler {
 
     private void updateProgressCallbackTask() {
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-            int currentPosition = mediaPlayer.getCurrentPosition();
+            currentPosition = mediaPlayer.getCurrentPosition();
             if (playbackInfoListener != null) {
                 playbackInfoListener.onPositionChanged(currentPosition);
             }
@@ -181,14 +176,18 @@ public class MediaPlayerHandler implements IMediaPlayerHandler {
 
     @Override
     public void initializeProgressCallback() {
-        final int duration = mediaPlayer.getDuration();
+        duration = mediaPlayer.getDuration();
         if (playbackInfoListener != null) {
             playbackInfoListener.onDurationChanged(duration);
             playbackInfoListener.onPositionChanged(0);
-            Log.d("mediainfo",String.format("firing setPlaybackDuration(%d sec)",
-                    TimeUnit.MILLISECONDS.toSeconds(duration)));
-            Log.d("mediainfo","firing setPlaybackPosition(0)");
         }
     }
 
+    public int getCurrentPosition() {
+        return currentPosition;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
 }

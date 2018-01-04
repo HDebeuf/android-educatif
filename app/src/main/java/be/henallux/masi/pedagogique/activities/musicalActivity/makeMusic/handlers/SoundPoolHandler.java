@@ -3,20 +3,20 @@ package be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handle
 import android.content.Context;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
-import android.net.rtp.AudioStream;
 import android.util.Log;
 
-import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers.ISoundPoolHandler;
+import java.util.ArrayList;
 
 /**
  * Created by hendrikdebeuf2 on 1/01/18.
+ *
+ * source: http://www.vogella.com/tutorials/AndroidMedia/article.html
  */
 
 public class SoundPoolHandler implements ISoundPoolHandler {
 
     private Context context;
     private SoundPool soundPool;
-    private int soundID;
     private boolean loaded;
 
     public SoundPoolHandler(Context context) {
@@ -45,14 +45,15 @@ public class SoundPoolHandler implements ISoundPoolHandler {
                 loaded = true;
             }
         });
-        soundID = soundPool.load(context, resourceID,1);
+
+        int soundID = soundPool.load(context, resourceID, 1);
         return soundID;
     }
 
     public void playSample(int soundID){
         if (loaded) {
             soundPool.play(soundID, 1,1,1,0,1f);
-            Log.e("Test", "Played sound");
         }
     }
+
 }

@@ -14,6 +14,7 @@ import be.henallux.masi.pedagogique.dao.interfaces.IInstrumentRepository;
 
 /**
  * Created by hendrikdebeuf2 on 30/12/17.
+ * modified by Angèle Guillon on 04/01/18.
  */
 
 public class SQLiteInstrumentRepository implements IInstrumentRepository {
@@ -66,8 +67,34 @@ public class SQLiteInstrumentRepository implements IInstrumentRepository {
     }
 
     @Override
-    public Instrument getOneInstrument(int id) {
-        return null;
+    public Instrument getOneInstrument(int idlocation) {
+        SQLiteDatabase db = SQLiteHelper.getDatabaseInstance(context);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+InstrumentEntity.TABLE+" WHERE "+InstrumentEntity.COLUMN_FK_LOCATION+" = '"+idlocation+"'ex", null);
+        Instrument instrument = new Instrument();
+
+        cursor.moveToFirst();
+
+        while(!cursor.isAfterLast()) {
+            int id = cursor.getInt(0);
+            String name = cursor.getString(1);
+            String description = cursor.getString(2);
+            String uriImageString = cursor.getString(3);
+            Uri uriImage = null;
+            if(!TextUtils.isEmpty(uriImageString)){
+                uriImage = Uri.parse(uriImageString);
+            }
+
+
+            int locationId = cursor.getInt(6);
+
+            instrument = new Instrument(id, locationId, name, description, uriImage);
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+        return instrument;
+
+
     }
 
 

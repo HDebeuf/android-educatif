@@ -14,6 +14,9 @@ public class Instrument {
     private Uri imagePath;
     private String sampleFileName;
     private boolean isUnlocked;
+    private int soundId;
+
+    public  Instrument() {}
 
     public Instrument(int id, int locationId, String name, Uri imagePath, String sampleFileName, boolean isUnlocked) {
         this.id = id;
@@ -88,6 +91,12 @@ public class Instrument {
         isUnlocked = unlocked;
     }
 
+    public int getSoundId() {
+        return soundId;
+    }
 
+    public void setSoundId(int soundId) {
+        this.soundId = soundId;
+    }
 }
 

@@ -17,6 +17,7 @@ import com.google.common.hash.Hashing;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
+import com.squareup.picasso.Picasso;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -60,7 +61,6 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_prompt);
         ButterKnife.bind(this);
-
         repository = new SQLiteUserRepository(getApplicationContext());
 
         validator = new Validator(this);

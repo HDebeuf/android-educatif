@@ -77,6 +77,21 @@
         app:layout_constraintStart_toEndOf="@+id/recButton"
         app:srcCompat="@drawable/ic_done_white_24dp" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/playPauseButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:clickable="true"
+        android:onClick="recording"
+        app:backgroundTint="@color/colorPrimary"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_play_arrow_24dp" />
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
@@ -89,7 +104,7 @@
             android:id="@+id/endTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/seekBar"
+            android:layout_above="@+id/progressBar"
             android:layout_margin="8dp"
             android:text="00:30"
             android:textColor="@color/colorAccent"
@@ -100,7 +115,7 @@
             android:id="@+id/currentTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/seekBar"
+            android:layout_above="@+id/progressBar"
             android:padding="8dp"
             android:text="00:00"
             android:textColor="@color/colorAccent"
@@ -108,7 +123,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <SeekBar
-            android:id="@+id/seekBar"
+            android:id="@+id/progressBar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"

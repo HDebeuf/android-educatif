@@ -11,7 +11,6 @@ import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.Instrum
 public interface IInstrumentRepository {
     ArrayList<Instrument> getAllInstruments ();
 
-    // faire une méthode pour debloquer un seul insutrument
     Instrument getOneInstrument(int id);
 
     // ...;

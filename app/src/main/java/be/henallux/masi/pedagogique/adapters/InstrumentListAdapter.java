@@ -64,9 +64,6 @@ public class InstrumentListAdapter extends RecyclerView.Adapter<InstrumentListAd
         holder.instrumentName.setText(instrumentArrayList.get(position).getName());
         Picasso.with(context).load(instrumentArrayList.get(position).getImagePath()).into(holder.instrumentImage);
 
-
-        //player = MediaPlayer.create(context, instrumentArrayList.get(position).getSampleFileName());
-
         holder.lockedImage.setImageResource(R.drawable.ic_locked);
         Log.d("mediainfo",String.valueOf(instrumentArrayList.get(position).isUnlocked()));
         Log.d("mediainfo",String.valueOf(instrumentArrayList.get(position).getSampleFileName()));
@@ -127,7 +124,6 @@ public class InstrumentListAdapter extends RecyclerView.Adapter<InstrumentListAd
             lockedImage = itemView.findViewById(R.id.locked);
 
         }
-
     }
 
     private void openContinentQuizz (int locationId){
@@ -135,62 +131,5 @@ public class InstrumentListAdapter extends RecyclerView.Adapter<InstrumentListAd
         intent.putExtra(Constants.KEY_LOCATION_CLICKED,locationId);
         context.startActivity(intent);
     }
-
-    /*public class PlaybackListener extends PlaybackInfoListener {
-
-        @Override
-        public void onDurationChanged(int duration) {
-            mSeekbarAudio.setMax(duration);
-            Log.d(TAG, String.format("setPlaybackDuration: setMax(%d)", duration));
-        }
-
-        @Override
-        public void onPositionChanged(int position) {
-            if (!mUserIsSeeking) {
-                mSeekbarAudio.setProgress(position, true);
-                Log.d(TAG, String.format("setPlaybackPosition: setProgress(%d)", position));
-            }
-        }
-
-        @Override
-        public void onStateChanged(@State int state) {
-            String stateToString = PlaybackInfoListener.convertStateToString(state);
-            onLogUpdated(String.format("onStateChanged(%s)", stateToString));
-        }
-
-        @Override
-        public void onPlaybackCompleted() {
-        }
-
-        @Override
-        public void onLogUpdated(String message) {
-            if (mTextDebug != null) {
-                mTextDebug.append(message);
-                mTextDebug.append("\n");
-                // Moves the scrollContainer focus to the end.
-                mScrollContainer.post(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                mScrollContainer.fullScroll(ScrollView.FOCUS_DOWN);
-                            }
-                        });
-            }
-        }
-    }*/
-
-    /*
-    private void playAudio(String media) {
-        //Check is service is active
-        if (!serviceBound) {
-            Intent playerIntent = new Intent(context, MediaPlayerService.class);
-            playerIntent.putExtra("media", media);
-            context.startService(playerIntent);
-            context.bindService(playerIntent, MakeMusicActivity.serviceConnection, Context.BIND_AUTO_CREATE);
-        } else {
-            //Service is active
-            //Send media with BroadcastReceiver
-        }
-        */
 }
 

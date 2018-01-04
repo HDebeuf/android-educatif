@@ -24,7 +24,6 @@ public class LocationInfoActivity extends AppCompatActivity {
 
     @BindView(R.id.floatingActionButtonAddLocation)
     public FloatingActionButton floatingActionButtonAdd;
-    private IMapActivityRepository mapRepository = new SQLiteMapActivityRepository(this);
     private ISynthesisRepository synthesisRepository = new SQLSynthesisRepository(this);
     private Location clickedLocation;
     private boolean isInDeleteMode;

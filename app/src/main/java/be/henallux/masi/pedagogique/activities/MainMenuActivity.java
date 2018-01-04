@@ -77,13 +77,13 @@ public class MainMenuActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ActivityViewHolder holder, int position) {
-            final Activity act = activities.get(position);
-            holder.buttonStart.setText(act.getName());
+            final Activity educativeActivity = activities.get(position);
+            holder.buttonStart.setText(educativeActivity.getName());
             holder.buttonStart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(MainMenuActivity.this,act.getAssociatedClass());
-                    intent.putExtra(Constants.ACTIVITY_KEY,act);
+                    Intent intent = new Intent(MainMenuActivity.this,educativeActivity.getAssociatedClass());
+                    intent.putExtra(Constants.ACTIVITY_KEY,educativeActivity);
                     startActivity(intent);
                 }
             });
@@ -102,7 +102,7 @@ public class MainMenuActivity extends AppCompatActivity {
                 public void onPrepareLoad(Drawable placeHolderDrawable) {}
             };
             Picasso.with(MainMenuActivity.this)
-                    .load(act.getUriIcon())
+                    .load(educativeActivity.getUriIcon())
                     .resize(90, 90)
                     .onlyScaleDown()
                     .into(target);
