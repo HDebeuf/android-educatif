@@ -106,7 +106,8 @@ public class SQLiteUserRepository implements IUserRepository{
         ContentValues values = new ContentValues();
         values.put(UserEntity.COLUMN_FIRSTNAME,u.getFirstName());
         values.put(UserEntity.COLUMN_LASTNAME,u.getLastName());
-        values.put(UserEntity.COLUMN_URI_AVATAR,u.getAvatarUri().toString());
+        String stringUri = u.getAvatarUri() ==  null ? null : u.getAvatarUri().toString();
+        values.put(UserEntity.COLUMN_URI_AVATAR,stringUri);
         values.put(UserEntity.COLUMN_USERNAME,u.getFirstName()+u.getLastName());
         values.put(UserEntity.COLUMN_GENDER,u.getGender());
         values.put(UserEntity.COLUMN_FK_CATEGORY,u.getCategory().getId());

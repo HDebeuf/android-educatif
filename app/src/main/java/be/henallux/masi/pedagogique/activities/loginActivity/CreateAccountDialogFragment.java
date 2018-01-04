@@ -48,6 +48,9 @@ import be.henallux.masi.pedagogique.dao.interfaces.IUserRepository;
 import be.henallux.masi.pedagogique.dao.sqlite.SQLiteCategoryRepository;
 import be.henallux.masi.pedagogique.dao.sqlite.SQLiteClassRepository;
 import be.henallux.masi.pedagogique.dao.sqlite.SQLiteUserRepository;
+import be.henallux.masi.pedagogique.model.Category;
+import be.henallux.masi.pedagogique.model.Class;
+import be.henallux.masi.pedagogique.model.User;
 import be.henallux.masi.pedagogique.utils.Constants;
 
 import static android.app.Activity.RESULT_OK;
@@ -76,6 +79,7 @@ public class CreateAccountDialogFragment extends DialogFragment implements Valid
     private Spinner spinnerGender;
     private Spinner spinnerClass;
     private Spinner spinnerCategory;
+    private Uri avatarUri;
 
 
     public static CreateAccountDialogFragment newInstance() {
@@ -185,7 +189,7 @@ public class CreateAccountDialogFragment extends DialogFragment implements Valid
         }
 
         // Save a file: path for use with ACTION_VIEW intents
-        Uri uri = Uri.fromFile(image);
+        avatarUri = Uri.fromFile(image);
     }
 
     public Uri getImageUri(Bitmap inImage) {
@@ -198,6 +202,15 @@ public class CreateAccountDialogFragment extends DialogFragment implements Valid
     @Override
     public void onValidationSucceeded() {
         listener.onConfirm();
+        String firstName = firstNameEditText.getText().toString();
+        String lastName = lastNameEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
+        Constants.Gender gender = Constants.Gender.values()[spinnerGender.getSelectedItemPosition()];
+        Class userClass = (Class)spinnerClass.getSelectedItem();
+        Category userCategory = (Category)spinnerCategory.getSelectedItem();
+
+        User user = User.prepareUserForInsert(firstName,lastName,gender.ordinal(),avatarUri,userClass,userCategory);
+        userRepository.insertUser(user,password);
         this.dismiss();
     }
 

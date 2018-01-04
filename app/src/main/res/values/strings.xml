@@ -33,8 +33,8 @@
     <string name="no_account_yet">Pas encore de compte ?</string>
     <string name="create_account_firstname">Prénom</string>
     <string name="create_account_lastname">Nom</string>
-    <string name="gender_male">garçon</string>
-    <string name="gender_female">fille</string>
+    <string name="gender_male">Garçon</string>
+    <string name="gender_female">Fille</string>
     <string name="gender_other">Autre</string>
 
 </resources>

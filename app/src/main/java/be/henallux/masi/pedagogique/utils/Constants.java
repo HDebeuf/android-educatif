@@ -33,6 +33,11 @@ public class Constants {
     }
 
     public static ArrayList<String> getGendersList(Context ctx){
+
+        //CHANGE WITH CAUTION !
+        //The order of the arraylist must always be the exact same as the enum order
+        //Some forms depends on it
+
         ArrayList<String> genders = new ArrayList<>();
         genders.add(ctx.getString(R.string.gender_male));
         genders.add(ctx.getString(R.string.gender_female));
