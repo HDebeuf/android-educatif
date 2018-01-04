@@ -1,6 +1,7 @@
 package be.henallux.masi.pedagogique.activities.musicalActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -47,6 +48,14 @@ public class MusicalActivity extends AppCompatActivity {
         ImageView imgmusic = (ImageView) findViewById(R.id.imageInstrument);
         Picasso.with(context).load(instrument.getImagePath()).into(imgmusic);
 
+    }
+    private void openSongEditor() {
+        Intent intent = new Intent(this, MakeMusicActivity.class);
+        startActivity(intent);
+    }
+    private void openQuestionnaire() {
+        Intent intent = new Intent(this, MusicalQuestionnaire.class);
+        startActivity(intent);
     }
 
 }
