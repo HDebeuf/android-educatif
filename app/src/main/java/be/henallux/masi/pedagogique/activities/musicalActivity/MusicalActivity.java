@@ -1,9 +1,12 @@
 package be.henallux.masi.pedagogique.activities.musicalActivity;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import be.henallux.masi.pedagogique.R;
 import be.henallux.masi.pedagogique.activities.mapActivity.IMapActivityRepository;
@@ -19,12 +22,15 @@ public class MusicalActivity extends AppCompatActivity {
     private IMapActivityRepository repository = new SQLiteMapActivityRepository(this);
     private IInstrumentRepository instrumentRepository;
     private Instrument instrument = new Instrument();
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_musical);
+
+        context = getApplicationContext();
 
         int idLocationClicked = getIntent().getExtras().getInt(Constants.KEY_LOCATION_CLICKED);
         Location clickedLocation = repository.getLocationById(idLocationClicked);
@@ -39,7 +45,7 @@ public class MusicalActivity extends AppCompatActivity {
         description.setText(instrument.getDescription());
 
         ImageView instru = (ImageView) findViewById(R.id.instrumentImage);
-        //instru.getDrawable(instrument.getImagePath());
+        Picasso.with(context).load(instrument.getImagePath()).into(instru);
 
     }
 
