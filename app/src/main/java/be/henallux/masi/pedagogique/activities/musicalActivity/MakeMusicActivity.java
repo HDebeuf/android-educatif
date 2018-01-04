@@ -174,6 +174,7 @@ public class MakeMusicActivity extends AppCompatActivity {
                 } else {
                     playerHandler.pause();
                     playPauseButton.setImageResource(R.drawable.ic_play_arrow_24dp);
+                    playerAdvancementHandler.removeCallbacks(runnable2);
                 }
 
             }
