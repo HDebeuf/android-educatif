@@ -69,7 +69,7 @@ public class SQLiteInstrumentRepository implements IInstrumentRepository {
     @Override
     public Instrument getOneInstrument(int idlocation) {
         SQLiteDatabase db = SQLiteHelper.getDatabaseInstance(context);
-        Cursor cursor = db.rawQuery("SELECT * FROM "+InstrumentEntity.TABLE+" WHERE "+InstrumentEntity.COLUMN_FK_LOCATION+" = '"+idlocation+"'ex", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+InstrumentEntity.TABLE+" WHERE "+InstrumentEntity.COLUMN_FK_LOCATION+" = '"+idlocation+"'", null);
         Instrument instrument = new Instrument();
 
         cursor.moveToFirst();

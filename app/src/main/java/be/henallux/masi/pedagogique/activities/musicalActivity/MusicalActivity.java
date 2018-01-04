@@ -36,7 +36,7 @@ public class MusicalActivity extends AppCompatActivity {
         Location clickedLocation = repository.getLocationById(idLocationClicked);
 
         instrumentRepository = new SQLiteInstrumentRepository(getApplicationContext());
-        instrument = instrumentRepository.getOneInstrument(idLocationClicked);
+        instrument = instrumentRepository.getOneInstrument(clickedLocation.getId());
 
         TextView hello = (TextView) findViewById(R.id.TextHello);
         hello.setText("Bonjour et Bienvenue en "+clickedLocation.getTitle());
@@ -44,8 +44,8 @@ public class MusicalActivity extends AppCompatActivity {
         TextView description = (TextView) findViewById(R.id.descriptionText);
         description.setText(instrument.getDescription());
 
-        ImageView instru = (ImageView) findViewById(R.id.instrumentImage);
-        Picasso.with(context).load(instrument.getImagePath()).into(instru);
+        ImageView imgmusic = (ImageView) findViewById(R.id.imageInstrument);
+        Picasso.with(context).load(instrument.getImagePath()).into(imgmusic);
 
     }
 
