@@ -498,7 +498,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         uriIcon = Uri.parse("android.resource://" + context.getPackageName() + "/drawable/ic_instrument_africa");
         values.put(InstrumentEntity.COLUMN_IMAGE_PATH, uriIcon.toString());
         values.put(InstrumentEntity.COLUMN_SAMPLE_FILE_NAME, "djembe_sample2");
-        values.put(InstrumentEntity.COLUMN_UNLOCKED, "1");
+        values.put(InstrumentEntity.COLUMN_UNLOCKED, "0");
         database.insert(InstrumentEntity.TABLE, null, values);
 
         //endregion
