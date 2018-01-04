@@ -1,5 +1,6 @@
 package be.henallux.masi.pedagogique.dao.sqlite;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,7 +15,7 @@ import be.henallux.masi.pedagogique.model.User;
 import be.henallux.masi.pedagogique.utils.ICryptographyService;
 import be.henallux.masi.pedagogique.utils.SHA256CryptographyService;
 
-/**
+/**S
  * Created by Le Roi Arthur on 28-12-17.
  */
 
@@ -27,10 +28,6 @@ public class SQLiteUserRepository implements IUserRepository{
     public SQLiteUserRepository(Context context) {
         this.context = context;
         this.cryptographyService = new SHA256CryptographyService();
-        getDB();
-    }
-
-    public void getDB(){
         this.db = SQLiteHelper.getDatabaseInstance(this.context);
     }
 
@@ -102,5 +99,21 @@ public class SQLiteUserRepository implements IUserRepository{
         {
             return null;
         }
+    }
+
+    @Override
+    public User insertUser(User u, String password) {
+        ContentValues values = new ContentValues();
+        values.put(UserEntity.COLUMN_FIRSTNAME,u.getFirstName());
+        values.put(UserEntity.COLUMN_LASTNAME,u.getLastName());
+        values.put(UserEntity.COLUMN_URI_AVATAR,u.getAvatarUri().toString());
+        values.put(UserEntity.COLUMN_USERNAME,u.getFirstName()+u.getLastName());
+        values.put(UserEntity.COLUMN_GENDER,u.getGender());
+        values.put(UserEntity.COLUMN_FK_CATEGORY,u.getCategory().getId());
+        values.put(UserEntity.COLUMN_FK_CLASS,u.get_class().getId());
+        values.put(UserEntity.COLUMN_PASSWORDHASH,cryptographyService.hashPassword(password));
+        int idUser = (int) db.insert(UserEntity.TABLE, null, values);
+        u.setId(idUser);
+        return u;
     }
 }

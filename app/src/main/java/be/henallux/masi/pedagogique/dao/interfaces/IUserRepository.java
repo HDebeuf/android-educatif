@@ -9,4 +9,5 @@ import be.henallux.masi.pedagogique.model.User;
 public interface IUserRepository {
     User getUserByUsername(String username);
     User accessGranted(String username, String password);
+    User insertUser(User u, String password);
 }

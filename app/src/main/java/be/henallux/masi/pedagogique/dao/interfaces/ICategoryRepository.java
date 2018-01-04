@@ -12,4 +12,5 @@ import be.henallux.masi.pedagogique.model.User;
 public interface ICategoryRepository {
     Category getCategoryById(int id);
     ArrayList<User> getAllUsersOfCategory(Category c);
+    ArrayList<Category> getAllCategories();
 }

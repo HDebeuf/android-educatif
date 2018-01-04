@@ -26,6 +26,14 @@ public class Class implements Parcelable {
         this.descritpion = descritpion;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     protected Class(Parcel in) {
         id = in.readByte() == 0x00 ? null : in.readInt();
         descritpion = in.readString();
@@ -59,4 +67,9 @@ public class Class implements Parcelable {
             return new Class[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return descritpion;
+    }
 }

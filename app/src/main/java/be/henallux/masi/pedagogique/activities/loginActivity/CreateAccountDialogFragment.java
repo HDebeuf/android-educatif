@@ -17,10 +17,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.mobsandgeeks.saripaar.ValidationError;
@@ -39,6 +42,12 @@ import java.util.List;
 import be.henallux.masi.pedagogique.R;
 import be.henallux.masi.pedagogique.activities.historyActivity.ConfirmLocationChosenDialogFragment;
 import be.henallux.masi.pedagogique.activities.mapActivity.Location;
+import be.henallux.masi.pedagogique.dao.interfaces.ICategoryRepository;
+import be.henallux.masi.pedagogique.dao.interfaces.IClassRepository;
+import be.henallux.masi.pedagogique.dao.interfaces.IUserRepository;
+import be.henallux.masi.pedagogique.dao.sqlite.SQLiteCategoryRepository;
+import be.henallux.masi.pedagogique.dao.sqlite.SQLiteClassRepository;
+import be.henallux.masi.pedagogique.dao.sqlite.SQLiteUserRepository;
 import be.henallux.masi.pedagogique.utils.Constants;
 
 import static android.app.Activity.RESULT_OK;
@@ -51,6 +60,9 @@ public class CreateAccountDialogFragment extends DialogFragment implements Valid
 
     private ImageButton addAvatar;
     private ImageView thumbNail;
+    private IUserRepository userRepository = new SQLiteUserRepository(this.getActivity());
+    private IClassRepository classRepository = new SQLiteClassRepository(this.getActivity());
+    private ICategoryRepository categoryRepository = new SQLiteCategoryRepository(this.getActivity());
 
     @NotEmpty(messageResId = R.string.error_field_required)
     EditText firstNameEditText;
@@ -61,6 +73,9 @@ public class CreateAccountDialogFragment extends DialogFragment implements Valid
 
     private CreateAccountListener listener;
     private Validator validator;
+    private Spinner spinnerGender;
+    private Spinner spinnerClass;
+    private Spinner spinnerCategory;
 
 
     public static CreateAccountDialogFragment newInstance() {
@@ -110,6 +125,11 @@ public class CreateAccountDialogFragment extends DialogFragment implements Valid
         passwordEditText = view.findViewById(R.id.passwordEditText);
         thumbNail = view.findViewById(R.id.thumbnail);
         addAvatar = view.findViewById(R.id.imageButtonAddPicture);
+        spinnerCategory = view.findViewById(R.id.spinnerCategory);
+        spinnerClass = view.findViewById(R.id.spinnerClass);
+        spinnerGender = view.findViewById(R.id.spinnerGender);
+
+        populateSpinners();
 
         addAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,6 +141,17 @@ public class CreateAccountDialogFragment extends DialogFragment implements Valid
             }
         });
         return builder.create();
+    }
+
+    private void populateSpinners() {
+        ArrayAdapter spinnerClassAdapter = new ArrayAdapter(getActivity(), R.layout.support_simple_spinner_dropdown_item,classRepository.getAllClasses());
+        spinnerClass.setAdapter(spinnerClassAdapter);
+
+        ArrayAdapter spinnerGenderAdapter = new ArrayAdapter(getActivity(), R.layout.support_simple_spinner_dropdown_item,Constants.getGendersList(this.getActivity()));
+        spinnerGender.setAdapter(spinnerGenderAdapter);
+
+        ArrayAdapter spinnerCategoryAdapter = new ArrayAdapter(getActivity(), R.layout.support_simple_spinner_dropdown_item,categoryRepository.getAllCategories());
+        spinnerCategory.setAdapter(spinnerCategoryAdapter);
     }
 
     @Override

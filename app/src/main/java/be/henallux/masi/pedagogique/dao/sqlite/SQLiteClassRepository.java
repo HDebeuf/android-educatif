@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import java.util.ArrayList;
 
 import be.henallux.masi.pedagogique.dao.interfaces.IClassRepository;
+import be.henallux.masi.pedagogique.dao.sqlite.entities.CategoryEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.ClassEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.UserEntity;
 import be.henallux.masi.pedagogique.model.Category;
@@ -45,5 +46,26 @@ public class SQLiteClassRepository implements IClassRepository {
         cursor.close();
 
         return foundClass;
+    }
+
+    @Override
+    public ArrayList<Class> getAllClasses() {
+        SQLiteDatabase database = SQLiteHelper.getDatabaseInstance(context);
+        ArrayList<Class> classes = new ArrayList<>();
+        Cursor cursor = database.query(ClassEntity.TABLE,
+                new String[]{ClassEntity.COLUMN_ID,
+                        ClassEntity.COLUMN_DESCRIPTION},
+                null, null, null, null, null);
+        cursor.moveToFirst();
+
+        while (!cursor.isAfterLast()) {
+            int id = cursor.getInt(0);
+            String description = cursor.getString(1);
+            classes.add(new Class(id,description));
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+        return classes;
     }
 }
