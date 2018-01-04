@@ -18,4 +18,5 @@ public class Constants {
     public static final String RESULT_DATA_HAS_CHOOSEN_LOCATION = "Has_choosen_location";
 
     public static final String KEY_IS_IN_DELETE_MODE = "Is_in_delete_mode";
+    public static final int REQUEST_IMAGE_CAPTURE = 0x984a;
 }
