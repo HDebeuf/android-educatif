@@ -65,6 +65,10 @@ public class SQLiteInstrumentRepository implements IInstrumentRepository {
 
     }
 
+    @Override
+    public Instrument getOneInstrument(int id) {
+        return null;
+    }
 
 
 }
