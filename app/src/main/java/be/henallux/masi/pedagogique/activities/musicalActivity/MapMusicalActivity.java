@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import be.henallux.masi.pedagogique.R;
-import be.henallux.masi.pedagogique.activities.groupCreation.GroupCreationActivity;
-import be.henallux.masi.pedagogique.activities.historyActivity.ConfirmLocationChosenDialogFragment;
 import be.henallux.masi.pedagogique.activities.mapActivity.ActivityMapBase;
 import be.henallux.masi.pedagogique.activities.mapActivity.IMapActivityRepository;
 import be.henallux.masi.pedagogique.activities.mapActivity.Location;
@@ -72,6 +70,7 @@ public class MapMusicalActivity extends FragmentActivity implements OnMapReadyCa
 
     private void openSongEditor() {
         Intent intent = new Intent(this, MakeMusicActivity.class);
+        intent.putExtra(Constants.ACTIVITY_KEY,MakeMusicActivity.class);
         startActivity(intent);
     }
 
@@ -95,6 +94,7 @@ public class MapMusicalActivity extends FragmentActivity implements OnMapReadyCa
                     .title(l.getTitle());
             Marker m = mMap.addMarker(opts);
 
+
             hashMapMarkersLocation.put(m,l);
         }
 
@@ -108,5 +108,9 @@ public class MapMusicalActivity extends FragmentActivity implements OnMapReadyCa
                 return true;
             }
         });
+    }
+
+    public ActivityMapBase getActivity() {
+        return activity;
     }
 }

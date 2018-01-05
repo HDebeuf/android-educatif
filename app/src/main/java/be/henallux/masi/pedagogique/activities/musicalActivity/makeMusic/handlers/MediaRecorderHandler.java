@@ -66,7 +66,11 @@ public class MediaRecorderHandler implements IMediaRecorderHandler {
     }
 
     public void stopRecording() {
-        recorder.stop();
+        try {
+            recorder.stop();
+        } catch (RuntimeException e){
+            Log.e("StopRecord", "Stopped too quickly");
+        }
         recorder.release();
         addRecordingToMediaLibrary();
         recordStatus = false;

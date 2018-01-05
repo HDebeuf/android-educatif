@@ -16,9 +16,11 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import be.henallux.masi.pedagogique.R;
 import be.henallux.masi.pedagogique.activities.musicalActivity.MusicalActivity;
+import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers.IMapChangeHandler;
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers.ISoundPoolHandler;
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.Instrument;
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers.SoundPoolHandler;
@@ -33,15 +35,19 @@ public class InstrumentListAdapter extends RecyclerView.Adapter<InstrumentListAd
     private Context context;
     private ArrayList<Instrument> instrumentArrayList;
     private ISoundPoolHandler soundPoolHandler;
+    private IMapChangeHandler mapChangeHandler;
     private SoundPool soundPool;
     private int soundID;
+    private int tagId;
     private boolean loaded;
 
-    public InstrumentListAdapter(Context context, ArrayList<Instrument> instrumentArrayList) {
+    public InstrumentListAdapter(Context context, ArrayList<Instrument> instrumentArrayList, SoundPoolHandler soundPoolHandler, IMapChangeHandler mapChangeHandler) {
         this.context = context;
         this.instrumentArrayList = instrumentArrayList;
-        soundPoolHandler = new SoundPoolHandler(context);
-        soundPoolHandler.buildSoundPool();
+        this.soundPoolHandler = soundPoolHandler;
+        this.soundPoolHandler.buildSoundPool();
+        this.mapChangeHandler = mapChangeHandler;
+        tagId = 1;
     }
 
     @Override
@@ -76,11 +82,20 @@ public class InstrumentListAdapter extends RecyclerView.Adapter<InstrumentListAd
             String fileType = "raw";
 
             soundID = soundPoolHandler.loadSample(fileName, fileType);
-            holder.instrumentImage.setTag(soundID);
+
+            ArrayList<Integer> idData = new ArrayList<>(2);
+            idData.add(soundID);
+            idData.add(instrumentArrayList.get(position).getLocationId());
+
+            holder.instrumentImage.setTag(idData);
             holder.instrumentImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    soundPoolHandler.playSample(Integer.valueOf(holder.instrumentImage.getTag().toString()));
+                    ArrayList<Integer> idData = (ArrayList<Integer>) holder.instrumentImage.getTag();
+                    soundPoolHandler.playSample(idData.get(0));
+                    Log.d("tototo",idData.get(0).toString());
+                    Log.d("tototo",idData.get(1).toString());
+                    mapChangeHandler.moveToPosition(idData.get(1));
                 }
             });
 
@@ -89,6 +104,13 @@ public class InstrumentListAdapter extends RecyclerView.Adapter<InstrumentListAd
                 @Override
                 public void onClick(View view) {
                     openContinentQuizz(instrumentArrayList.get(position).getLocationId());
+                }
+            });
+            holder.lockedImage.setTag(instrumentArrayList.get(position).getLocationId());
+            holder.lockedImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mapChangeHandler.moveToPosition(Integer.valueOf(holder.lockedImage.getTag().toString()));
                 }
             });
         }
@@ -131,5 +153,6 @@ public class InstrumentListAdapter extends RecyclerView.Adapter<InstrumentListAd
         intent.putExtra(Constants.KEY_LOCATION_CLICKED,locationId);
         context.startActivity(intent);
     }
+
 }
 

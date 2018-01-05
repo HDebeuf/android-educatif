@@ -1,10 +1,14 @@
 package be.henallux.masi.pedagogique.activities.musicalActivity;
 
 import android.content.Context;
+import android.content.Intent;
+import android.media.SoundPool;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,24 +18,51 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.OnMapReadyCallback;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import be.henallux.masi.pedagogique.R;
+import be.henallux.masi.pedagogique.activities.mapActivity.ActivityMapBase;
+import be.henallux.masi.pedagogique.activities.mapActivity.IMapActivityRepository;
+import be.henallux.masi.pedagogique.activities.mapActivity.Location;
+import be.henallux.masi.pedagogique.activities.mapActivity.SQLiteMapActivityRepository;
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.RecordAudio;
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers.IMediaPlayerHandler;
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.Instrument;
+import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers.IMapChangeHandler;
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers.IMediaRecorderHandler;
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers.ISoundPoolHandler;
+import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers.MapChangeHandler;
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers.MediaPlayerHandler;
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers.MediaRecorderHandler;
+import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers.SoundPoolHandler;
 import be.henallux.masi.pedagogique.adapters.InstrumentListAdapter;
 import be.henallux.masi.pedagogique.dao.interfaces.IInstrumentRepository;
 import be.henallux.masi.pedagogique.dao.sqlite.SQLiteInstrumentRepository;
+import be.henallux.masi.pedagogique.utils.Constants;
 import be.henallux.masi.pedagogique.utils.IPermissionsHandler;
 import be.henallux.masi.pedagogique.utils.PermissionsHandler;
+import butterknife.ButterKnife;
 
-public class MakeMusicActivity extends AppCompatActivity {
+public class MakeMusicActivity extends FragmentActivity implements OnMapReadyCallback {
+
+    private GoogleMap mMap;
+    private IMapActivityRepository repository;
+    private ActivityMapBase activity;
+    private Integer group;
+    private HashMap<Marker,Location> hashMapMarkersLocation = new HashMap<>();
+    private ArrayList<Location> chosenLocations = new ArrayList<>();
 
     private FloatingActionButton recButton;
     private TextView actualTimeView;
@@ -42,14 +73,13 @@ public class MakeMusicActivity extends AppCompatActivity {
     private SeekBar progressBar;
     private Context context;
     private Handler recordBlinkHandler;
-    private Handler playerAdvancementHandler;
-    private Runnable runnable2;
 
     private IInstrumentRepository instrumentRepository;
     private IMediaPlayerHandler playerHandler;
     private IMediaRecorderHandler recorderHandler;
     private IPermissionsHandler permissionHandler;
     private ISoundPoolHandler soundPoolHandler;
+    private IMapChangeHandler mapChangeHandler;
 
     private RecordAudio recordAudioFile;
     private int maxDuration;
@@ -58,8 +88,20 @@ public class MakeMusicActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        hashMapMarkersLocation.clear();
+        repository = new SQLiteMapActivityRepository(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_music);
+
+        //Hardcoded activity id because it is applicable only on this module added to the app.
+        activity = repository.getActivityById(2);
+        chosenLocations.addAll(activity.getPointsOfInterest());
+
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
         recButton = (FloatingActionButton) findViewById(R.id.recButton);
         actualTimeView = (TextView) findViewById(R.id.currentTime);
@@ -71,17 +113,8 @@ public class MakeMusicActivity extends AppCompatActivity {
 
         context = getApplicationContext();
 
+        soundPoolHandler = new SoundPoolHandler(context);
         instrumentRepository = new SQLiteInstrumentRepository(getApplicationContext());
-
-        ArrayList<Instrument> instrumentArrayList = instrumentRepository.getAllInstruments();
-
-        RecyclerView instrumentRecyclerView = findViewById(R.id.recyclerview_item_instruments);
-        instrumentRecyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager instrumentLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        instrumentRecyclerView.setLayoutManager(instrumentLayoutManager);
-
-        RecyclerView.Adapter instrumentListAdapter = new InstrumentListAdapter(getApplicationContext(), instrumentArrayList);
-        instrumentRecyclerView.setAdapter(instrumentListAdapter);
 
         initializeProgressBar();
 
@@ -90,7 +123,6 @@ public class MakeMusicActivity extends AppCompatActivity {
         permissionHandler = new PermissionsHandler();
         playerHandler = new MediaPlayerHandler(context);
         recordBlinkHandler = new Handler();
-        playerAdvancementHandler = new Handler();
 
         deleteButton.setVisibility(View.GONE);
         playPauseButton.setVisibility(View.GONE);
@@ -117,7 +149,10 @@ public class MakeMusicActivity extends AppCompatActivity {
                         }
                     } else {
                         recorderHandler.stopRecording();
-                        playerAdvancement();
+                        playerHandler.loadMedia(Uri.parse(recordAudioFile.getFilePath()));
+                        Log.d("soundtoto",String.valueOf(soundPoolHandler.getStreamSoundIdList()));
+                        new StopSoundpool().execute(soundPoolHandler.getStreamSoundIdList());
+
                         recButton.setImageResource(R.drawable.ic_rec);
                         actualTimeView.setText("0:00");
                         reverseActualTimeView.setText("0:30");
@@ -126,7 +161,6 @@ public class MakeMusicActivity extends AppCompatActivity {
                         deleteButton.setVisibility(View.VISIBLE);
                         playPauseButton.setVisibility(View.VISIBLE);
                         saveButton.setVisibility(View.VISIBLE);
-                        playerHandler.loadMedia(Uri.parse(recordAudioFile.getFilePath()));
                     }
 
                 }
@@ -136,7 +170,6 @@ public class MakeMusicActivity extends AppCompatActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playerAdvancementHandler.removeCallbacks(runnable2);
                 playerHandler.reset();
                 recordAudioFile.getAudioFile().delete();
 
@@ -144,20 +177,24 @@ public class MakeMusicActivity extends AppCompatActivity {
                 playPauseButton.setVisibility(View.GONE);
                 saveButton.setVisibility(View.GONE);
                 recButton.setVisibility(View.VISIBLE);
+                actualTimeView.setText("0:00");
+                reverseActualTimeView.setText("0:30");
+                progressBar.setProgress(0);
             }
         });
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playerAdvancementHandler.removeCallbacks(runnable2);
                 playerHandler.reset();
-                recordAudioFile = new RecordAudio();
 
                 deleteButton.setVisibility(View.GONE);
                 playPauseButton.setVisibility(View.GONE);
                 saveButton.setVisibility(View.GONE);
                 recButton.setVisibility(View.VISIBLE);
+                actualTimeView.setText("0:00");
+                reverseActualTimeView.setText("0:30");
+                progressBar.setProgress(0);
             }
         });
 
@@ -169,16 +206,52 @@ public class MakeMusicActivity extends AppCompatActivity {
                 j++;
                 if (j % 2 != 0) {
                     playerHandler.play();
-                    playerAdvancement();
+                    new PlayerAdvancement().execute();
                     playPauseButton.setImageResource(R.drawable.ic_pause_24dp);
                 } else {
                     playerHandler.pause();
                     playPauseButton.setImageResource(R.drawable.ic_play_arrow_24dp);
-                    playerAdvancementHandler.removeCallbacks(runnable2);
                 }
 
             }
         });
+    }
+
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(activity.getDefaultLocation(), (float)activity.getZoom()));
+
+
+        if(activity.getJsonFileStyleURI() != null) {
+            File file = new File(activity.getJsonFileStyleURI().getPath());
+            int resourceId = getApplicationContext().getResources().getIdentifier(file.getName(), "raw", getPackageName());
+
+            mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, resourceId));
+        }
+
+        for(Location l : activity.getPointsOfInterest()){
+            LatLng position = l.getLocation();
+            MarkerOptions opts = new MarkerOptions()
+                    .position(position)
+                    .title(l.getTitle());
+            Marker m = mMap.addMarker(opts);
+
+            hashMapMarkersLocation.put(m,l);
+            mapChangeHandler = new MapChangeHandler(mMap, hashMapMarkersLocation);
+            recyclerViewLoader();
+        }
+    }
+
+    public void recyclerViewLoader(){
+        ArrayList<Instrument> instrumentArrayList = instrumentRepository.getAllInstruments();
+
+        final RecyclerView instrumentRecyclerView = findViewById(R.id.recyclerview_item_instruments);
+        instrumentRecyclerView.setHasFixedSize(true);
+        final RecyclerView.LayoutManager instrumentLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        instrumentRecyclerView.setLayoutManager(instrumentLayoutManager);
+
+        RecyclerView.Adapter instrumentListAdapter = new InstrumentListAdapter(context, instrumentArrayList, (SoundPoolHandler) soundPoolHandler, mapChangeHandler);
+        instrumentRecyclerView.setAdapter(instrumentListAdapter);
     }
 
     private void recordBlink(final FloatingActionButton recButton) {
@@ -189,8 +262,7 @@ public class MakeMusicActivity extends AppCompatActivity {
             int i = 0;
 
             public void run() {
-                boolean recordStatus = recorderHandler.getRecordStatus();
-                if (recordStatus) {
+                if (recorderHandler.getRecordStatus()) {
                     Log.d("record", String.valueOf(recordAudioFile.getActualTimeMs()));
 
                     recButton.setImageResource(imageArray[i]);
@@ -199,6 +271,8 @@ public class MakeMusicActivity extends AppCompatActivity {
                         i = 0;
                     }
                     recordBlinkHandler.postDelayed(this, 500);  //for interval...
+                } else {
+                    return;
                 }
             }
         };
@@ -222,34 +296,66 @@ public class MakeMusicActivity extends AppCompatActivity {
             }
 
             public void onFinish() {
-                actualTimeView.setText(recordAudioFile.getActualTime());
-                reverseActualTimeView.setText(recordAudioFile.getReverseActualTime());
-                progressBar.setProgress(recordAudioFile.getActualTimeMs());
-                deleteButton.setVisibility(View.VISIBLE);
-                playPauseButton.setVisibility(View.VISIBLE);
-                saveButton.setVisibility(View.VISIBLE);
+                if (recorderHandler.getRecordStatus()){
+                    recorderHandler.stopRecording();
+                    new StopSoundpool().execute(soundPoolHandler.getStreamSoundIdList());
+
+                    recButton.setImageResource(R.drawable.ic_rec);
+                    actualTimeView.setText("0:00");
+                    reverseActualTimeView.setText("0:30");
+                    progressBar.setProgress(0);
+                    recButton.setVisibility(View.INVISIBLE);
+                    deleteButton.setVisibility(View.VISIBLE);
+                    playPauseButton.setVisibility(View.VISIBLE);
+                    saveButton.setVisibility(View.VISIBLE);
+                    playerHandler.loadMedia(Uri.parse(recordAudioFile.getFilePath()));
+                }
             }
         }.start();
     }
 
-    private void playerAdvancement() {
+    private class PlayerAdvancement extends AsyncTask<RecordAudio, Void, Void> {
 
-        int duration = playerHandler.getDuration();
-        int currentPosition = playerHandler.getCurrentPosition();
-        String timer = milliSecondsToTimer(currentPosition);
-        String reverseTimer = milliSecondsToTimer(duration - currentPosition);
-        progressBar.setMax(duration);
-        progressBar.setProgress(currentPosition);
-        actualTimeView.setText(timer);
-        reverseActualTimeView.setText(reverseTimer);
-        Log.d("tototo",timer);
-
-        runnable2 = new Runnable() {
-            public void run() {
-                playerAdvancement();
+        @Override
+        protected Void doInBackground(RecordAudio... recordAudios) {
+            while (playerHandler.isPlaying()) {
+                publishProgress();
             }
-        };
-        playerAdvancementHandler.postDelayed(runnable2, 200);
+            cancel(!playerHandler.isPlaying());
+            return null;
+        }
+
+
+        protected void onProgressUpdate(Void... voids) {
+            int duration = playerHandler.getDuration();
+            int currentPosition = playerHandler.getCurrentPosition();
+            String timer = milliSecondsToTimer(currentPosition);
+            String reverseTimer = milliSecondsToTimer(duration - currentPosition);
+
+            progressBar.setMax(duration);
+            progressBar.setProgress(currentPosition);
+            actualTimeView.setText(timer);
+            reverseActualTimeView.setText(reverseTimer);
+            Log.d("tototo",timer);
+
+        }
+
+    }
+
+    private class StopSoundpool extends AsyncTask<ArrayList<Integer>, Integer, Void> {
+
+        protected Void doInBackground(ArrayList<Integer>... streamSoundIdList) {
+            for (int streamSoundId:streamSoundIdList[0]) {
+                publishProgress(streamSoundId);
+            }
+            cancel(true);
+            return null;
+        }
+
+        protected void onProgressUpdate(Integer... streamSoundId) {
+            soundPoolHandler.stop(streamSoundId[0]);
+        }
+
     }
 
 
@@ -263,16 +369,6 @@ public class MakeMusicActivity extends AppCompatActivity {
             Log.d("mediainfo", "onStop: release MediaPlayer");
         }
     }
-
-    /*
-    private void initializePlaybackController() {
-        MediaPlayerHandler playerHolder = new MediaPlayerHandler(this);
-        Log.d("mediainfo", "initializePlaybackController: created MediaPlayerHandler");
-        playerHolder.setPlaybackInfoListener(new PlaybackListener());
-        playerHandler = playerHolder;
-        Log.d("mediainfo", "initializePlaybackController: MediaPlayerHandler progress callback set");
-    }
-    */
 
     private void initializeProgressBar() {
         progressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -327,5 +423,7 @@ public class MakeMusicActivity extends AppCompatActivity {
         super.onDestroy();
 
     }
+
+
 }
 

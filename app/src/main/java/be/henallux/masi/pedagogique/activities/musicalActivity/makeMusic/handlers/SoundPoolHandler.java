@@ -18,6 +18,9 @@ public class SoundPoolHandler implements ISoundPoolHandler {
     private Context context;
     private SoundPool soundPool;
     private boolean loaded;
+    private int nbSounds;
+    private int streamSoundId;
+    private ArrayList<Integer> streamSoundIdList;
 
     public SoundPoolHandler(Context context) {
         this.context = context;
@@ -33,6 +36,7 @@ public class SoundPoolHandler implements ISoundPoolHandler {
                 .setAudioAttributes(attributes)
                 .setMaxStreams(10)
                 .build();
+        streamSoundIdList = new ArrayList<Integer>();
     }
 
     public int loadSample(String fileName, String fileType) {
@@ -45,15 +49,35 @@ public class SoundPoolHandler implements ISoundPoolHandler {
                 loaded = true;
             }
         });
-
-        int soundID = soundPool.load(context, resourceID, 1);
-        return soundID;
+        nbSounds++;
+        return soundPool.load(context, resourceID, 1);
     }
 
     public void playSample(int soundID){
         if (loaded) {
-            soundPool.play(soundID, 1,1,1,0,1f);
+            streamSoundId = soundPool.play(soundID, 1,1,1,0,1f);
+            streamSoundIdList.add(streamSoundId);
         }
     }
 
+    public ArrayList<Integer> getStreamSoundIdList() {
+        return this.streamSoundIdList;
+    }
+
+    public void setStreamSoundIdList(ArrayList<Integer> streamSoundIdList) {
+        this.streamSoundIdList = streamSoundIdList;
+    }
+
+    public SoundPool getSoundPool() {
+        return soundPool;
+    }
+
+    public void stop(int streamSoundId){
+        try {
+            soundPool.stop(streamSoundId);
+        } catch (Exception e){
+            streamSoundIdList.remove(streamSoundId);
+        }
+
+    }
 }
