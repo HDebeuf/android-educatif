@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="be.henallux.masi.pedagogique.activities.MainMenuActivity">
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerViewActivities"
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="0dp"
-        android:foregroundGravity="center_horizontal"
-        app:layout_constraintBottom_toBottomOf="@+id/guidelineBottom"
-        app:layout_constraintLeft_toLeftOf="@+id/guidelineLeft"
-        app:layout_constraintRight_toRightOf="@+id/guidelineRight"
-        app:layout_constraintTop_toTopOf="@+id/guidelineTop" />
+        android:layout_height="match_parent"
+        tools:context="be.henallux.masi.pedagogique.activities.MainMenuActivity">
 
-    <android.support.constraint.Guideline
-        android:id="@+id/guidelineTop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintGuide_percent="0.0"
-        android:orientation="horizontal"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="0dp" />
-    <android.support.constraint.Guideline
-        android:id="@+id/guidelineBottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintGuide_percent="1.0"
-        android:orientation="horizontal" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewActivities"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="0dp"
+            android:foregroundGravity="center_horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/guidelineBottom"
+            app:layout_constraintLeft_toLeftOf="@+id/guidelineLeft"
+            app:layout_constraintRight_toRightOf="@+id/guidelineRight"
+            app:layout_constraintTop_toTopOf="@+id/guidelineTop" />
 
-    <android.support.constraint.Guideline
+        <android.support.constraint.Guideline
+            android:id="@+id/guidelineTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintGuide_percent="0.0"
+            android:orientation="horizontal"
+            tools:layout_editor_absoluteY="0dp"
+            tools:layout_editor_absoluteX="0dp" />
+        <android.support.constraint.Guideline
+            android:id="@+id/guidelineBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintGuide_percent="1.0"
+            android:orientation="horizontal" />
+
+        <android.support.constraint.Guideline
         android:id="@+id/guidelineLeft"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
