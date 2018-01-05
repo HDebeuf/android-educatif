@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -47,6 +48,8 @@ public class FrescoActivity extends AppCompatActivity implements OnStartDragList
 
     @BindView(R.id.recyclerViewItems)
     RecyclerView recyclerView;
+
+
 
     private ItemsAdapter adapter;
     private ItemTouchHelper mItemTouchHelper;
@@ -210,6 +213,7 @@ public class FrescoActivity extends AppCompatActivity implements OnStartDragList
         private void bindWebView(ViewHolderWebView holder, Synthesis act) {
             holder.textViewTitle.setText(act.getLocation().getTitle());
             holder.textViewContent.setText(act.getText());
+            holder.webView.loadUrl(act.getUrl().toString());
         }
 
         //endregion
@@ -322,6 +326,8 @@ public class FrescoActivity extends AppCompatActivity implements OnStartDragList
             handleView = itemView.findViewById(R.id.drag);
             textViewContent = itemView.findViewById(R.id.textViewText);
             webView = itemView.findViewById(R.id.webview);
+            webView.getSettings().setJavaScriptEnabled(true);
+            webView.setWebViewClient(new WebViewClient());
             this.adapter = adapter;
         }
 

@@ -30,5 +30,11 @@
     <string name="name">Nom</string>
     <string name="confirm_user_chosen">Les utilisateurs suivants seront ajoutés au groupe</string>
     <string name="title_activity_map_musical">MapMusicalActivity</string>
+    <string name="no_account_yet">Pas encore de compte ?</string>
+    <string name="create_account_firstname">Prénom</string>
+    <string name="create_account_lastname">Nom</string>
+    <string name="gender_male">Garçon</string>
+    <string name="gender_female">Fille</string>
+    <string name="gender_other">Autre</string>
 
 </resources>

@@ -1,5 +1,11 @@
 package be.henallux.masi.pedagogique.utils;
 
+import android.content.Context;
+
+import java.util.ArrayList;
+
+import be.henallux.masi.pedagogique.R;
+
 /**
  * Created by Le Roi Arthur on 17-12-17.
  */
@@ -18,4 +24,24 @@ public class Constants {
     public static final String RESULT_DATA_HAS_CHOOSEN_LOCATION = "Has_choosen_location";
 
     public static final String KEY_IS_IN_DELETE_MODE = "Is_in_delete_mode";
+    public static final int REQUEST_IMAGE_CAPTURE = 0x984a;
+
+    public enum Gender{
+        MALE,
+        FEMALE,
+        OTHER
+    }
+
+    public static ArrayList<String> getGendersList(Context ctx){
+
+        //CHANGE WITH CAUTION !
+        //The order of the arraylist must always be the exact same as the enum order
+        //Some forms depends on it
+
+        ArrayList<String> genders = new ArrayList<>();
+        genders.add(ctx.getString(R.string.gender_male));
+        genders.add(ctx.getString(R.string.gender_female));
+        genders.add(ctx.getString(R.string.gender_other));
+        return genders;
+    }
 }

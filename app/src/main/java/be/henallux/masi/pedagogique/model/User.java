@@ -36,6 +36,21 @@ public class User implements Parcelable {
         this.category = category;
     }
 
+    /**
+     * Used to create an object with only the necessary information to be inserted in the database for the first time.
+     * The return value of this method should ONLY be used to be sent to the IUserRepository to be registered
+     * @param firstName
+     * @param lastName
+     * @param gender
+     * @param avatarUri
+     * @param userClass
+     * @param category
+     * @return
+     */
+    public static User prepareUserForInsert(String firstName, String lastName, int gender, Uri avatarUri, Class userClass, Category category){
+        return new User(0,null,firstName,lastName,null,gender,avatarUri,category,userClass,null);
+    }
+
     public Integer getId() {
         return id;
     }
