@@ -52,6 +52,8 @@ import be.henallux.masi.pedagogique.model.Category;
 import be.henallux.masi.pedagogique.model.Class;
 import be.henallux.masi.pedagogique.model.User;
 import be.henallux.masi.pedagogique.utils.Constants;
+import be.henallux.masi.pedagogique.utils.IPermissionsHandler;
+import be.henallux.masi.pedagogique.utils.PermissionsHandler;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -66,6 +68,7 @@ public class CreateAccountDialogFragment extends DialogFragment implements Valid
     private IUserRepository userRepository = new SQLiteUserRepository(this.getActivity());
     private IClassRepository classRepository = new SQLiteClassRepository(this.getActivity());
     private ICategoryRepository categoryRepository = new SQLiteCategoryRepository(this.getActivity());
+    private IPermissionsHandler permissionHandler = new PermissionsHandler();
 
     @NotEmpty(messageResId = R.string.error_field_required)
     EditText firstNameEditText;
@@ -140,7 +143,10 @@ public class CreateAccountDialogFragment extends DialogFragment implements Valid
             public void onClick(View v) {
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                    startActivityForResult(takePictureIntent, Constants.REQUEST_IMAGE_CAPTURE);
+                    if(!permissionHandler.isStoragePermissionGranted(getActivity(),getActivity()))
+                        permissionHandler.requestPermissions(CreateAccountDialogFragment.this.getActivity());
+                    else
+                        startActivityForResult(takePictureIntent, Constants.REQUEST_IMAGE_CAPTURE);
                 }
             }
         });
