@@ -518,7 +518,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.clear();
         values.put(InstrumentEntity.COLUMN_FK_LOCATION, idAsie);
         values.put(InstrumentEntity.COLUMN_NAME, "Benju");
-        values.put(InstrumentEntity.COLUMN_DESCRIPTION, "Elle est caractérisée par son ancienneté et sa richesse. Les asiatiques s'inspirent du passé et des traditions anciennes.La musique peut également être liée à une des trois religions : boudiste, indouiste ou muslim");
+        values.put(InstrumentEntity.COLUMN_DESCRIPTION, "Elle est caractérisée par son ancienneté et sa richesse. Les asiatiques s'inspirent du passé et des traditions anciennes. La musique peut également être liée à une des trois religions : boudiste, indou ou musulman.");
         uriIcon = Uri.parse("android.resource://" + context.getPackageName() + "/drawable/ic_instrument_asia");
         values.put(InstrumentEntity.COLUMN_IMAGE_PATH, uriIcon.toString());
         values.put(InstrumentEntity.COLUMN_SAMPLE_FILE_NAME, "benju_sample");
@@ -538,7 +538,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.clear();
         values.put(InstrumentEntity.COLUMN_FK_LOCATION, idEurope);
         values.put(InstrumentEntity.COLUMN_NAME, "Guitare");
-        values.put(InstrumentEntity.COLUMN_DESCRIPTION, "La culture musicale de l'Europe est elle aussi très variée en raison de tout les pays qui composent le continent. On peut écouteer du rap, des chansons douces, de la pop, du rock n roll ou encore des chansons sans paroles. Certains grands chanteurs ont vécu en France, en Angleterre ou même en Belgique. La musique évolue d'année en année (et ce pour tous les continents!)");
+        values.put(InstrumentEntity.COLUMN_DESCRIPTION, "La culture musicale de l'Europe est elle aussi très variée en raison de tout les pays qui composent le continent. On peut écouteer du rap, des chansons douces, de la pop, du rock n roll ou encore des chansons sans paroles. Certains grands chanteurs ont vécu en France, en Angleterre ou même en Belgique. La musique évolue d'année en année (et ce pour tous les continents!).");
         uriIcon = Uri.parse("android.resource://" + context.getPackageName() + "/drawable/ic_instrument_europe");
         values.put(InstrumentEntity.COLUMN_IMAGE_PATH, uriIcon.toString());
         values.put(InstrumentEntity.COLUMN_SAMPLE_FILE_NAME, "guitar_sample");
@@ -548,7 +548,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.clear();
         values.put(InstrumentEntity.COLUMN_FK_LOCATION, idOceanie);
         values.put(InstrumentEntity.COLUMN_NAME, "Guimbarde en bambou");
-        values.put(InstrumentEntity.COLUMN_DESCRIPTION, "en Océanie, on parle souvent de musique aborigènes. Parfois, on peut même entendre des hakas (danses et chants océaniens). La musique d'océanie est une accompagnante, elle accompagne les cérémonies et les rituels. Elle est différente en fonction des clans dans les pays. ");
+        values.put(InstrumentEntity.COLUMN_DESCRIPTION, "En Océanie, on parle souvent de musique aborigènes. Parfois, on peut même entendre des hakas (danses et chants océaniens). La musique d'océanie est une accompagnante, elle accompagne les cérémonies et les rituels. Elle est différente en fonction des clans dans les pays. ");
         uriIcon = Uri.parse("android.resource://" + context.getPackageName() + "/drawable/ic_instrument_oceanie");
         values.put(InstrumentEntity.COLUMN_IMAGE_PATH, uriIcon.toString());
         values.put(InstrumentEntity.COLUMN_SAMPLE_FILE_NAME, "jaw_harp_sample");
