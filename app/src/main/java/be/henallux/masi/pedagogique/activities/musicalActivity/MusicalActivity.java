@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -48,14 +50,14 @@ public class MusicalActivity extends AppCompatActivity {
         ImageView imgmusic = (ImageView) findViewById(R.id.imageInstrument);
         Picasso.with(context).load(instrument.getImagePath()).into(imgmusic);
 
+        Button question = (Button) findViewById(R.id.questionnaireButton);
+        question.setOnClickListener(openQuestionnaire());
+
     }
-    private void openSongEditor() {
-        Intent intent = new Intent(this, MakeMusicActivity.class);
-        startActivity(intent);
-    }
-    private void openQuestionnaire() {
+
+
+    public void openQuestionnaire() {
         Intent intent = new Intent(this, MusicalQuestionnaire.class);
         startActivity(intent);
     }
-
 }
