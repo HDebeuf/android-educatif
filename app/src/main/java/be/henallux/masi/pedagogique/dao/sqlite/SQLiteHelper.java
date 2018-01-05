@@ -476,6 +476,30 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         int idAfrique = (int) database.insert(LocationEntity.TABLE, null, values);
 
         values.clear();
+        values.put(LocationEntity.COLUMN_TITLE, "Amérique");
+        values.put(LocationEntity.COLUMN_LATITUDE, -16.246897);
+        values.put(LocationEntity.COLUMN_LONGITUDE, -60.228244);
+        values.put(LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME, MusicalActivity.class.getName());
+        values.put(LocationEntity.COLUMN_FK_ACTIVITYMAPBASE, idActivityMap);
+        int idAmerique = (int) database.insert(LocationEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(LocationEntity.COLUMN_TITLE, "Europe");
+        values.put(LocationEntity.COLUMN_LATITUDE, 50.151015);
+        values.put(LocationEntity.COLUMN_LONGITUDE, 7.265708);
+        values.put(LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME, MusicalActivity.class.getName());
+        values.put(LocationEntity.COLUMN_FK_ACTIVITYMAPBASE, idActivityMap);
+        int idEurope = (int) database.insert(LocationEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(LocationEntity.COLUMN_TITLE, "Océanie");
+        values.put(LocationEntity.COLUMN_LATITUDE, -23.925622);
+        values.put(LocationEntity.COLUMN_LONGITUDE, 138.992828);
+        values.put(LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME, MusicalActivity.class.getName());
+        values.put(LocationEntity.COLUMN_FK_ACTIVITYMAPBASE, idActivityMap);
+        int idOceanie = (int) database.insert(LocationEntity.TABLE, null, values);
+
+        values.clear();
         values.put(CategoryToActivityEntity.COLUMN_FK_ACTIVITY, activityId);
         values.put(CategoryToActivityEntity.COLUMN_FK_CATEGORY, idCategoryInferior);
         database.insert(CategoryToActivityEntity.TABLE, null, values);
@@ -484,7 +508,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.clear();
         values.put(InstrumentEntity.COLUMN_FK_LOCATION, idAfrique);
         values.put(InstrumentEntity.COLUMN_NAME, "Djembe");
-        values.put(InstrumentEntity.COLUMN_DESCRIPTION, "Lorem Impus Dolor... ");
+        values.put(InstrumentEntity.COLUMN_DESCRIPTION, "Les africains dansent pour marquer des événements de la vie quotidienne. Leur rythme est joyeux et entrainant.");
         uriIcon = Uri.parse("android.resource://" + context.getPackageName() + "/drawable/ic_instrument_africa");
         values.put(InstrumentEntity.COLUMN_IMAGE_PATH, uriIcon.toString());
         values.put(InstrumentEntity.COLUMN_SAMPLE_FILE_NAME, "djembe_sample");
@@ -493,11 +517,41 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         values.clear();
         values.put(InstrumentEntity.COLUMN_FK_LOCATION, idAsie);
-        values.put(InstrumentEntity.COLUMN_NAME, "Ta Quan Dong");
-        values.put(InstrumentEntity.COLUMN_DESCRIPTION, "Lorem Impus Dolor... ");
-        uriIcon = Uri.parse("android.resource://" + context.getPackageName() + "/drawable/ic_instrument_africa");
+        values.put(InstrumentEntity.COLUMN_NAME, "Benju");
+        values.put(InstrumentEntity.COLUMN_DESCRIPTION, "Elle est caractérisée par son ancienneté et sa richesse. Les asiatiques s'inspirent du passé et des traditions anciennes. La musique peut également être liée à une des trois religions : boudiste, indou ou musulman.");
+        uriIcon = Uri.parse("android.resource://" + context.getPackageName() + "/drawable/ic_instrument_asia");
         values.put(InstrumentEntity.COLUMN_IMAGE_PATH, uriIcon.toString());
-        values.put(InstrumentEntity.COLUMN_SAMPLE_FILE_NAME, "djembe_sample2");
+        values.put(InstrumentEntity.COLUMN_SAMPLE_FILE_NAME, "benju_sample");
+        values.put(InstrumentEntity.COLUMN_UNLOCKED, "1");
+        database.insert(InstrumentEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(InstrumentEntity.COLUMN_FK_LOCATION, idAmerique);
+        values.put(InstrumentEntity.COLUMN_NAME, "Bâton de pluie");
+        values.put(InstrumentEntity.COLUMN_DESCRIPTION, "La musique américaine est très variée. Elle comporte les touches de beaucoup de pays ( à cause de l'immigration). On peut trouver du jazz, de la salsa, du rap, du RNB.");
+        uriIcon = Uri.parse("android.resource://" + context.getPackageName() + "/drawable/ic_instrument_america");
+        values.put(InstrumentEntity.COLUMN_IMAGE_PATH, uriIcon.toString());
+        values.put(InstrumentEntity.COLUMN_SAMPLE_FILE_NAME, "rain_stick_sample");
+        values.put(InstrumentEntity.COLUMN_UNLOCKED, "1");
+        database.insert(InstrumentEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(InstrumentEntity.COLUMN_FK_LOCATION, idEurope);
+        values.put(InstrumentEntity.COLUMN_NAME, "Guitare");
+        values.put(InstrumentEntity.COLUMN_DESCRIPTION, "La culture musicale de l'Europe est elle aussi très variée en raison de tout les pays qui composent le continent. On peut écouteer du rap, des chansons douces, de la pop, du rock n roll ou encore des chansons sans paroles. Certains grands chanteurs ont vécu en France, en Angleterre ou même en Belgique. La musique évolue d'année en année (et ce pour tous les continents!).");
+        uriIcon = Uri.parse("android.resource://" + context.getPackageName() + "/drawable/ic_instrument_europe");
+        values.put(InstrumentEntity.COLUMN_IMAGE_PATH, uriIcon.toString());
+        values.put(InstrumentEntity.COLUMN_SAMPLE_FILE_NAME, "guitar_sample");
+        values.put(InstrumentEntity.COLUMN_UNLOCKED, "1");
+        database.insert(InstrumentEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(InstrumentEntity.COLUMN_FK_LOCATION, idOceanie);
+        values.put(InstrumentEntity.COLUMN_NAME, "Guimbarde en bambou");
+        values.put(InstrumentEntity.COLUMN_DESCRIPTION, "En Océanie, on parle souvent de musique aborigènes. Parfois, on peut même entendre des hakas (danses et chants océaniens). La musique d'océanie est une accompagnante, elle accompagne les cérémonies et les rituels. Elle est différente en fonction des clans dans les pays. ");
+        uriIcon = Uri.parse("android.resource://" + context.getPackageName() + "/drawable/ic_instrument_oceanie");
+        values.put(InstrumentEntity.COLUMN_IMAGE_PATH, uriIcon.toString());
+        values.put(InstrumentEntity.COLUMN_SAMPLE_FILE_NAME, "jaw_harp_sample");
         values.put(InstrumentEntity.COLUMN_UNLOCKED, "1");
         database.insert(InstrumentEntity.TABLE, null, values);
 
