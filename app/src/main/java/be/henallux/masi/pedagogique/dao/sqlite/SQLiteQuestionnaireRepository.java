@@ -3,28 +3,17 @@ package be.henallux.masi.pedagogique.dao.sqlite;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
-import android.text.TextUtils;
-
 import java.util.ArrayList;
 
-import be.henallux.masi.pedagogique.activities.mapActivity.ActivityMapBaseEntity;
-import be.henallux.masi.pedagogique.activities.mapActivity.LocationEntity;
-import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.Instrument;
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.entities.InstrumentEntity;
 import be.henallux.masi.pedagogique.dao.interfaces.IQuestionRepository;
 import be.henallux.masi.pedagogique.dao.interfaces.IQuestionnaireRepository;
-import be.henallux.masi.pedagogique.dao.sqlite.entities.ActivityEntity;
-import be.henallux.masi.pedagogique.dao.sqlite.entities.AnswerEntity;
-import be.henallux.masi.pedagogique.dao.sqlite.entities.QuestionEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.QuestionnaireEntity;
-import be.henallux.masi.pedagogique.model.Answer;
 import be.henallux.masi.pedagogique.model.Question;
 import be.henallux.masi.pedagogique.model.Questionnaire;
 
 /**
- * Created by hendrikdebeuf2 on 30/12/17.
- * modified by Angèle Guillon on 04/01/18.
+ * Created by Angèle Guillon on 04/01/18.
  */
 
 public class SQLiteQuestionnaireRepository implements IQuestionnaireRepository {
@@ -34,6 +23,12 @@ public class SQLiteQuestionnaireRepository implements IQuestionnaireRepository {
 
     public SQLiteQuestionnaireRepository(Context context) {
         this.context = context;
+    }
+
+
+    @Override
+    public ArrayList<Question> getAllQuestionOfQuestionnaire(Questionnaire questionnaire) {
+        return null;
     }
 
     @Override
@@ -46,16 +41,17 @@ public class SQLiteQuestionnaireRepository implements IQuestionnaireRepository {
                 QuestionnaireEntity.COLUMN_ID + "=?",new String[]{String.valueOf(idQuestionnaire)},
                 null, null, null);
 
-        if(cursor.getCount() == 0) return null;
+        if (cursor.getCount() == 0) return null;
         cursor.moveToFirst();
 
         int id = cursor.getInt(0);
         String statement = cursor.getString(1);
 
         ArrayList<Question> questions = questionRepository.getQuestionsOfQuestionnaire(idQuestionnaire);
-        Questionnaire q = new Questionnaire(idQuestionnaire,statement,questions);
+        Questionnaire q = new Questionnaire(idQuestionnaire, statement, questions);
 
         cursor.close();
+
         return q;
     }
 }

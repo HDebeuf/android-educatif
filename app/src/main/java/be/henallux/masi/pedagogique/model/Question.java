@@ -4,14 +4,15 @@ import java.util.ArrayList;
 
 /**
  * Created by Le Roi Arthur on 17-12-17.
+ *
  */
 
 public class Question {
     private Integer id;
     private String statement;
-    private int type;
     //private Questionnaire questionnaire;
     private ArrayList<Answer> answers;
+    private int type;
 
     public Question(Integer id, String statement, int type, ArrayList<Answer> answers) {
         this.id = id;
