@@ -7,6 +7,8 @@ import java.lang.annotation.RetentionPolicy;
 
 /**
  * Created by hendrikdebeuf2 on 31/12/17.
+ *
+ * source: https://github.com/googlesamples/android-SimpleMediaPlayer
  */
 
 public abstract class PlaybackInfoListener {
