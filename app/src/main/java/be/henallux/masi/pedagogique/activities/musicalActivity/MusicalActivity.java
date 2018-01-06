@@ -19,14 +19,19 @@ import be.henallux.masi.pedagogique.activities.mapActivity.SQLiteMapActivityRepo
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.Instrument;
 import be.henallux.masi.pedagogique.dao.interfaces.IInstrumentRepository;
 import be.henallux.masi.pedagogique.dao.sqlite.SQLiteInstrumentRepository;
+import be.henallux.masi.pedagogique.model.Group;
+import be.henallux.masi.pedagogique.model.Questionnaire;
 import be.henallux.masi.pedagogique.utils.Constants;
 
 public class MusicalActivity extends AppCompatActivity {
 
     private IMapActivityRepository repository = new SQLiteMapActivityRepository(this);
-    private IInstrumentRepository instrumentRepository;
-    private Instrument instrument = new Instrument();
+    private IInstrumentRepository instrumentRepository = new SQLiteInstrumentRepository(this);
     private Context context;
+    private Instrument instrument;
+    private Group currentGroup;
+    private Questionnaire questionnaire;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +43,12 @@ public class MusicalActivity extends AppCompatActivity {
 
         int idLocationClicked = getIntent().getExtras().getInt(Constants.KEY_LOCATION_CLICKED);
         Location clickedLocation = repository.getLocationById(idLocationClicked);
+        currentGroup = getIntent().getExtras().getParcelable(Constants.KEY_CURRENT_GROUP);
 
-        instrumentRepository = new SQLiteInstrumentRepository(getApplicationContext());
-        instrument = instrumentRepository.getOneInstrument(clickedLocation.getId());
+        instrument = instrumentRepository.getInstrumentOfLocation(clickedLocation.getId());
 
         TextView hello = (TextView) findViewById(R.id.TextHello);
-        hello.setText("Bonjour et Bienvenue en " + clickedLocation.getTitle());
+        hello.setText(getResources().getString(R.string.musical_welcome_title) + " " + clickedLocation.getTitle());
 
         TextView description = (TextView) findViewById(R.id.descriptionText);
         description.setText(instrument.getDescription());
@@ -52,13 +57,14 @@ public class MusicalActivity extends AppCompatActivity {
         Picasso.with(context).load(instrument.getImagePath()).into(imgmusic);
 
         Button question = (Button) findViewById(R.id.questionnaireButton);
-        question.setOnClickListener(new View.OnClickListener() {
 
+        question.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(context, QuestionnaireActivity.class);
+                intent.putExtra(Constants.QUESTIONNAIRE_TO_SHOW,questionnaire);
+                intent.putExtra(Constants.KEY_CURRENT_GROUP,currentGroup);
                 startActivity(intent);
             }
-
         });
     }
 }

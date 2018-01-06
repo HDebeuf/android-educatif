@@ -1,15 +1,12 @@
 package be.henallux.masi.pedagogique.activities.musicalActivity;
 
 import android.content.Context;
-import android.content.Intent;
-import android.media.SoundPool;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -50,15 +47,15 @@ import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handler
 import be.henallux.masi.pedagogique.adapters.InstrumentListAdapter;
 import be.henallux.masi.pedagogique.dao.interfaces.IInstrumentRepository;
 import be.henallux.masi.pedagogique.dao.sqlite.SQLiteInstrumentRepository;
+import be.henallux.masi.pedagogique.model.Group;
 import be.henallux.masi.pedagogique.utils.Constants;
 import be.henallux.masi.pedagogique.utils.IPermissionsHandler;
 import be.henallux.masi.pedagogique.utils.PermissionsHandler;
-import butterknife.ButterKnife;
 
 public class MakeMusicActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private IMapActivityRepository repository;
+    private IMapActivityRepository mapRepository;
     private ActivityMapBase activity;
     private Integer group;
     private HashMap<Marker,Location> hashMapMarkersLocation = new HashMap<>();
@@ -84,18 +81,21 @@ public class MakeMusicActivity extends FragmentActivity implements OnMapReadyCal
     private RecordAudio recordAudioFile;
     private int maxDuration;
     private boolean userIsSeeking = false;
+    private Group currentGroup;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         hashMapMarkersLocation.clear();
-        repository = new SQLiteMapActivityRepository(this);
+        mapRepository = new SQLiteMapActivityRepository(this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_music);
 
+        currentGroup = getIntent().getExtras().getParcelable(Constants.KEY_CURRENT_GROUP);
+
         //Hardcoded activity id because it is applicable only on this module added to the app.
-        activity = repository.getActivityById(2);
+        activity = getIntent().getExtras().getParcelable(Constants.ACTIVITY_KEY);
         chosenLocations.addAll(activity.getPointsOfInterest());
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -250,7 +250,8 @@ public class MakeMusicActivity extends FragmentActivity implements OnMapReadyCal
         final RecyclerView.LayoutManager instrumentLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         instrumentRecyclerView.setLayoutManager(instrumentLayoutManager);
 
-        RecyclerView.Adapter instrumentListAdapter = new InstrumentListAdapter(context, instrumentArrayList, (SoundPoolHandler) soundPoolHandler, mapChangeHandler);
+        ArrayList<Instrument> instrumentsToShow = instrumentRepository.getInstrumentsOfGroup(currentGroup);
+        RecyclerView.Adapter instrumentListAdapter = new InstrumentListAdapter(context, instrumentsToShow, (SoundPoolHandler) soundPoolHandler, mapChangeHandler);
         instrumentRecyclerView.setAdapter(instrumentListAdapter);
     }
 

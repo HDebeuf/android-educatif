@@ -10,6 +10,7 @@ import android.widget.Toast;
 import be.henallux.masi.pedagogique.R;
 import be.henallux.masi.pedagogique.activities.loginActivity.LoginPromptActivity;
 import be.henallux.masi.pedagogique.activities.mapActivity.MapsActivity;
+import be.henallux.masi.pedagogique.activities.musicalActivity.MusicalActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -39,10 +40,11 @@ public class UITestActivity extends AppCompatActivity {
             }
         });
 
+        buttonLogin.setText("Musique");
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(UITestActivity.this, LoginPromptActivity.class);
+                Intent i = new Intent(UITestActivity.this, MusicalActivity.class);
                 startActivity(i);
             }
         });

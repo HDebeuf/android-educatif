@@ -8,5 +8,6 @@ public class AnswerEntity {
     public static final String TABLE = "Answer";
     public static final String COLUMN_ID = "idAnswer";
     public static final String COLUMN_STATEMENT = "statement";
+    public static final String COLUMN_IS_TRUE = "isTrue";
     public static final String COLUMN_FK_QUESTION = "Question_idQuestion";
 }

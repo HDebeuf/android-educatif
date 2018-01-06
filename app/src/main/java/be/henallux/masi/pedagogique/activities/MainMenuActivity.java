@@ -24,6 +24,7 @@ import be.henallux.masi.pedagogique.dao.interfaces.IActivitiesRepository;
 import be.henallux.masi.pedagogique.dao.sqlite.SQLiteActivitiesRepository;
 import be.henallux.masi.pedagogique.model.Activity;
 import be.henallux.masi.pedagogique.model.Category;
+import be.henallux.masi.pedagogique.model.Group;
 import be.henallux.masi.pedagogique.utils.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,6 +43,7 @@ public class MainMenuActivity extends AppCompatActivity {
     RecyclerView recyclerViewActivities;
 
     private IActivitiesRepository activitiesRepository;
+    private Group currentGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,7 @@ public class MainMenuActivity extends AppCompatActivity {
         activitiesRepository = SQLiteActivitiesRepository.getInstance(this);
 
         Category categoryOfUser = getIntent().getExtras().getParcelable(Constants.KEY_CATEGORY_USER);
+        currentGroup = getIntent().getExtras().getParcelable(Constants.KEY_GROUP_CREATED);
 
         recyclerViewActivities.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewActivities.setAdapter(new ActivitiesAdapter(activitiesRepository.getAllActivitiesOfCategory(categoryOfUser)));
@@ -84,6 +87,7 @@ public class MainMenuActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     Intent intent = new Intent(MainMenuActivity.this,educativeActivity.getAssociatedClass());
                     intent.putExtra(Constants.ACTIVITY_KEY,educativeActivity);
+                    intent.putExtra(Constants.KEY_CURRENT_GROUP,currentGroup);
                     startActivity(intent);
                 }
             });

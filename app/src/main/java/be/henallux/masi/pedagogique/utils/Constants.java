@@ -25,6 +25,8 @@ public class Constants {
 
     public static final String KEY_IS_IN_DELETE_MODE = "Is_in_delete_mode";
     public static final int REQUEST_IMAGE_CAPTURE = 0x984a;
+    public static final String QUESTIONNAIRE_TO_SHOW = "Key_questionnaire_to_show";
+    public static final String KEY_CURRENT_GROUP = "Key_curren_group";
 
     public enum Gender{
         MALE,

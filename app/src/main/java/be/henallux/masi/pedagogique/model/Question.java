@@ -10,13 +10,13 @@ import java.util.ArrayList;
 public class Question {
     private Integer id;
     private String statement;
-    private Questionnaire questionnaire;
+    //private Questionnaire questionnaire;
     private ArrayList<Answer> answers;
 
-    public Question(Integer id, String statement, Questionnaire questionnaire, ArrayList<Answer> answers) {
+    public Question(Integer id, String statement, ArrayList<Answer> answers) {
         this.id = id;
         this.statement = statement;
-        this.questionnaire = questionnaire;
+        //this.questionnaire = questionnaire;
         this.answers = answers;
     }
 
@@ -36,6 +36,7 @@ public class Question {
         this.statement = statement;
     }
 
+    /*
     public Questionnaire getQuestionnaire() {
         return questionnaire;
     }
@@ -43,6 +44,7 @@ public class Question {
     public void setQuestionnaire(Questionnaire questionnaire) {
         this.questionnaire = questionnaire;
     }
+    */
 
     public ArrayList<Answer> getAnswers() {
         return answers;

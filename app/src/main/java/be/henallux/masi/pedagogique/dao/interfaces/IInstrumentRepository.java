@@ -3,6 +3,7 @@ package be.henallux.masi.pedagogique.dao.interfaces;
 import java.util.ArrayList;
 
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.Instrument;
+import be.henallux.masi.pedagogique.model.Group;
 
 /**
  * Created by hendrikdebeuf2 on 30/12/17.
@@ -10,9 +11,6 @@ import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.Instrum
 
 public interface IInstrumentRepository {
     ArrayList<Instrument> getAllInstruments ();
-
-    Instrument getOneInstrument(int id);
-
-    // ...;
-
+    Instrument getInstrumentOfLocation(int id);
+    ArrayList<Instrument> getInstrumentsOfGroup(Group g);
 }
