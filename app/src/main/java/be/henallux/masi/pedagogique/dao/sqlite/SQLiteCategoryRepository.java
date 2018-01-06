@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import be.henallux.masi.pedagogique.dao.interfaces.ICategoryRepository;
 import be.henallux.masi.pedagogique.dao.interfaces.IClassRepository;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.ActivityEntity;
+import be.henallux.masi.pedagogique.dao.sqlite.entities.CategoryEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.UserEntity;
 import be.henallux.masi.pedagogique.model.Activity;
 import be.henallux.masi.pedagogique.model.Category;
@@ -85,5 +86,30 @@ public class SQLiteCategoryRepository implements ICategoryRepository {
 
         cursor.close();
         return users;
+    }
+
+    @Override
+    public ArrayList<Category> getAllCategories() {
+        SQLiteDatabase database = SQLiteHelper.getDatabaseInstance(context);
+        ArrayList<Category> categories = new ArrayList<>();
+        Cursor cursor = database.query(CategoryEntity.TABLE,
+                new String[]{CategoryEntity.COLUMN_ID,
+                        CategoryEntity.COLUMN_DESCRIPTION,
+                        CategoryEntity.COLUMN_AGE_MAX,
+                        CategoryEntity.COLUMN_AGE_MIN},
+                null, null, null, null, null);
+        cursor.moveToFirst();
+
+        while (!cursor.isAfterLast()) {
+            int id = cursor.getInt(0);
+            String description = cursor.getString(1);
+            int ageMax = cursor.getInt(2);
+            int ageMin = cursor.getInt(3);
+            categories.add(new Category(id,description,ageMin,ageMax));
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+        return categories;
     }
 }

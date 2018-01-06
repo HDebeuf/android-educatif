@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.common.hash.Hashing;
@@ -25,6 +26,7 @@ import java.util.List;
 import be.henallux.masi.pedagogique.R;
 import be.henallux.masi.pedagogique.activities.MainMenuActivity;
 import be.henallux.masi.pedagogique.activities.groupCreation.GroupCreationActivity;
+import be.henallux.masi.pedagogique.activities.historyActivity.ConfirmLocationChosenDialogFragment;
 import be.henallux.masi.pedagogique.dao.interfaces.IUserRepository;
 import be.henallux.masi.pedagogique.dao.sqlite.SQLiteUserRepository;
 import be.henallux.masi.pedagogique.model.User;
@@ -32,7 +34,7 @@ import be.henallux.masi.pedagogique.utils.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class LoginPromptActivity extends AppCompatActivity implements Validator.ValidationListener {
+public class LoginPromptActivity extends AppCompatActivity implements Validator.ValidationListener, CreateAccountDialogFragment.CreateAccountListener{
     Validator validator;
 
     @BindView(R.id.login_prompt_button)
@@ -52,6 +54,9 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
     @BindView(R.id.passwordEditText)
     @NotEmpty(messageResId = R.string.error_field_required)
     EditText passwordEditText;
+
+    @BindView(R.id.textViewCreateAccount)
+    TextView createAccountTextView;
     
     private IUserRepository repository;
 
@@ -65,6 +70,13 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
 
         validator = new Validator(this);
         validator.setValidationListener(this);
+
+        createAccountTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createAccount();
+            }
+        });
 
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,6 +126,11 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
         }
     }
 
+    private void createAccount() {
+        CreateAccountDialogFragment dialogFragment = CreateAccountDialogFragment.newInstance();
+        dialogFragment.show(getFragmentManager(), "CreateAccountDialog");
+    }
+
     @Override
     public void onValidationFailed(List<ValidationError> errors) {
         for (ValidationError error : errors) {
@@ -125,5 +142,15 @@ public class LoginPromptActivity extends AppCompatActivity implements Validator.
                 ((EditText) view).setError(message);
             }
         }
+    }
+
+    @Override
+    public void onConfirm() {
+
+    }
+
+    @Override
+    public void onDismiss() {
+
     }
 }
