@@ -94,7 +94,6 @@ public class MakeMusicActivity extends FragmentActivity implements OnMapReadyCal
 
         currentGroup = getIntent().getExtras().getParcelable(Constants.KEY_CURRENT_GROUP);
 
-        //Hardcoded activity id because it is applicable only on this module added to the app.
         activity = getIntent().getExtras().getParcelable(Constants.ACTIVITY_KEY);
         chosenLocations.addAll(activity.getPointsOfInterest());
 
