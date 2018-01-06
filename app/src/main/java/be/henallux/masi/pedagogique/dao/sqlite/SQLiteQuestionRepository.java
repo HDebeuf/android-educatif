@@ -19,8 +19,8 @@ import be.henallux.masi.pedagogique.model.Question;
 
 public class SQLiteQuestionRepository implements IQuestionRepository {
 
-    private IAnswerRepository answerRepository;
     private Context context;
+    private IAnswerRepository answerRepository = new SQLiteAnswerRepository(context);
 
     public SQLiteQuestionRepository(Context context) {
         this.context = context;
@@ -37,7 +37,7 @@ public class SQLiteQuestionRepository implements IQuestionRepository {
                         QuestionEntity.COLUMN_STATEMENT,
                         QuestionEntity.COLUMN_TYPE,
                         QuestionEntity.COLUMN_FK_QUESTIONNAIRE},
-                InstrumentEntity.COLUMN_FK_QUESTIONNAIRE + "=?",new String[]{String.valueOf(idQuestionnaire)},
+                QuestionEntity.COLUMN_ID + "=?",new String[]{String.valueOf(idQuestionnaire)},
                 null, null, null);
 
         if(cursor.getCount() == 0) return null;
@@ -49,6 +49,7 @@ public class SQLiteQuestionRepository implements IQuestionRepository {
 
             ArrayList<Answer> answers = answerRepository.getAnswersOfQuestion(idQuestion);
             questions.add(new Question(idQuestion,statement, type, answers));
+            cursor.moveToNext();
         }
 
 

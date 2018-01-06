@@ -47,6 +47,7 @@ public class SQLiteAnswerRepository implements IAnswerRepository {
             boolean isTrue = cursor.getInt(2) == 1;
 
             answers.add(new Answer(idAnswer,statement,isTrue));
+            cursor.moveToNext();
         }
 
 

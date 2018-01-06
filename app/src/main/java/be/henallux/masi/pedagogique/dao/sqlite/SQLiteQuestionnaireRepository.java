@@ -43,7 +43,7 @@ public class SQLiteQuestionnaireRepository implements IQuestionnaireRepository {
         Cursor cursor = db.query(QuestionnaireEntity.TABLE,
                 new String[]{QuestionnaireEntity.COLUMN_ID,
                         QuestionnaireEntity.COLUMN_STATEMENT},
-                InstrumentEntity.COLUMN_FK_LOCATION + "=?",new String[]{String.valueOf(idQuestionnaire)},
+                QuestionnaireEntity.COLUMN_ID + "=?",new String[]{String.valueOf(idQuestionnaire)},
                 null, null, null);
 
         if(cursor.getCount() == 0) return null;
