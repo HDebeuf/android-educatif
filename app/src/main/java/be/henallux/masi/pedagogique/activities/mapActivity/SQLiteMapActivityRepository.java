@@ -110,6 +110,8 @@ public class SQLiteMapActivityRepository implements IMapActivityRepository {
                 LocationEntity.COLUMN_ID + "=?",
                 new String[]{String.valueOf(id)},
                 null, null, null);
+
+        if(cursor.getCount() == 0) return null;
         cursor.moveToFirst();
         try {
             int idLocation = cursor.getInt(0);

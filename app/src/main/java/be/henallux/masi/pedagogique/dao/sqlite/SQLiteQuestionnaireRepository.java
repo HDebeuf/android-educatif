@@ -34,112 +34,13 @@ public class SQLiteQuestionnaireRepository implements IQuestionnaireRepository {
     }
 
 
-    public ArrayList<Question> getAllQuestion(Questionnaire questionnaire) {
-
-        idQuestionnaire = questionnaire.getId();
-        SQLiteDatabase db = SQLiteHelper.getDatabaseInstance(context);
-        questions = new ArrayList<>();
-        Cursor cursor = db.rawQuery("Select * from "+ QuestionEntity.TABLE+" where "+QuestionEntity.COLUMN_FK_QUESTIONNAIRE+" = '"+idQuestionnaire+"'",null);
-
-        cursor.moveToFirst();
-
-         while (!cursor.isAfterLast()) {
-             int id = cursor.getInt(0);
-             String statement = cursor.getString(1);
-             // récupéré les reponses
-             ArrayList<Answer> answers = new ArrayList<>();
-             Cursor c = db.rawQuery("Select * from "+ AnswerEntity.TABLE+" where "+AnswerEntity.COLUMN_FK_QUESTION+" = '"+id+"'",null);
-
-             c.moveToFirst();
-
-             while (!c.isAfterLast()) {
-                 int a_id= c.getInt(0);
-                 String a_statement = c.getString(1);
-                 answers.add(new Answer(a_id,a_statement));
-                 c.moveToNext();
-             }
-             c.close();
-
-             questions.add(new Question(id,statement,questionnaire,answers));
-
-             cursor.moveToNext();
-         }
-
-        cursor.close();
-        return questions;
+    @Override
+    public ArrayList<Question> getAllQuestionOfQuestionnaire(Questionnaire questionnaire) {
+        return null;
     }
 
-
-
-    /**
-     * Récupération du questionnaire
-     * @param idlocation
-     * @return Questionnaire
-     */
-
-
-    public Questionnaire getQuestionnaire(int idlocation) {
-
-        SQLiteDatabase db = SQLiteHelper.getDatabaseInstance(context);
-        StringBuilder queryString = new  StringBuilder();
-
-        queryString.append("SELECT * FROM "+ QuestionnaireEntity.TABLE);
-        queryString.append("INNER JOIN EducativeActivity ON EducativeActivity.Questionnaire_idQuestionnaire = Questionnaire.idQuestionnaire");
-        queryString.append("INNER JOIN ActivityMapBase ON ActivityMapBase.Activity_idActivity = EducativeActivity.idActivity");
-        queryString.append("INNER JOIN Location ON Location.ActivityMapBase_idActivityMapBase = ActivityMapBase.idActivityMapBase");
-        queryString.append("WHERE ");
-
-        // Renvoie les données de la requête
-        Cursor cursor = db.rawQuery(queryString.toString(), null);
-
-        cursor.moveToFirst();
-
-        while (!cursor.isAfterLast()) {
-            int id = cursor.getInt(0);
-            String statement = cursor.getString(1);
-            questionnaire = new Questionnaire(id,statement);
-
-            cursor.moveToNext();
-        }
-
-        cursor.close();
-
-        return questionnaire;
+    @Override
+    public Questionnaire getQuestionnaireById(int idQuestionnaire) {
+        return null;
     }
-
-
-    // CORRECTION
-    
-    public Questionnaire getAllQuizzData (int idLocation){
-
-        SQLiteDatabase db = SQLiteHelper.getDatabaseInstance(context);
-        StringBuilder queryString = new  StringBuilder();
-
-        queryString.append("SELECT * FROM "+ AnswerEntity.TABLE);
-        queryString.append("INNER JOIN " + QuestionEntity.TABLE +" ON " + AnswerEntity.COLUMN_FK_QUESTION + " = " + QuestionEntity.COLUMN_ID);
-        queryString.append("INNER JOIN " + QuestionnaireEntity.TABLE +" ON " + QuestionEntity.COLUMN_FK_QUESTIONNAIRE + " = " + QuestionnaireEntity.COLUMN_ID);
-        queryString.append("INNER JOIN " + InstrumentEntity.TABLE +" ON " + InstrumentEntity.COLUMN_FK_QUESTIONNAIRE + " = " + QuestionnaireEntity.COLUMN_ID);
-        queryString.append("WHERE " + InstrumentEntity.COLUMN_FK_LOCATION + " = " + idLocation);
-
-        // Renvoie les données de la requête
-        Cursor cursor = db.rawQuery(queryString.toString(), null);
-
-        cursor.moveToFirst();
-
-        while (!cursor.isAfterLast()) {
-            int id = cursor.getInt(0);
-
-            //TO DO cursor management + creation of other objects
-
-            questionnaire = new Questionnaire(id,statement);
-
-            cursor.moveToNext();
-        }
-
-        cursor.close();
-
-    }
-
-
-
 }

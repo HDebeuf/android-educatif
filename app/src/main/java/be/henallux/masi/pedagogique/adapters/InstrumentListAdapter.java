@@ -71,49 +71,34 @@ public class InstrumentListAdapter extends RecyclerView.Adapter<InstrumentListAd
         Picasso.with(context).load(instrumentArrayList.get(position).getImagePath()).into(holder.instrumentImage);
 
         holder.lockedImage.setImageResource(R.drawable.ic_locked);
-        Log.d("mediainfo",String.valueOf(instrumentArrayList.get(position).isUnlocked()));
-        Log.d("mediainfo",String.valueOf(instrumentArrayList.get(position).getSampleFileName()));
-        if (instrumentArrayList.get(position).isUnlocked()){
-            holder.lockedImage.setVisibility(View.GONE);
 
-            //Manage multiple sound play in a SoundPool
 
-            String fileName = instrumentArrayList.get(position).getSampleFileName();
-            String fileType = "raw";
+        holder.lockedImage.setVisibility(View.GONE);
 
-            soundID = soundPoolHandler.loadSample(fileName, fileType);
+        //Manage multiple sound play in a SoundPool
 
-            ArrayList<Integer> idData = new ArrayList<>(2);
-            idData.add(soundID);
-            idData.add(instrumentArrayList.get(position).getLocationId());
+        String fileName = instrumentArrayList.get(position).getSampleFileName();
+        String fileType = "raw";
 
-            holder.instrumentImage.setTag(idData);
-            holder.instrumentImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ArrayList<Integer> idData = (ArrayList<Integer>) holder.instrumentImage.getTag();
-                    soundPoolHandler.playSample(idData.get(0));
-                    Log.d("tototo",idData.get(0).toString());
-                    Log.d("tototo",idData.get(1).toString());
-                    mapChangeHandler.moveToPosition(idData.get(1));
-                }
-            });
+        soundID = soundPoolHandler.loadSample(fileName, fileType);
 
-        } else {
-            holder.instrumentInfoButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    openContinentQuizz(instrumentArrayList.get(position).getLocationId());
-                }
-            });
-            holder.lockedImage.setTag(instrumentArrayList.get(position).getLocationId());
-            holder.lockedImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mapChangeHandler.moveToPosition(Integer.valueOf(holder.lockedImage.getTag().toString()));
-                }
-            });
-        }
+        ArrayList<Integer> idData = new ArrayList<>(2);
+        idData.add(soundID);
+        idData.add(instrumentArrayList.get(position).getLocationId());
+
+        holder.instrumentImage.setTag(idData);
+        holder.instrumentImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ArrayList<Integer> idData = (ArrayList<Integer>) holder.instrumentImage.getTag();
+                soundPoolHandler.playSample(idData.get(0));
+                Log.d("tototo",idData.get(0).toString());
+                Log.d("tototo",idData.get(1).toString());
+                mapChangeHandler.moveToPosition(idData.get(1));
+            }
+        });
+
+
 
         holder.instrumentInfoButton.setImageResource(R.drawable.ic_info);
         holder.instrumentInfoButton.setId(instrumentArrayList.get(position).getLocationId());
@@ -144,7 +129,6 @@ public class InstrumentListAdapter extends RecyclerView.Adapter<InstrumentListAd
             instrumentImage = (ImageView) itemView.findViewById(R.id.instrumentImage);
             instrumentInfoButton = (ImageButton) itemView.findViewById(R.id.informationButton);
             lockedImage = itemView.findViewById(R.id.locked);
-
         }
     }
 
@@ -153,6 +137,5 @@ public class InstrumentListAdapter extends RecyclerView.Adapter<InstrumentListAd
         intent.putExtra(Constants.KEY_LOCATION_CLICKED,locationId);
         context.startActivity(intent);
     }
-
 }
 

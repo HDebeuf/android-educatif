@@ -2,6 +2,7 @@ package be.henallux.masi.pedagogique.dao.interfaces;
 
 import java.util.ArrayList;
 
+import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.Instrument;
 import be.henallux.masi.pedagogique.model.Group;
 import be.henallux.masi.pedagogique.model.User;
 

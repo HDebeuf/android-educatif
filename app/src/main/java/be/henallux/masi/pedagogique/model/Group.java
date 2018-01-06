@@ -27,6 +27,10 @@ public class Group implements Parcelable {
         this.members = members;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
     protected Group(Parcel in) {
         id = in.readByte() == 0x00 ? null : in.readInt();
         if (in.readByte() == 0x01) {

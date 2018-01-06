@@ -25,6 +25,7 @@ import be.henallux.masi.pedagogique.activities.mapActivity.ActivityMapBase;
 import be.henallux.masi.pedagogique.activities.mapActivity.IMapActivityRepository;
 import be.henallux.masi.pedagogique.activities.mapActivity.Location;
 import be.henallux.masi.pedagogique.activities.mapActivity.SQLiteMapActivityRepository;
+import be.henallux.masi.pedagogique.model.Group;
 import be.henallux.masi.pedagogique.utils.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,7 +35,7 @@ public class MapMusicalActivity extends FragmentActivity implements OnMapReadyCa
     private GoogleMap mMap;
     private IMapActivityRepository repository;
     private ActivityMapBase activity;
-    private Integer group;
+    private Group currentGroup;
     private HashMap<Marker,Location> hashMapMarkersLocation = new HashMap<>();
     private ArrayList<Location> chosenLocations = new ArrayList<>();
 
@@ -48,6 +49,8 @@ public class MapMusicalActivity extends FragmentActivity implements OnMapReadyCa
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_musical);
+
+        currentGroup = getIntent().getExtras().getParcelable(Constants.KEY_CURRENT_GROUP);
 
         ButterKnife.bind(this);
 
@@ -70,7 +73,8 @@ public class MapMusicalActivity extends FragmentActivity implements OnMapReadyCa
 
     private void openSongEditor() {
         Intent intent = new Intent(this, MakeMusicActivity.class);
-        intent.putExtra(Constants.ACTIVITY_KEY,MakeMusicActivity.class);
+        intent.putExtra(Constants.ACTIVITY_KEY,activity);
+        intent.putExtra(Constants.KEY_CURRENT_GROUP,currentGroup);
         startActivity(intent);
     }
 
@@ -104,6 +108,8 @@ public class MapMusicalActivity extends FragmentActivity implements OnMapReadyCa
                 Location l = hashMapMarkersLocation.get(marker);
                 Intent intent = new Intent(be.henallux.masi.pedagogique.activities.musicalActivity.MapMusicalActivity.this,l.getClassToThrow());
                 intent.putExtra(Constants.KEY_LOCATION_CLICKED,l.getId());
+                intent.putExtra(Constants.ACTIVITY_KEY,activity);
+                intent.putExtra(Constants.KEY_CURRENT_GROUP,currentGroup);
                 startActivity(intent);
                 return true;
             }

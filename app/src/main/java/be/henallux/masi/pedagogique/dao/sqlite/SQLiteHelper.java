@@ -27,6 +27,7 @@ import be.henallux.masi.pedagogique.dao.sqlite.entities.CategoryToActivityEntity
 import be.henallux.masi.pedagogique.dao.sqlite.entities.ClassEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.GroupEntity;
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.entities.InstrumentEntity;
+import be.henallux.masi.pedagogique.dao.sqlite.entities.InstrumentUnlockedEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.QuestionEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.QuestionnaireEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.ResultEntity;
@@ -204,7 +205,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(SynthesisVideoEntity.CREATE_TABLE_SYNTHESIS_VIDEO);
         sqLiteDatabase.execSQL(SynthesisWebViewEntity.CREATE_TABLE_SYNTHESIS_WEBVIEW);
         sqLiteDatabase.execSQL(InstrumentEntity.CREATE_TABLE_INSTRUMENTS);
-        sqLiteDatabase.execSQL(CREATE_TABLE_INSTRUMENT_UNLOCKED);
+        sqLiteDatabase.execSQL(InstrumentUnlockedEntity.CREATE_TABLE_INSTRUMENT_UNLOCKED);
         // End modules
 
         sqLiteDatabase.execSQL(CREATE_TABLE_CATEGORYTOACTIVITY);
@@ -1407,7 +1408,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         uriIcon = Uri.parse("android.resource://" + context.getPackageName() + "/drawable/ic_instrument_africa");
         values.put(InstrumentEntity.COLUMN_IMAGE_PATH, uriIcon.toString());
         values.put(InstrumentEntity.COLUMN_SAMPLE_FILE_NAME, "djembe_sample");
-        values.put(InstrumentEntity.COLUMN_UNLOCKED, "1");
         values.put(InstrumentEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireAsie);
         database.insert(InstrumentEntity.TABLE, null, values);
 
@@ -1418,7 +1418,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         uriIcon = Uri.parse("android.resource://" + context.getPackageName() + "/drawable/ic_instrument_asia");
         values.put(InstrumentEntity.COLUMN_IMAGE_PATH, uriIcon.toString());
         values.put(InstrumentEntity.COLUMN_SAMPLE_FILE_NAME, "benju_sample");
-        values.put(InstrumentEntity.COLUMN_UNLOCKED, "1");
         values.put(InstrumentEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireAfrique);
         database.insert(InstrumentEntity.TABLE, null, values);
 
@@ -1429,7 +1428,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         uriIcon = Uri.parse("android.resource://" + context.getPackageName() + "/drawable/ic_instrument_america");
         values.put(InstrumentEntity.COLUMN_IMAGE_PATH, uriIcon.toString());
         values.put(InstrumentEntity.COLUMN_SAMPLE_FILE_NAME, "rain_stick_sample");
-        values.put(InstrumentEntity.COLUMN_UNLOCKED, "1");
         values.put(InstrumentEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireAmerique);
         database.insert(InstrumentEntity.TABLE, null, values);
 
@@ -1440,7 +1438,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         uriIcon = Uri.parse("android.resource://" + context.getPackageName() + "/drawable/ic_instrument_europe");
         values.put(InstrumentEntity.COLUMN_IMAGE_PATH, uriIcon.toString());
         values.put(InstrumentEntity.COLUMN_SAMPLE_FILE_NAME, "guitar_sample");
-        values.put(InstrumentEntity.COLUMN_UNLOCKED, "1");
         values.put(InstrumentEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireEurope);
         database.insert(InstrumentEntity.TABLE, null, values);
 
@@ -1451,7 +1448,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         uriIcon = Uri.parse("android.resource://" + context.getPackageName() + "/drawable/ic_instrument_oceanie");
         values.put(InstrumentEntity.COLUMN_IMAGE_PATH, uriIcon.toString());
         values.put(InstrumentEntity.COLUMN_SAMPLE_FILE_NAME, "jaw_harp_sample");
-        values.put(InstrumentEntity.COLUMN_UNLOCKED, "1");
         values.put(InstrumentEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireOceanie);
         database.insert(InstrumentEntity.TABLE, null, values);
 

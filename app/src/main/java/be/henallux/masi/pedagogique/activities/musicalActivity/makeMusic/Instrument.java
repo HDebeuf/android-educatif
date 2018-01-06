@@ -2,7 +2,6 @@ package be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic;
 
 import android.net.Uri;
 
-import be.henallux.masi.pedagogique.model.Question;
 import be.henallux.masi.pedagogique.model.Questionnaire;
 
 /**
@@ -16,28 +15,19 @@ public class Instrument {
     private String description;
     private Uri imagePath;
     private String sampleFileName;
-    private boolean isUnlocked;
+    private Questionnaire questionnaire;
     private int soundId;
 
-    public Instrument() {
-    }
 
-    public Instrument(int id, int locationId, String name, Uri imagePath, String sampleFileName, boolean isUnlocked) {
-        this.id = id;
-        this.locationId = locationId;
-        this.name = name;
-        this.imagePath = imagePath;
-        this.sampleFileName = sampleFileName;
-        this.isUnlocked = isUnlocked;
-    }
-
-    public Instrument(int id, int locationId, String name, String description, Uri imagePath, boolean isUnlocked) {
+    public Instrument(int id, int locationId, String name, String description, Uri imagePath, String sampleFileName, Questionnaire questionnaire, int soundId) {
         this.id = id;
         this.locationId = locationId;
         this.name = name;
         this.description = description;
         this.imagePath = imagePath;
-        this.isUnlocked = isUnlocked;
+        this.sampleFileName = sampleFileName;
+        this.questionnaire = questionnaire;
+        this.soundId = soundId;
     }
 
     public int getId() {
@@ -88,12 +78,12 @@ public class Instrument {
         this.sampleFileName = sampleFileName;
     }
 
-    public boolean isUnlocked() {
-        return isUnlocked;
+    public Questionnaire getQuestionnaire() {
+        return questionnaire;
     }
 
-    public void setUnlocked(boolean unlocked) {
-        isUnlocked = unlocked;
+    public void setQuestionnaire(Questionnaire questionnaire) {
+        this.questionnaire = questionnaire;
     }
 
     public int getSoundId() {

@@ -18,7 +18,5 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, LoginPromptActivity.class);
         startActivity(intent);
-        //Intent i = new Intent(this, UITestActivity.class);
-        //startActivity(i);
     }
 }

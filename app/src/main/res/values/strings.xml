@@ -36,5 +36,6 @@
     <string name="gender_male">Garçon</string>
     <string name="gender_female">Fille</string>
     <string name="gender_other">Autre</string>
+    <string name="musical_welcome_title">Bonjour et Bienvenue en</string>
 
 </resources>
