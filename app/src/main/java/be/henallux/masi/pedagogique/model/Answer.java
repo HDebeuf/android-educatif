@@ -9,16 +9,20 @@ public class Answer {
     private Integer id;
     private String statement;
     private Question question;
+    private boolean isCorrect;
 
-    public Answer(Integer id, String statement, Question question) {
+    public Answer(Integer id, String statement, Question question, boolean isCorrect) {
         this.id = id;
         this.statement = statement;
         this.question = question;
+        this.isCorrect = isCorrect;
+
     }
     public Answer(Integer id, String statement) {
         this.id = id;
         this.statement = statement;
     }
+
     public Question getQuestion() {
         return question;
     }

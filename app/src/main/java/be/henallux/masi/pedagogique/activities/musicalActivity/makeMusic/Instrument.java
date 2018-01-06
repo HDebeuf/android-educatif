@@ -2,6 +2,9 @@ package be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic;
 
 import android.net.Uri;
 
+import be.henallux.masi.pedagogique.model.Question;
+import be.henallux.masi.pedagogique.model.Questionnaire;
+
 /**
  * Created by hendrikdebeuf2 on 30/12/17.
  */
@@ -16,7 +19,8 @@ public class Instrument {
     private boolean isUnlocked;
     private int soundId;
 
-    public  Instrument() {}
+    public Instrument() {
+    }
 
     public Instrument(int id, int locationId, String name, Uri imagePath, String sampleFileName, boolean isUnlocked) {
         this.id = id;
@@ -27,12 +31,13 @@ public class Instrument {
         this.isUnlocked = isUnlocked;
     }
 
-    public Instrument(int id, int locationId, String name, String description, Uri imagePath) {
+    public Instrument(int id, int locationId, String name, String description, Uri imagePath, boolean isUnlocked) {
         this.id = id;
         this.locationId = locationId;
         this.name = name;
         this.description = description;
         this.imagePath = imagePath;
+        this.isUnlocked = isUnlocked;
     }
 
     public int getId() {
