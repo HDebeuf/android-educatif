@@ -11,12 +11,8 @@ import be.henallux.masi.pedagogique.model.Questionnaire;
  */
 
 public interface IQuestionnaireRepository {
-<<<<<<< HEAD
-    ArrayList<Question> getAllQuestion(Questionnaire questionnaire);
-    Questionnaire getQuestionnaire(int idlocation);
 
-=======
     ArrayList<Question> getAllQuestionOfQuestionnaire(Questionnaire questionnaire);
     Questionnaire getQuestionnaireById(int idQuestionnaire);
->>>>>>> e18c0f2df4e6e0ad7a0fe5aa2642c82933715529
+
 }

@@ -10,12 +10,23 @@ import java.util.ArrayList;
 public class Question {
     private Integer id;
     private String statement;
+<<<<<<< HEAD
     //private Questionnaire questionnaire;
     private ArrayList<Answer> answers;
 
     public Question(Integer id, String statement, ArrayList<Answer> answers) {
         this.id = id;
         this.statement = statement;
+=======
+    private int type;
+    //private Questionnaire questionnaire;
+    private ArrayList<Answer> answers;
+
+    public Question(Integer id, String statement, int type, ArrayList<Answer> answers) {
+        this.id = id;
+        this.statement = statement;
+        this.type = type;
+>>>>>>> 9632e73b89e2e94b3ad032d8939b599119300f66
         //this.questionnaire = questionnaire;
         this.answers = answers;
     }
@@ -30,6 +41,14 @@ public class Question {
 
     public String getStatement() {
         return statement;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public void setStatement(String statement) {

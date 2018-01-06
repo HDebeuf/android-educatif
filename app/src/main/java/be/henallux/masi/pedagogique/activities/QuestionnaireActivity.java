@@ -4,11 +4,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
-<<<<<<< HEAD
+
 import android.support.v7.widget.RecyclerView;
-=======
+
 import android.util.Log;
->>>>>>> e18c0f2df4e6e0ad7a0fe5aa2642c82933715529
+
+import android.util.Log;
 
 import be.henallux.masi.pedagogique.R;
 import be.henallux.masi.pedagogique.activities.mapActivity.IMapActivityRepository;
@@ -33,13 +34,11 @@ public class QuestionnaireActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-<<<<<<< HEAD
-=======
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_musical_questionnaire);
 
->>>>>>> e18c0f2df4e6e0ad7a0fe5aa2642c82933715529
         context = getApplicationContext();
 
         Questionnaire questionnaire = getIntent().getExtras().getParcelable(Constants.KEY_LOCATION_CLICKED);
@@ -47,8 +46,7 @@ public class QuestionnaireActivity extends AppCompatActivity {
     }
 
 
-
-    @Override
+/*
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_musical_questionnaire);
@@ -58,5 +56,7 @@ public class QuestionnaireActivity extends AppCompatActivity {
         addHeaderRecyclerView.setHasFixedSize(true);
         CustomRecyclerViewAdapter customAdapter = new CustomRecyclerViewAdapter(getDataSource());
         addHeaderRecyclerView.setAdapter(customAdapter);
+
     }
+    */
 }
