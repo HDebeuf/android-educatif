@@ -26,6 +26,7 @@ import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handler
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.Instrument;
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers.SoundPoolHandler;
 import be.henallux.masi.pedagogique.model.Question;
+import be.henallux.masi.pedagogique.model.Questionnaire;
 import be.henallux.masi.pedagogique.utils.Constants;
 
 /**
@@ -36,29 +37,36 @@ public class QuestionnaireListAdapter extends RecyclerView.Adapter<Questionnaire
 
     private Context context;
     private ArrayList<Question> questionsArrayList;
-    private ISoundPoolHandler soundPoolHandler;
-    private IMapChangeHandler mapChangeHandler;
-    private SoundPool soundPool;
-    private int soundID;
-    private int tagId;
-    private boolean loaded;
 
-    public QuestionnaireListAdapter(Context context, ArrayList<Question> questionArrayList, IMapChangeHandler mapChangeHandler) {
+    public QuestionnaireListAdapter(Context context, ArrayList<Question> questionArrayList) {
         this.context = context;
         this.questionsArrayList = questionArrayList;
-        this.mapChangeHandler = mapChangeHandler;
-        tagId = 1;
     }
 
     @Override
     public QuestionnaireListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v= LayoutInflater.from(context).inflate(R.layout.single_instrument,parent,false);
-        //InstrumentListAdapter.ViewHolder holder = new InstrumentListAdapter.ViewHolder(v);
+        QuestionnaireListAdapter.ViewHolder holder = new QuestionnaireListAdapter.ViewHolder(v);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(final InstrumentListAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(QuestionnaireListAdapter.ViewHolder holder, int position) {
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return 0;
+    }
+
+   /* @Override
+    public QuestionnaireListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+    }
+
+    @Override
+    public void onBindViewHolder(final QuestionnaireListAdapter.ViewHolder holder, final int position) {
         if(position % 2 == 0){
             holder.instrumentImage.setBackgroundColor(ContextCompat.getColor(context,R.color.recyclerview_background_1));
         }
@@ -67,8 +75,23 @@ public class QuestionnaireListAdapter extends RecyclerView.Adapter<Questionnaire
             holder.instrumentImage.setBackgroundColor(ContextCompat.getColor(context,R.color.recyclerview_background_2));
         }
 
+        holder.instrumentName.setText(instrumentArrayList.get(position).getName());
+        Picasso.with(context).load(instrumentArrayList.get(position).getImagePath()).into(holder.instrumentImage);
 
-    }
+        holder.lockedImage.setImageResource(R.drawable.ic_locked);
 
+
+        holder.lockedImage.setVisibility(View.GONE);
+
+
+        String fileName = instrumentArrayList.get(position).getSampleFileName();
+        String fileType = "raw";
+
+        soundID = soundPoolHandler.loadSample(fileName, fileType);
+
+        ArrayList<Integer> idData = new ArrayList<>(2);
+        idData.add(soundID);
+        idData.add(instrumentArrayList.get(position).getLocationId());
+        */
 
 }
