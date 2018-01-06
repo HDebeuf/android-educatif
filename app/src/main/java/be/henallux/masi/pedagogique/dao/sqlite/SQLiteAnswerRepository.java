@@ -1,4 +1,4 @@
-package be.henallux.masi.pedagogique.dao.sqlite.entities;
+package be.henallux.masi.pedagogique.dao.sqlite;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.entities.InstrumentEntity;
 import be.henallux.masi.pedagogique.dao.interfaces.IAnswerRepository;
 import be.henallux.masi.pedagogique.dao.sqlite.SQLiteHelper;
+import be.henallux.masi.pedagogique.dao.sqlite.entities.AnswerEntity;
 import be.henallux.masi.pedagogique.model.Answer;
 import be.henallux.masi.pedagogique.model.Question;
 
