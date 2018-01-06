@@ -22,8 +22,7 @@ import be.henallux.masi.pedagogique.model.Question;
 import be.henallux.masi.pedagogique.model.Questionnaire;
 
 /**
- * Created by hendrikdebeuf2 on 30/12/17.
- * modified by Angèle Guillon on 04/01/18.
+ * Created by Angèle Guillon on 04/01/18.
  */
 
 public class SQLiteQuestionnaireRepository implements IQuestionnaireRepository {
@@ -76,12 +75,14 @@ public class SQLiteQuestionnaireRepository implements IQuestionnaireRepository {
      * @return Questionnaire
      */
     @Override
-    public Questionnaire getQuestionnaqire(int idlocation) {
+    public Questionnaire getQuestionnaire(int idlocation) {
 
         SQLiteDatabase db = SQLiteHelper.getDatabaseInstance(context);
         StringBuilder queryString = new  StringBuilder();
         Questionnaire questionnaire = new Questionnaire();
 
+
+        // a refaire avec les nom de colonne variable pour que se soit plus propre
         queryString.append("SELECT * FROM "+ QuestionnaireEntity.TABLE);
         queryString.append("INNER JOIN EducativeActivity ON EducativeActivity.Questionnaire_idQuestionnaire = Questionnaire.idQuestionnaire");
         queryString.append("INNER JOIN ActivityMapBase ON ActivityMapBase.Activity_idActivity = EducativeActivity.idActivity");
@@ -101,10 +102,6 @@ public class SQLiteQuestionnaireRepository implements IQuestionnaireRepository {
         }
 
         cursor.close();
-
-
-
-
 
         return questionnaire;
 
