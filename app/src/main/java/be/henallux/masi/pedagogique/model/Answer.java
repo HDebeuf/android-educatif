@@ -8,13 +8,11 @@ public class Answer {
 
     private Integer id;
     private String statement;
-    private Question question;
     private boolean isCorrect;
 
-    public Answer(Integer id, String statement, Question question, boolean isCorrect) {
+    public Answer(Integer id, String statement, boolean isCorrect) {
         this.id = id;
         this.statement = statement;
-        this.question = question;
         this.isCorrect = isCorrect;
 
     }
@@ -23,13 +21,7 @@ public class Answer {
         this.statement = statement;
     }
 
-    public Question getQuestion() {
-        return question;
-    }
 
-    public void setQuestion(Question question) {
-        this.question = question;
-    }
 
     public Integer getId() {
         return id;
