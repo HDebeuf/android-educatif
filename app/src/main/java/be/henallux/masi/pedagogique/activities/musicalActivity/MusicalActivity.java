@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import be.henallux.masi.pedagogique.R;
+import be.henallux.masi.pedagogique.activities.QuestionnaireActivity;
 import be.henallux.masi.pedagogique.activities.mapActivity.IMapActivityRepository;
 import be.henallux.masi.pedagogique.activities.mapActivity.Location;
 import be.henallux.masi.pedagogique.activities.mapActivity.SQLiteMapActivityRepository;
@@ -42,7 +43,7 @@ public class MusicalActivity extends AppCompatActivity {
         instrument = instrumentRepository.getOneInstrument(clickedLocation.getId());
 
         TextView hello = (TextView) findViewById(R.id.TextHello);
-        hello.setText("Bonjour et Bienvenue en "+clickedLocation.getTitle());
+        hello.setText("Bonjour et Bienvenue en " + clickedLocation.getTitle());
 
         TextView description = (TextView) findViewById(R.id.descriptionText);
         description.setText(instrument.getDescription());
@@ -51,13 +52,13 @@ public class MusicalActivity extends AppCompatActivity {
         Picasso.with(context).load(instrument.getImagePath()).into(imgmusic);
 
         Button question = (Button) findViewById(R.id.questionnaireButton);
-        question.setOnClickListener(openQuestionnaire());
+        question.setOnClickListener(new View.OnClickListener() {
 
-    }
+            public void onClick(View v) {
+                Intent intent = new Intent(context, QuestionnaireActivity.class);
+                startActivity(intent);
+            }
 
-
-    public void openQuestionnaire() {
-        Intent intent = new Intent(this, MusicalQuestionnaire.class);
-        startActivity(intent);
+        });
     }
 }

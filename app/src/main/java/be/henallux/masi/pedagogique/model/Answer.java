@@ -15,7 +15,10 @@ public class Answer {
         this.statement = statement;
         this.question = question;
     }
-
+    public Answer(Integer id, String statement) {
+        this.id = id;
+        this.statement = statement;
+    }
     public Question getQuestion() {
         return question;
     }

@@ -73,6 +73,9 @@
         <activity
             android:name=".activities.musicalActivity.MakeMusicActivity"
             android:theme="@style/DefaultBackgroundTheme" />
+        <activity
+            android:name=".activities.QuestionnaireActivity"
+            android:theme="@style/DefaultBackgroundTheme" />
 
         <activity
             android:name=".activities.historyActivity.FrescoActivity"

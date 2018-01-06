@@ -11,10 +11,22 @@ public class Questionnaire {
     private String statement;
     private ArrayList<Question> questions;
 
+    public Questionnaire() {
+    }
+
     public Questionnaire(Integer id, String statement, ArrayList<Question> questions) {
         this.id = id;
         this.statement = statement;
         this.questions = questions;
+    }
+
+    public Questionnaire(Integer id, String statement) {
+        this.id = id;
+        this.statement = statement;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public String getStatement() {
