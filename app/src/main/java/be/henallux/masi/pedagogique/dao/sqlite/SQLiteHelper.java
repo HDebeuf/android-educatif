@@ -32,6 +32,8 @@ import be.henallux.masi.pedagogique.dao.sqlite.entities.QuestionnaireEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.ResultEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.UserEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.UserToGroupEntity;
+import be.henallux.masi.pedagogique.model.Answer;
+import be.henallux.masi.pedagogique.model.Question;
 import be.henallux.masi.pedagogique.utils.ICryptographyService;
 import be.henallux.masi.pedagogique.utils.SHA256CryptographyService;
 
@@ -116,6 +118,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                     + AnswerEntity.TABLE + "("
                     + AnswerEntity.COLUMN_ID + " integer primary key autoincrement, "
                     + AnswerEntity.COLUMN_STATEMENT + " varchar(50) not null,"
+                    + AnswerEntity.COLUMN_IS_TRUE+ " integer not null,"
                     + AnswerEntity.COLUMN_FK_QUESTION + " integer not null,"
                     + " foreign key (" + AnswerEntity.COLUMN_FK_QUESTION + ") references " + QuestionEntity.TABLE + "(" + QuestionEntity.COLUMN_ID + "))";
     public static final String CREATE_TABLE_RESULT =
@@ -179,6 +182,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("drop table if exists " + SynthesisImageEntity.TABLE);
         sqLiteDatabase.execSQL("drop table if exists " + SynthesisWebViewEntity.TABLE);
         sqLiteDatabase.execSQL("drop table if exists " + InstrumentEntity.TABLE);
+        sqLiteDatabase.execSQL("drop table if exists " + InstrumentUnlockedEntity.TABLE);
 
         sqLiteDatabase.execSQL(CREATE_TABLE_CLASS);
         sqLiteDatabase.execSQL(CREATE_TABLE_USER);
@@ -200,6 +204,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(SynthesisVideoEntity.CREATE_TABLE_SYNTHESIS_VIDEO);
         sqLiteDatabase.execSQL(SynthesisWebViewEntity.CREATE_TABLE_SYNTHESIS_WEBVIEW);
         sqLiteDatabase.execSQL(InstrumentEntity.CREATE_TABLE_INSTRUMENTS);
+        sqLiteDatabase.execSQL(CREATE_TABLE_INSTRUMENT_UNLOCKED);
         // End modules
 
         sqLiteDatabase.execSQL(CREATE_TABLE_CATEGORYTOACTIVITY);
@@ -226,15 +231,328 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         int idCategoryInferior = (int) database.insert(CategoryEntity.TABLE, null, values);
         //endregion
 
+        //HISTORY ACTIVITY
+
+        //Quizz
         values.clear();
-        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "Questionnaire de test");
-        int idQuestionnaire = (int) database.insert(QuestionnaireEntity.TABLE, null, values);
+        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "Questionnaire Fédéraltion Wallonie-Bruxelles");
+        int idQuestionnaireWallonieBruxelles = (int) database.insert(QuestionnaireEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "Questionnaire Communauté Flammande");
+        int idQuestionnaireCommunauteFlamande = (int) database.insert(QuestionnaireEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "Questionnaire Communauté Germanophone");
+        int idQuestionnaireGermanophone = (int) database.insert(QuestionnaireEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "Questionnaire Ostende");
+        int idQuestionnaireOstende = (int) database.insert(QuestionnaireEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "Questionnaire Bruges");
+        int idQuestionnaireBruges = (int) database.insert(QuestionnaireEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "Questionnaire Gand");
+        int idQuestionnaireGand = (int) database.insert(QuestionnaireEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "Questionnaire Anvers");
+        int idQuestionnaireAnvers = (int) database.insert(QuestionnaireEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "Questionnaire Bruxelles");
+        int idQuestionnaireBruxelles = (int) database.insert(QuestionnaireEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "Questionnaire Charleroi");
+        int idQuestionnaireCharleroi = (int) database.insert(QuestionnaireEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "Questionnaire Liège");
+        int idQuestionnaireLiege = (int) database.insert(QuestionnaireEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "Questionnaire Eupen");
+        int idQuestionnaireEupen = (int) database.insert(QuestionnaireEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "Questionnaire Namur");
+        int idQuestionnaireNamur = (int) database.insert(QuestionnaireEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "Questionnaire Bastogne");
+        int idQuestionnaireBastogne = (int) database.insert(QuestionnaireEntity.TABLE, null, values);
+
+        //Questions
+        values.clear();
+        values.put(QuestionEntity.COLUMN_STATEMENT, "Quelle est la date de la fête de la Fédération Wallonie-Bruxelles ?");
+        values.put(QuestionEntity.COLUMN_TYPE, "1");
+        values.put(QuestionEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireWallonieBruxelles);
+        int idQuestionWallonieBruxelles1 = (int) database.insert(QuestionEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionEntity.COLUMN_STATEMENT, "Quelle est la date de la fête de la Communauté flamande ?");
+        values.put(QuestionEntity.COLUMN_TYPE, "1");
+        values.put(QuestionEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireCommunauteFlamande);
+        int idQuestionCommunauteFlamande1 = (int) database.insert(QuestionEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionEntity.COLUMN_STATEMENT, "Que se passe-t-il le 15 novembre ?");
+        values.put(QuestionEntity.COLUMN_TYPE, "1");
+        values.put(QuestionEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireGermanophone);
+        int idQuestionGermanophone1 = (int) database.insert(QuestionEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionEntity.COLUMN_STATEMENT, "Où se trouve la ville d'Ostende ?");
+        values.put(QuestionEntity.COLUMN_TYPE, "1");
+        values.put(QuestionEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireOstende);
+        int idQuestionOstende1 = (int) database.insert(QuestionEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionEntity.COLUMN_STATEMENT, "Que est la spécialité de Bruges? De quand date-t-elle ?");
+        values.put(QuestionEntity.COLUMN_TYPE, "1");
+        values.put(QuestionEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireBruges);
+        int idQuestionBruges1 = (int) database.insert(QuestionEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionEntity.COLUMN_STATEMENT, "C'est beau n'est-ce pas ?");
+        values.put(QuestionEntity.COLUMN_TYPE, "1");
+        values.put(QuestionEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireGand);
+        int idQuestionGand1 = (int) database.insert(QuestionEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionEntity.COLUMN_STATEMENT, "Qu'est-ce qui caractérise le mieux les villes flamandes ?");
+        values.put(QuestionEntity.COLUMN_TYPE, "1");
+        values.put(QuestionEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireAnvers);
+        int idQuestionAnvers1 = (int) database.insert(QuestionEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionEntity.COLUMN_STATEMENT, "A l'aide de tes propres connaissances. Que sais-tu de l'Atomimum ?");
+        values.put(QuestionEntity.COLUMN_TYPE, "1");
+        values.put(QuestionEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireBruxelles);
+        int idQuestionBruxelles1 = (int) database.insert(QuestionEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionEntity.COLUMN_STATEMENT, "Pourquoi dit-on que Charleroi n'est pas une belle ville ?");
+        values.put(QuestionEntity.COLUMN_TYPE, "1");
+        values.put(QuestionEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireCharleroi);
+        int idQuestionCharleroi1 = (int) database.insert(QuestionEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionEntity.COLUMN_STATEMENT, "Lequel est une spécialité liègeoise ?");
+        values.put(QuestionEntity.COLUMN_TYPE, "1");
+        values.put(QuestionEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireLiege);
+        int idQuestionLiege1 = (int) database.insert(QuestionEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionEntity.COLUMN_STATEMENT, "Quelle langue parle-t-on à Eupen ?");
+        values.put(QuestionEntity.COLUMN_TYPE, "1");
+        values.put(QuestionEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireEupen);
+        int idQuestionEupen1 = (int) database.insert(QuestionEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionEntity.COLUMN_STATEMENT, "A ton avis, pourquoi Namur est-elle la capitale de la Wallonie ?");
+        values.put(QuestionEntity.COLUMN_TYPE, "1");
+        values.put(QuestionEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireNamur);
+        int idQuestionNamur1 = (int) database.insert(QuestionEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionEntity.COLUMN_STATEMENT, "Comment Bastogne se fait-il connaitre ?");
+        values.put(QuestionEntity.COLUMN_TYPE, "1");
+        values.put(QuestionEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireBastogne);
+        int idQuestionBastogne1 = (int) database.insert(QuestionEntity.TABLE, null, values);
+
+        //Answers
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Le 26 septembre");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionWallonieBruxelles1);
+        int idAnswerWallonieBruxelles1 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Le 21 juillet");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionWallonieBruxelles1);
+        int idAnswerWallonieBruxelles2 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Le 27 septembre");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionWallonieBruxelles1);
+        int idAnswerWallonieBruxelles3 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Toutes les réponses sont correctes");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionWallonieBruxelles1);
+        int idAnswerWallonieBruxelles4 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Aucune réponse n'est correcte");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionWallonieBruxelles1);
+        int idAnswerWallonieBruxelles5 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Le 21 juillet");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionCommunauteFlamande1);
+        int idAnswerCommunauteFlamande1 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Le 11 juillet");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionCommunauteFlamande1);
+        int idAnswerCommunauteFlamande2 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Le 14 juillet");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionCommunauteFlamande1);
+        int idAnswerCommunauteFlamande3 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Toutes les réponses sont correctes");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionCommunauteFlamande1);
+        int idAnswerCommunauteFlamande4 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Aucune réponse n'est correcte");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionCommunauteFlamande1);
+        int idAnswerCommunauteFlamande5 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "La fête du roi");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionGermanophone1);
+        int idAnswerGermanophone1 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "La fête de la communauté germanophone");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionGermanophone1);
+        int idAnswerGermanophone2 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "C'est la veille du 16 novembre");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionGermanophone1);
+        int idAnswerGermanophone3 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Toutes les réponses sont correctes");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionGermanophone1);
+        int idAnswerGermanophone4 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Aucune réponse n'est correcte");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionGermanophone1);
+        int idAnswerGermanophone5 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "En France");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionOstende1);
+        int idAnswerOstende1 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Dans les Ardennes");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionOstende1);
+        int idAnswerOstende2 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "À la côte de la Belgique");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionOstende1);
+        int idAnswerOstende3 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Toutes les réponses sont correctes");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionOstende1);
+        int idAnswerOstende4 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Aucune réponse n'est correcte");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionOstende1);
+        int idAnswerOstende5 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Le chocolat depuis le Moyen Age");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionBruges1);
+        int idAnswerBruges1 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Les frites depuis 1830");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionBruges1);
+        int idAnswerBruges2 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "La dentelle depuis le Moyen Age");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionBruges1);
+        int idAnswerBruges3 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Toutes les réponses sont correctes");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionBruges1);
+        int idAnswerBruges4 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Aucune réponse n'est correcte");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionBruges1);
+        int idAnswerBruges5 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Oui");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionGand1);
+        int idAnswerGand1 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Non");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionGand1);
+        int idAnswerGand2 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "L'architecture");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAnvers1);
+        int idAnswerAnvers1 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "L'industrie");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAnvers1);
+        int idAnswerAnvers2 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "La mode");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAnvers1);
+        int idAnswerAnvers3 = (int) database.insert(AnswerEntity.TABLE, null, values);
+
+
+
 
         //region MapsActivityHistory
-
         values.clear();
         values.put(ActivityEntity.COLUMN_NAME, "Histoire de la Belgique");
-        values.put(ActivityEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaire);
+        values.put(ActivityEntity.COLUMN_FK_QUESTIONNAIRE, "");
         values.put(ActivityEntity.COLUMN_ACTIVITY_CANONICAL_CLASS_NAME, MapHistoryActivity.class.getName());
         values.put(ActivityEntity.COLUMN_CLASS_CANONICAL_CLASS_NAME, ActivityMapBase.class.getName());
         Uri uriIcon = Uri.parse("android.resource://" + context.getPackageName() + "/drawable/book_icon");
@@ -357,8 +675,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(CategoryToActivityEntity.COLUMN_FK_CATEGORY, idCategorySuperior);
         database.insert(CategoryToActivityEntity.TABLE, null, values);
 
-        //endregion
-
         //region synthesis
         values.clear();
         values.put(SynthesisWebViewEntity.COLUMN_FK_LOCATION, idWallonieBruxelles);
@@ -441,9 +757,121 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         database.insert(SynthesisWebViewEntity.TABLE, null, values);
 
 
-        //region
+        //MUSICACTIVITY
 
-        //region MusicActivity
+        //Quizz
+        values.clear();
+        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "La culture musicale Africaine");
+        int idQuestionnaireAfrique = (int) database.insert(QuestionnaireEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "La culture musicale Asiatique");
+        int idQuestionnaireAsie = (int) database.insert(QuestionnaireEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "La culture musicale Américaine");
+        int idQuestionnaireAmerique = (int) database.insert(QuestionnaireEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "La culture musicale Européenne");
+        int idQuestionnaireEurope = (int) database.insert(QuestionnaireEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "La culture musicale de l'Océanie");
+        int idQuestionnaireOceanie = (int) database.insert(QuestionnaireEntity.TABLE, null, values);
+
+        //Question
+        values.clear();
+        values.put(QuestionEntity.COLUMN_STATEMENT, "Pourquoi les africains dansent-ils ?");
+        values.put(QuestionEntity.COLUMN_TYPE, "1");
+        values.put(QuestionEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireAfrique);
+        int idQuestionAfrique1 = (int) database.insert(QuestionEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionEntity.COLUMN_STATEMENT, "Quel est l'instrument d'origine africaine ?");
+        values.put(QuestionEntity.COLUMN_TYPE, "1");
+        values.put(QuestionEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireAfrique);
+        int idQuestionAfrique2 = (int) database.insert(QuestionEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionEntity.COLUMN_STATEMENT, "L'Afrique se trouve :");
+        values.put(QuestionEntity.COLUMN_TYPE, "1");
+        values.put(QuestionEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireAfrique);
+        int idQuestionAfrique3 = (int) database.insert(QuestionEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionEntity.COLUMN_STATEMENT, "La musique américaine est :");
+        values.put(QuestionEntity.COLUMN_TYPE, "1");
+        values.put(QuestionEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireAmerique);
+        int idQuestionAmerique1 = (int) database.insert(QuestionEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionEntity.COLUMN_STATEMENT, "En amérique, on peut trouver :");
+        values.put(QuestionEntity.COLUMN_TYPE, "1");
+        values.put(QuestionEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireAmerique);
+        int idQuestionAmerique2 = (int) database.insert(QuestionEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionEntity.COLUMN_STATEMENT, "Le sirop d'érable vient :");
+        values.put(QuestionEntity.COLUMN_TYPE, "1");
+        values.put(QuestionEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireAmerique);
+        int idQuestionAmerique3 = (int) database.insert(QuestionEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionEntity.COLUMN_STATEMENT, "Combien de religions sont présentes en Asie ?");
+        values.put(QuestionEntity.COLUMN_TYPE, "1");
+        values.put(QuestionEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireAsie);
+        int idQuestionAsie1 = (int) database.insert(QuestionEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionEntity.COLUMN_STATEMENT, "La musique est liée :");
+        values.put(QuestionEntity.COLUMN_TYPE, "1");
+        values.put(QuestionEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireAsie);
+        int idQuestionAsie2 = (int) database.insert(QuestionEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionEntity.COLUMN_STATEMENT, "L'instrument que l'on a découvert est :");
+        values.put(QuestionEntity.COLUMN_TYPE, "1");
+        values.put(QuestionEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireAsie);
+        int idQuestionAsie3 = (int) database.insert(QuestionEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionEntity.COLUMN_STATEMENT, "Le style de musique dépend :");
+        values.put(QuestionEntity.COLUMN_TYPE, "1");
+        values.put(QuestionEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireEurope);
+        int idQuestionEurope1 = (int) database.insert(QuestionEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionEntity.COLUMN_STATEMENT, "La Belgique se trouve :");
+        values.put(QuestionEntity.COLUMN_TYPE, "1");
+        values.put(QuestionEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireEurope);
+        int idQuestionEurope2 = (int) database.insert(QuestionEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionEntity.COLUMN_STATEMENT, "En Europe on trouve :");
+        values.put(QuestionEntity.COLUMN_TYPE, "1");
+        values.put(QuestionEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireEurope);
+        int idQuestionEurope3 = (int) database.insert(QuestionEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionEntity.COLUMN_STATEMENT, "Une des traditions en océanie s'appelle :");
+        values.put(QuestionEntity.COLUMN_TYPE, "1");
+        values.put(QuestionEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireOceanie);
+        int idQuestionOceanie1 = (int) database.insert(QuestionEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionEntity.COLUMN_STATEMENT, "L'océanie est le continent :");
+        values.put(QuestionEntity.COLUMN_TYPE, "1");
+        values.put(QuestionEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireOceanie);
+        int idQuestionOceanie2 = (int) database.insert(QuestionEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionEntity.COLUMN_STATEMENT, "L'aliment le plus connu est :");
+        values.put(QuestionEntity.COLUMN_TYPE, "1");
+        values.put(QuestionEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireOceanie);
+        int idQuestionOceanie3 = (int) database.insert(QuestionEntity.TABLE, null, values);
+
+        //region
         values.clear();
         values.put(ActivityEntity.COLUMN_NAME, "La musique autour du monde");
         values.put(ActivityEntity.COLUMN_FK_QUESTIONNAIRE, "");
@@ -505,28 +933,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(CategoryToActivityEntity.COLUMN_FK_CATEGORY, idCategoryInferior);
         database.insert(CategoryToActivityEntity.TABLE, null, values);
 
-        //all quizzes
-        values.clear();
-        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "La culture musicale Africaine");
-        int idQuestionnaireAfrique = (int) database.insert(QuestionnaireEntity.TABLE, null, values);
-
-        values.clear();
-        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "La culture musicale Asiatique");
-        int idQuestionnaireAsie = (int) database.insert(QuestionnaireEntity.TABLE, null, values);
-
-        values.clear();
-        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "La culture musicale Américaine");
-        int idQuestionnaireAmerique = (int) database.insert(QuestionnaireEntity.TABLE, null, values);
-
-        values.clear();
-        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "La culture musicale Européenne");
-        int idQuestionnaireEurope = (int) database.insert(QuestionnaireEntity.TABLE, null, values);
-
-        values.clear();
-        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "La culture musicale de l'Océanie");
-        int idQuestionnaireOceanie = (int) database.insert(QuestionnaireEntity.TABLE, null, values);
-
-        //region Instruments
+        //Instruments
         values.clear();
         values.put(InstrumentEntity.COLUMN_FK_LOCATION, idAfrique);
         values.put(InstrumentEntity.COLUMN_NAME, "Djembe");
@@ -581,8 +988,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(InstrumentEntity.COLUMN_UNLOCKED, "1");
         values.put(InstrumentEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireOceanie);
         database.insert(InstrumentEntity.TABLE, null, values);
-
-        //endregion
 
         //region users
         int iUser;
