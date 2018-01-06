@@ -370,183 +370,377 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(AnswerEntity.COLUMN_STATEMENT, "Le 26 septembre");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionWallonieBruxelles1);
-        int idAnswerWallonieBruxelles1 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "Le 21 juillet");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionWallonieBruxelles1);
-        int idAnswerWallonieBruxelles2 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "Le 27 septembre");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionWallonieBruxelles1);
-        int idAnswerWallonieBruxelles3 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "Toutes les réponses sont correctes");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionWallonieBruxelles1);
-        int idAnswerWallonieBruxelles4 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "Aucune réponse n'est correcte");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionWallonieBruxelles1);
-        int idAnswerWallonieBruxelles5 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "Le 21 juillet");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionCommunauteFlamande1);
-        int idAnswerCommunauteFlamande1 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "Le 11 juillet");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionCommunauteFlamande1);
-        int idAnswerCommunauteFlamande2 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "Le 14 juillet");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionCommunauteFlamande1);
-        int idAnswerCommunauteFlamande3 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "Toutes les réponses sont correctes");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionCommunauteFlamande1);
-        int idAnswerCommunauteFlamande4 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "Aucune réponse n'est correcte");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionCommunauteFlamande1);
-        int idAnswerCommunauteFlamande5 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "La fête du roi");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionGermanophone1);
-        int idAnswerGermanophone1 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "La fête de la communauté germanophone");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionGermanophone1);
-        int idAnswerGermanophone2 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "C'est la veille du 16 novembre");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionGermanophone1);
-        int idAnswerGermanophone3 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "Toutes les réponses sont correctes");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionGermanophone1);
-        int idAnswerGermanophone4 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "Aucune réponse n'est correcte");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionGermanophone1);
-        int idAnswerGermanophone5 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "En France");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionOstende1);
-        int idAnswerOstende1 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "Dans les Ardennes");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionOstende1);
-        int idAnswerOstende2 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "À la côte de la Belgique");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionOstende1);
-        int idAnswerOstende3 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "Toutes les réponses sont correctes");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionOstende1);
-        int idAnswerOstende4 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "Aucune réponse n'est correcte");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionOstende1);
-        int idAnswerOstende5 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "Le chocolat depuis le Moyen Age");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionBruges1);
-        int idAnswerBruges1 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "Les frites depuis 1830");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionBruges1);
-        int idAnswerBruges2 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "La dentelle depuis le Moyen Age");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionBruges1);
-        int idAnswerBruges3 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "Toutes les réponses sont correctes");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionBruges1);
-        int idAnswerBruges4 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "Aucune réponse n'est correcte");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionBruges1);
-        int idAnswerBruges5 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "Oui");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionGand1);
-        int idAnswerGand1 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "Non");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionGand1);
-        int idAnswerGand2 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "L'architecture");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAnvers1);
-        int idAnswerAnvers1 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "L'industrie");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAnvers1);
-        int idAnswerAnvers2 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "La mode");
         values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAnvers1);
-        int idAnswerAnvers3 = (int) database.insert(AnswerEntity.TABLE, null, values);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Toutes les réponses sont correctes");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAnvers1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Aucune réponse n'est correcte");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAnvers1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Il peut représenter les provinces de Belgique");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionBruxelles1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Au départ, il ne devait rester là que pendant 6 mois");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionBruxelles1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Il acceuille des expositions et ce encore aujourd'hui");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionBruxelles1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Toutes les réponses sont correctes");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionBruxelles1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Aucune réponse n'est correcte");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionBruxelles1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Car c'est très industriel");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionCharleroi1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Car il y a beaucoup de ruines");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionCharleroi1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Car la ville est pleine de déchets");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionCharleroi1);
+        database.insert(AnswerEntity.TABLE, null, values);
 
 
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Toutes les réponses sont correctes");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionCharleroi1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Aucune réponse n'est correcte");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionCharleroi1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Les pâtes");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionLiege1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "La gauffre");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionLiege1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "La glace");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionLiege1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Toutes les réponses sont correctes");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionLiege1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Aucune réponse n'est correcte");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionLiege1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Français");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionEupen1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Allemand");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionEupen1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Flammand");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionEupen1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Toutes les réponses sont correctes");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionEupen1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Aucune réponse n'est correcte");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionEupen1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Car elle est centrale");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionNamur1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Car c'est la plus grosse ville de Wallonie");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionNamur1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Car c'est la ville la plus peuplée de Wallonie");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionNamur1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Toutes les réponses sont correctes");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionNamur1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Aucune réponse n'est correcte");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionNamur1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Car c'est la plus grande ville de la province du Luxembourg");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionBastogne1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Suite à la première guerre mondiale");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionBastogne1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Suite à la bataille de Ardenne");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionBastogne1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Toutes les réponses sont correctes");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionBastogne1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Aucune réponse n'est correcte");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionBastogne1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+
+        // Charleroi, Liège, Eupen, Namur and Bastogne to add
 
 
         //region MapsActivityHistory
@@ -870,6 +1064,278 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(QuestionEntity.COLUMN_TYPE, "1");
         values.put(QuestionEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireOceanie);
         int idQuestionOceanie3 = (int) database.insert(QuestionEntity.TABLE, null, values);
+
+        //Answers
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Pour se réveiller le matin");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAfrique1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Avant d'aller au toilette");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAfrique1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Fêter des éléments de la vie de tous les jours");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAfrique1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Le djembé");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAfrique2);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Les marraccas");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAfrique2);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Le bâton de pluie");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAfrique2);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Au dessus de la Belgique");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAfrique3);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "En dessous de la Belgique");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAfrique3);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "À côté de la Belgique");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAfrique3);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Diversifiée");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAmerique1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Simple");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAmerique1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Triste");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAmerique1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Le fruit du dragon");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAmerique2);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "La fraise");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAmerique2);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "La banane");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAmerique2);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Du Canada");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAmerique3);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "De la Belgique");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAmerique3);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "De l'Autralie");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAmerique3);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "1");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAsie1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "2");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAsie1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "3");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAsie1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Au passé");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAsie2);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Au présent");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAsie2);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Au futur");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAsie2);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Le bonjo");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAsie3);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Le benju");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAsie3);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "La guitare");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionAsie3);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Des pays");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionEurope1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Des habitants");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionEurope1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "De la pluie");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionEurope1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "En Europe");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionEurope2);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "En Asie");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionEurope2);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "En Amérique");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionEurope2);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Des pâtes");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionEurope3);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Le fruit du dragon");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionEurope3);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Le litchi");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionEurope3);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Le haka");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionOceanie1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Le maka");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionOceanie1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Le ika");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionOceanie1);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "De la Belgique");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionOceanie2);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "De l'Australie");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionOceanie2);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "De la France");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionOceanie2);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Pavlova");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionOceanie3);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Patata");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionOceanie3);
+        database.insert(AnswerEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(AnswerEntity.COLUMN_STATEMENT, "Polisa");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
+        values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionOceanie3);
+        database.insert(AnswerEntity.TABLE, null, values);
+
 
         //region
         values.clear();
