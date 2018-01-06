@@ -26,6 +26,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -237,20 +238,20 @@ public class MakeMusicActivity extends FragmentActivity implements OnMapReadyCal
 
             hashMapMarkersLocation.put(m,l);
             mapChangeHandler = new MapChangeHandler(mMap, hashMapMarkersLocation);
-            recyclerViewLoader();
         }
+        recyclerViewLoader();
     }
 
     public void recyclerViewLoader(){
-        ArrayList<Instrument> instrumentArrayList = instrumentRepository.getAllInstruments();
 
         final RecyclerView instrumentRecyclerView = findViewById(R.id.recyclerview_item_instruments);
         instrumentRecyclerView.setHasFixedSize(true);
         final RecyclerView.LayoutManager instrumentLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         instrumentRecyclerView.setLayoutManager(instrumentLayoutManager);
 
-        ArrayList<Instrument> instrumentsToShow = instrumentRepository.getInstrumentsOfGroup(currentGroup);
-        RecyclerView.Adapter instrumentListAdapter = new InstrumentListAdapter(context, instrumentsToShow, (SoundPoolHandler) soundPoolHandler, mapChangeHandler);
+        ArrayList<Instrument> unlockedInstruments = instrumentRepository.getInstrumentsOfGroup(currentGroup);
+        ArrayList<Instrument> allInstruments = instrumentRepository.getAllInstruments();
+        RecyclerView.Adapter instrumentListAdapter = new InstrumentListAdapter(context, allInstruments,unlockedInstruments, (SoundPoolHandler) soundPoolHandler, mapChangeHandler);
         instrumentRecyclerView.setAdapter(instrumentListAdapter);
     }
 
