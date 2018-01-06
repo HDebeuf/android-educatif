@@ -19,9 +19,6 @@ import be.henallux.masi.pedagogique.model.Questionnaire;
 public class SQLiteQuestionnaireRepository implements IQuestionnaireRepository {
 
     private Context context;
-    private Questionnaire questionnaire;
-    private ArrayList<Question> questions;
-    private int idQuestionnaire;
     private IQuestionRepository questionRepository = new SQLiteQuestionRepository(context);
 
     public SQLiteQuestionnaireRepository(Context context) {
@@ -55,6 +52,6 @@ public class SQLiteQuestionnaireRepository implements IQuestionnaireRepository {
 
         cursor.close();
 
-        return questionnaire;
+        return q;
     }
 }
