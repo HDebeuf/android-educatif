@@ -12,9 +12,12 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 
 import be.henallux.masi.pedagogique.activities.historyActivity.synthesis.Synthesis;
+import be.henallux.masi.pedagogique.dao.interfaces.IQuestionnaireRepository;
 import be.henallux.masi.pedagogique.dao.interfaces.ISynthesisRepository;
 import be.henallux.masi.pedagogique.dao.sqlite.SQLSynthesisRepository;
 import be.henallux.masi.pedagogique.dao.sqlite.SQLiteHelper;
+import be.henallux.masi.pedagogique.dao.sqlite.SQLiteQuestionnaireRepository;
+import be.henallux.masi.pedagogique.model.Questionnaire;
 
 /**
  * Created by Le Roi Arthur on 17-12-17.
@@ -23,10 +26,12 @@ import be.henallux.masi.pedagogique.dao.sqlite.SQLiteHelper;
 public class SQLiteMapActivityRepository implements IMapActivityRepository {
 
     private Context ctx;
+    private IQuestionnaireRepository questionnaireRepository;
     private ISynthesisRepository synthesisRepository;
 
     public SQLiteMapActivityRepository(Context ctx) {
         this.ctx = ctx;
+        questionnaireRepository = new SQLiteQuestionnaireRepository(ctx);
         synthesisRepository = new SQLSynthesisRepository(ctx);
     }
 
@@ -35,7 +40,12 @@ public class SQLiteMapActivityRepository implements IMapActivityRepository {
         SQLiteDatabase db = SQLiteHelper.getDatabaseInstance(ctx);
         ArrayList<Location> locations = new ArrayList<>();
         Cursor cursor = db.query(LocationEntity.TABLE,
-                new String[]{LocationEntity.COLUMN_ID, LocationEntity.COLUMN_TITLE, LocationEntity.COLUMN_LATITUDE, LocationEntity.COLUMN_LONGITUDE, LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME},
+                new String[]{LocationEntity.COLUMN_ID,
+                        LocationEntity.COLUMN_TITLE,
+                        LocationEntity.COLUMN_LATITUDE,
+                        LocationEntity.COLUMN_LONGITUDE,
+                        LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME,
+                        LocationEntity.COLUMN_FK_QUESTIONNAIRE},
                 LocationEntity.COLUMN_FK_ACTIVITYMAPBASE + "=?",
                 new String[]{String.valueOf(id)},
                 null, null, null);
@@ -48,7 +58,11 @@ public class SQLiteMapActivityRepository implements IMapActivityRepository {
                 String locationName = cursor.getString(1);
                 LatLng lt = new LatLng(cursor.getDouble(2),cursor.getDouble(3));
                 Class classToThrow = java.lang.Class.forName(cursor.getString(4));
-                Location location = new Location(idLocation,locationName,lt, classToThrow, null);
+                int idQuestionnaire = cursor.getInt(5);
+
+                Questionnaire questionnaire = questionnaireRepository.getQuestionnaireById(idQuestionnaire);
+
+                Location location = new Location(idLocation,locationName,lt, classToThrow, null, questionnaire);
                 ArrayList<Synthesis> synthesisArrayList = synthesisRepository.getAllSynthesisOfLocation(location);
                 location.setSynthesisArrayList(synthesisArrayList);
                 locations.add(location);
@@ -106,7 +120,12 @@ public class SQLiteMapActivityRepository implements IMapActivityRepository {
     public Location getLocationById(int id) {
         SQLiteDatabase db = SQLiteHelper.getDatabaseInstance(ctx);
         Cursor cursor = db.query(LocationEntity.TABLE,
-                new String[]{LocationEntity.COLUMN_ID, LocationEntity.COLUMN_TITLE, LocationEntity.COLUMN_LATITUDE, LocationEntity.COLUMN_LONGITUDE, LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME},
+                new String[]{LocationEntity.COLUMN_ID,
+                        LocationEntity.COLUMN_TITLE,
+                        LocationEntity.COLUMN_LATITUDE,
+                        LocationEntity.COLUMN_LONGITUDE,
+                        LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME,
+                        LocationEntity.COLUMN_FK_QUESTIONNAIRE},
                 LocationEntity.COLUMN_ID + "=?",
                 new String[]{String.valueOf(id)},
                 null, null, null);
@@ -118,7 +137,11 @@ public class SQLiteMapActivityRepository implements IMapActivityRepository {
             String locationName = cursor.getString(1);
             LatLng lt = new LatLng(cursor.getDouble(2),cursor.getDouble(3));
             Class classToThrow = java.lang.Class.forName(cursor.getString(4));
-            Location location = new Location(idLocation,locationName,lt, classToThrow, null);
+            int idQuestionnaire = cursor.getInt(5);
+
+            Questionnaire questionnaire = questionnaireRepository.getQuestionnaireById(idQuestionnaire);
+
+            Location location = new Location(idLocation,locationName,lt, classToThrow, null, questionnaire);
             ArrayList<Synthesis> synthesisArrayList = synthesisRepository.getAllSynthesisOfLocation(location);
             location.setSynthesisArrayList(synthesisArrayList);
             return location;

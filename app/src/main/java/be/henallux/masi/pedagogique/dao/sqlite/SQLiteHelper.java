@@ -770,6 +770,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(LocationEntity.COLUMN_LATITUDE, 50.678542);
         values.put(LocationEntity.COLUMN_LONGITUDE, 4.404887);
         values.put(LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME, LocationInfoActivity.class.getName());
+        values.put(LocationEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireWallonieBruxelles);
         values.put(LocationEntity.COLUMN_FK_ACTIVITYMAPBASE, idActivityMap);
         int idWallonieBruxelles = (int) database.insert(LocationEntity.TABLE, null, values);
 
@@ -779,6 +780,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(LocationEntity.COLUMN_LONGITUDE, 4.040334);
         values.put(LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME, LocationInfoActivity.class.getName());
         values.put(LocationEntity.COLUMN_FK_ACTIVITYMAPBASE, idActivityMap);
+        values.put(LocationEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireCommunauteFlamande);
         int idCOmmunauteFlamande = (int) database.insert(LocationEntity.TABLE, null, values);
 
         values.clear();
@@ -787,6 +789,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(LocationEntity.COLUMN_LONGITUDE, 6.032238);
         values.put(LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME, LocationInfoActivity.class.getName());
         values.put(LocationEntity.COLUMN_FK_ACTIVITYMAPBASE, idActivityMap);
+        values.put(LocationEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireGermanophone);
         int idGermanophone = (int) database.insert(LocationEntity.TABLE, null, values);
 
         values.clear();
@@ -795,6 +798,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(LocationEntity.COLUMN_LONGITUDE, 2.928504);
         values.put(LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME, LocationInfoActivity.class.getName());
         values.put(LocationEntity.COLUMN_FK_ACTIVITYMAPBASE, idActivityMap);
+        values.put(LocationEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireOstende);
         int idOstende = (int)database.insert(LocationEntity.TABLE, null, values);
 
         values.clear();
@@ -803,6 +807,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(LocationEntity.COLUMN_LONGITUDE,3.222772);
         values.put(LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME, LocationInfoActivity.class.getName());
         values.put(LocationEntity.COLUMN_FK_ACTIVITYMAPBASE, idActivityMap);
+        values.put(LocationEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireBruges);
         int idBruges = (int) database.insert(LocationEntity.TABLE, null, values);
 
         values.clear();
@@ -811,6 +816,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(LocationEntity.COLUMN_LONGITUDE,3.717913);
         values.put(LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME, LocationInfoActivity.class.getName());
         values.put(LocationEntity.COLUMN_FK_ACTIVITYMAPBASE, idActivityMap);
+        values.put(LocationEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireGand);
         int idGand = (int) database.insert(LocationEntity.TABLE, null, values);
 
         values.clear();
@@ -819,6 +825,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(LocationEntity.COLUMN_LONGITUDE,4.405093);
         values.put(LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME, LocationInfoActivity.class.getName());
         values.put(LocationEntity.COLUMN_FK_ACTIVITYMAPBASE, idActivityMap);
+        values.put(LocationEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireAnvers);
         int idAnvers = (int) database.insert(LocationEntity.TABLE, null, values);values.clear();
 
         values.put(LocationEntity.COLUMN_TITLE, "Bruxelles");
@@ -826,6 +833,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(LocationEntity.COLUMN_LONGITUDE, 4.336267);
         values.put(LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME, LocationInfoActivity.class.getName());
         values.put(LocationEntity.COLUMN_FK_ACTIVITYMAPBASE, idActivityMap);
+        values.put(LocationEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireBruxelles);
         int idBruxelles = (int) database.insert(LocationEntity.TABLE, null, values);
 
         values.clear();
@@ -834,12 +842,14 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(LocationEntity.COLUMN_LONGITUDE, 4.445191);
         values.put(LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME, LocationInfoActivity.class.getName());
         values.put(LocationEntity.COLUMN_FK_ACTIVITYMAPBASE, idActivityMap);
+        values.put(LocationEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireCharleroi);
         int idCharleroi = (int) database.insert(LocationEntity.TABLE, null, values);
 
         values.clear();
         values.put(LocationEntity.COLUMN_TITLE, "Liège");
         values.put(LocationEntity.COLUMN_LATITUDE,50.631883);
         values.put(LocationEntity.COLUMN_LONGITUDE, 5.586922);
+        values.put(LocationEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireLiege);
         values.put(LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME, LocationInfoActivity.class.getName());
         values.put(LocationEntity.COLUMN_FK_ACTIVITYMAPBASE, idActivityMap);
         int idLiege = (int) database.insert(LocationEntity.TABLE, null, values);
@@ -849,6 +859,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(LocationEntity.COLUMN_LONGITUDE, 6.024611);
         values.put(LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME, LocationInfoActivity.class.getName());
         values.put(LocationEntity.COLUMN_FK_ACTIVITYMAPBASE, idActivityMap);
+        values.put(LocationEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireEupen);
         int idEupen = (int) database.insert(LocationEntity.TABLE, null, values);
 
         values.put(LocationEntity.COLUMN_TITLE, "Namur");
@@ -856,6 +867,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(LocationEntity.COLUMN_LONGITUDE,4.927587);
         values.put(LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME, LocationInfoActivity.class.getName());
         values.put(LocationEntity.COLUMN_FK_ACTIVITYMAPBASE, idActivityMap);
+        values.put(LocationEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireNamur);
         int idNamur = (int) database.insert(LocationEntity.TABLE, null, values);
 
         values.put(LocationEntity.COLUMN_TITLE, "Bastogne");
@@ -863,6 +875,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(LocationEntity.COLUMN_LONGITUDE,5.732305);
         values.put(LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME, LocationInfoActivity.class.getName());
         values.put(LocationEntity.COLUMN_FK_ACTIVITYMAPBASE, idActivityMap);
+        values.put(LocationEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireBastogne);
         int idBastogne = (int) database.insert(LocationEntity.TABLE, null, values);
 
         values.clear();
@@ -910,7 +923,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.clear();
         values.put(SynthesisVideoEntity.COLUMN_FK_LOCATION, idAnvers);
         values.put(SynthesisVideoEntity.COLUMN_URL_VIDEO, "https://www.youtube.com/watch?v=qRPO6vsMtcM");
-        values.put(SynthesisVideoEntity.COLUMN_TEXT,"Anvers est la ville la plus peuplée de Belgique. Elle habrite les plus prestigieux diamantaires et la plus importante bourse de diamants. Le port d'Anvers est la 2ème plus gros d'Europe.");
+        values.put(SynthesisVideoEntity.COLUMN_TEXT,"Anvers est la ville la plus peuplée de Belgique. Elle abrite les plus prestigieux diamantaires et la plus importante bourse de diamants. Le port d'Anvers est la 2ème plus gros d'Europe.");
         database.insert(SynthesisVideoEntity.TABLE, null, values);
 
         values.clear();
@@ -1359,6 +1372,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(LocationEntity.COLUMN_TITLE, "Asie");
         values.put(LocationEntity.COLUMN_LATITUDE, 39.898369);
         values.put(LocationEntity.COLUMN_LONGITUDE, 97.346919);
+        values.put(LocationEntity.COLUMN_FK_QUESTIONNAIRE,idQuestionnaireAsie);
         values.put(LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME, MusicalActivity.class.getName());
         values.put(LocationEntity.COLUMN_FK_ACTIVITYMAPBASE, idActivityMap);
         int idAsie = (int) database.insert(LocationEntity.TABLE, null, values);
@@ -1367,6 +1381,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(LocationEntity.COLUMN_TITLE, "Afrique");
         values.put(LocationEntity.COLUMN_LATITUDE, 3.711932);
         values.put(LocationEntity.COLUMN_LONGITUDE, 21.880014);
+        values.put(LocationEntity.COLUMN_FK_QUESTIONNAIRE,idQuestionnaireAfrique);
         values.put(LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME, MusicalActivity.class.getName());
         values.put(LocationEntity.COLUMN_FK_ACTIVITYMAPBASE, idActivityMap);
         int idAfrique = (int) database.insert(LocationEntity.TABLE, null, values);
@@ -1374,6 +1389,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.clear();
         values.put(LocationEntity.COLUMN_TITLE, "Amérique");
         values.put(LocationEntity.COLUMN_LATITUDE, -16.246897);
+        values.put(LocationEntity.COLUMN_FK_QUESTIONNAIRE,idQuestionnaireAmerique);
         values.put(LocationEntity.COLUMN_LONGITUDE, -60.228244);
         values.put(LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME, MusicalActivity.class.getName());
         values.put(LocationEntity.COLUMN_FK_ACTIVITYMAPBASE, idActivityMap);
@@ -1383,6 +1399,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(LocationEntity.COLUMN_TITLE, "Europe");
         values.put(LocationEntity.COLUMN_LATITUDE, 50.151015);
         values.put(LocationEntity.COLUMN_LONGITUDE, 7.265708);
+        values.put(LocationEntity.COLUMN_FK_QUESTIONNAIRE,idQuestionnaireEurope);
         values.put(LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME, MusicalActivity.class.getName());
         values.put(LocationEntity.COLUMN_FK_ACTIVITYMAPBASE, idActivityMap);
         int idEurope = (int) database.insert(LocationEntity.TABLE, null, values);
@@ -1391,6 +1408,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(LocationEntity.COLUMN_TITLE, "Océanie");
         values.put(LocationEntity.COLUMN_LATITUDE, -23.925622);
         values.put(LocationEntity.COLUMN_LONGITUDE, 138.992828);
+        values.put(LocationEntity.COLUMN_FK_QUESTIONNAIRE,idQuestionnaireOceanie);
         values.put(LocationEntity.COLUMN_ACTIVITY_CANONICAL_NAME, MusicalActivity.class.getName());
         values.put(LocationEntity.COLUMN_FK_ACTIVITYMAPBASE, idActivityMap);
         int idOceanie = (int) database.insert(LocationEntity.TABLE, null, values);
