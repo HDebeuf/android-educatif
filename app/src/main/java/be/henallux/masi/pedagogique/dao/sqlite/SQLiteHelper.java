@@ -95,7 +95,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                     + ActivityEntity.COLUMN_NAME + " varchar(45) not null,"
                     + ActivityEntity.COLUMN_ACTIVITY_CANONICAL_CLASS_NAME + " varchar(150) not null,"
                     + ActivityEntity.COLUMN_CLASS_CANONICAL_CLASS_NAME + " varchar(150) not null,"
-                    + ActivityEntity.COLUMN_FK_QUESTIONNAIRE + " integer not null,"
+                    + ActivityEntity.COLUMN_FK_QUESTIONNAIRE + " integer,"
                     + ActivityEntity.COLUMN_URI_ICON + " varchar(20),"
                     + "foreign key (" + ActivityEntity.COLUMN_FK_QUESTIONNAIRE + ") references " + QuestionnaireEntity.TABLE + "(" + QuestionnaireEntity.COLUMN_ID + "))";
     public static final String CREATE_TABLE_QUESTIONNAIRE =
@@ -445,8 +445,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         //region MusicActivity
         values.clear();
-        values.put(ActivityEntity.COLUMN_NAME, "Histoire de la musique");
-        values.put(ActivityEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaire);
+        values.put(ActivityEntity.COLUMN_NAME, "La musique autour du monde");
+        values.put(ActivityEntity.COLUMN_FK_QUESTIONNAIRE, "");
         values.put(ActivityEntity.COLUMN_ACTIVITY_CANONICAL_CLASS_NAME, MapMusicalActivity.class.getName());
         values.put(ActivityEntity.COLUMN_CLASS_CANONICAL_CLASS_NAME, ActivityMapBase.class.getName());
         uriIcon = Uri.parse("android.resource://" + context.getPackageName() + "/drawable/ic_music_icon");
@@ -505,6 +505,27 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(CategoryToActivityEntity.COLUMN_FK_CATEGORY, idCategoryInferior);
         database.insert(CategoryToActivityEntity.TABLE, null, values);
 
+        //all quizzes
+        values.clear();
+        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "La culture musicale Africaine");
+        int idQuestionnaireAfrique = (int) database.insert(QuestionnaireEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "La culture musicale Asiatique");
+        int idQuestionnaireAsie = (int) database.insert(QuestionnaireEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "La culture musicale Américaine");
+        int idQuestionnaireAmerique = (int) database.insert(QuestionnaireEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "La culture musicale Européenne");
+        int idQuestionnaireEurope = (int) database.insert(QuestionnaireEntity.TABLE, null, values);
+
+        values.clear();
+        values.put(QuestionnaireEntity.COLUMN_STATEMENT, "La culture musicale de l'Océanie");
+        int idQuestionnaireOceanie = (int) database.insert(QuestionnaireEntity.TABLE, null, values);
+
         //region Instruments
         values.clear();
         values.put(InstrumentEntity.COLUMN_FK_LOCATION, idAfrique);
@@ -514,6 +535,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(InstrumentEntity.COLUMN_IMAGE_PATH, uriIcon.toString());
         values.put(InstrumentEntity.COLUMN_SAMPLE_FILE_NAME, "djembe_sample");
         values.put(InstrumentEntity.COLUMN_UNLOCKED, "1");
+        values.put(InstrumentEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireAsie);
         database.insert(InstrumentEntity.TABLE, null, values);
 
         values.clear();
@@ -524,6 +546,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(InstrumentEntity.COLUMN_IMAGE_PATH, uriIcon.toString());
         values.put(InstrumentEntity.COLUMN_SAMPLE_FILE_NAME, "benju_sample");
         values.put(InstrumentEntity.COLUMN_UNLOCKED, "1");
+        values.put(InstrumentEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireAfrique);
         database.insert(InstrumentEntity.TABLE, null, values);
 
         values.clear();
@@ -534,6 +557,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(InstrumentEntity.COLUMN_IMAGE_PATH, uriIcon.toString());
         values.put(InstrumentEntity.COLUMN_SAMPLE_FILE_NAME, "rain_stick_sample");
         values.put(InstrumentEntity.COLUMN_UNLOCKED, "1");
+        values.put(InstrumentEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireAmerique);
         database.insert(InstrumentEntity.TABLE, null, values);
 
         values.clear();
@@ -544,6 +568,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(InstrumentEntity.COLUMN_IMAGE_PATH, uriIcon.toString());
         values.put(InstrumentEntity.COLUMN_SAMPLE_FILE_NAME, "guitar_sample");
         values.put(InstrumentEntity.COLUMN_UNLOCKED, "1");
+        values.put(InstrumentEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireEurope);
         database.insert(InstrumentEntity.TABLE, null, values);
 
         values.clear();
@@ -554,6 +579,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(InstrumentEntity.COLUMN_IMAGE_PATH, uriIcon.toString());
         values.put(InstrumentEntity.COLUMN_SAMPLE_FILE_NAME, "jaw_harp_sample");
         values.put(InstrumentEntity.COLUMN_UNLOCKED, "1");
+        values.put(InstrumentEntity.COLUMN_FK_QUESTIONNAIRE, idQuestionnaireOceanie);
         database.insert(InstrumentEntity.TABLE, null, values);
 
         //endregion

@@ -83,11 +83,10 @@ public class SQLiteInstrumentRepository implements IInstrumentRepository {
             if(!TextUtils.isEmpty(uriImageString)){
                 uriImage = Uri.parse(uriImageString);
             }
-
-
+            boolean isUnlocked = cursor.getInt(5) !=0;
             int locationId = cursor.getInt(6);
 
-            instrument = new Instrument(id, locationId, name, description, uriImage);
+            instrument = new Instrument(id, locationId, name, description, uriImage, isUnlocked);
             cursor.moveToNext();
         }
 
