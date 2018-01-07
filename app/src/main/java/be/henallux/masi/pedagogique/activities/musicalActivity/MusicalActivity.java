@@ -64,13 +64,11 @@ public class MusicalActivity extends AppCompatActivity {
         Button question = (Button) findViewById(R.id.questionnaireButton);
 
         locationsClick.add(clickedLocation);
-        final Bundle args = new Bundle();
-        args.putParcelableArrayList(Constants.KEY_LOCATIONS_CHOSEN,locationsClick);
 
         question.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(context, QuestionnaireActivity.class);
-                intent.putExtra(Constants.KEY_LOCATIONS_CHOSEN,args);
+                intent.putExtra(Constants.KEY_LOCATIONS_CHOSEN,clickedLocation);
                 intent.putExtra(Constants.KEY_CURRENT_GROUP,currentGroup);
                 startActivity(intent);
             }
