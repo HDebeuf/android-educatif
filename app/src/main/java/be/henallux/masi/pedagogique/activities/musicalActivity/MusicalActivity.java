@@ -46,8 +46,8 @@ public class MusicalActivity extends AppCompatActivity {
 
         context = getApplicationContext();
 
-        final int idLocationClicked = getIntent().getExtras().getInt(Constants.KEY_LOCATION_CLICKED);
-        Location clickedLocation = mapRepository.getLocationById(idLocationClicked);
+        final Location clickedLocation = getIntent().getExtras().getParcelable(Constants.KEY_LOCATION_CLICKED);
+
         currentGroup = getIntent().getExtras().getParcelable(Constants.KEY_CURRENT_GROUP);
 
         instrument = instrumentRepository.getInstrumentOfLocation(clickedLocation.getId());
@@ -64,13 +64,13 @@ public class MusicalActivity extends AppCompatActivity {
         Button question = (Button) findViewById(R.id.questionnaireButton);
 
         locationsClick.add(clickedLocation);
-        Bundle args = new Bundle();
+        final Bundle args = new Bundle();
         args.putParcelableArrayList(Constants.KEY_LOCATIONS_CHOSEN,locationsClick);
 
         question.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(context, QuestionnaireActivity.class);
-                intent.putExtra(Constants.KEY_LOCATIONS_CHOSEN,locationsClick);
+                intent.putExtra(Constants.KEY_LOCATIONS_CHOSEN,args);
                 intent.putExtra(Constants.KEY_CURRENT_GROUP,currentGroup);
                 startActivity(intent);
             }

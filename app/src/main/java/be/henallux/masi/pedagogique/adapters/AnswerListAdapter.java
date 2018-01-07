@@ -28,7 +28,7 @@ public class AnswerListAdapter extends  RecyclerView.Adapter<AnswerListAdapter.V
 
     private Context context;
     private ArrayList<Answer> answerArrayList;
-    ArrayList<ItemBindingModel> answeredArrayList = new ArrayList<>();
+    //ArrayList<ItemBindingModel> answeredArrayList = new ArrayList<>();
 
     public AnswerListAdapter(Context context, ArrayList<Answer> answerArrayList) {
 
@@ -50,18 +50,18 @@ public class AnswerListAdapter extends  RecyclerView.Adapter<AnswerListAdapter.V
 
         holder.answerTextView.setText(answerArrayList.get(position).getStatement());
         holder.check.setOnCheckedChangeListener(null); //remove previous listener
-        holder.check.setOnCheckedChangeListener(new GroupCreationUsernameAdapter.CustomCheckedListener(holder.getAdapterPosition()));
-        holder.check.setChecked(answerArrayList.get(holder.getAdapterPosition()).checked);
+        //holder.check.setOnCheckedChangeListener(new GroupCreationUsernameAdapter.CustomCheckedListener(holder.getAdapterPosition()));
+        //holder.check.setChecked(answerArrayList.get(holder.getAdapterPosition()).checked);
 
 
     }
 
-   /* @Override
+    @Override
     public int getItemCount() {
         return answerArrayList.size();
     }
 
-
+/*
     public ArrayList<Answer> getAnsweredArrayList(){
 
         ArrayList<Answer> answeredArrayList = new ArrayList<>();
@@ -75,7 +75,7 @@ public class AnswerListAdapter extends  RecyclerView.Adapter<AnswerListAdapter.V
         return answeredArrayList;
     }
 
-
+*/
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView answerTextView;
@@ -89,7 +89,7 @@ public class AnswerListAdapter extends  RecyclerView.Adapter<AnswerListAdapter.V
         }
     }
 
-
+/*
     private class ItemBindingModel{
         public Answer answer;
         public boolean checked;

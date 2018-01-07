@@ -49,16 +49,25 @@ public class QuestionnaireActivity extends AppCompatActivity {
         final RecyclerView questionnaireRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewQuestionnaires);
         questionnaireRecyclerView.setHasFixedSize(true);
 
-        ArrayList<Location> LocationList = getIntent().getExtras().getParcelable(Constants.KEY_LOCATIONS_CHOSEN);
-      for (Location locationChose: LocationList) {
-            int idQuestion = locationChose.getId();
-            Questionnaire questionnaire = questionnaireRepository.getQuestionnaireById(idQuestion);
+        ArrayList<Location> LocationList = new ArrayList<Location>();
 
-            ArrayList<Question> questionArrayList = questionnaire.getQuestions();
-            for (Question question: questionArrayList){
-                finalQuestionArrayList.add(question);
+        LocationList = getIntent().getExtras().getParcelableArrayList(Constants.KEY_LOCATIONS_CHOSEN);
+
+        if (LocationList != null){
+            for (Location locationChose: LocationList) {
+
+                int idQuestion = locationChose.getQuestionnaire().getId();
+
+                Questionnaire questionnaire = questionnaireRepository.getQuestionnaireById(idQuestion);
+
+                ArrayList<Question> questionArrayList = questionnaire.getQuestions();
+                for (Question question: questionArrayList){
+                    finalQuestionArrayList.add(question);
+                }
             }
-       }
+        }
+
+
 
 
         final LinearLayoutManager questionnaireLayoutManager = new LinearLayoutManager(context);
