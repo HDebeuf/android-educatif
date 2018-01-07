@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -215,11 +216,31 @@ public class SQLiteInstrumentRepository implements IInstrumentRepository {
         return ret;
     }
 
-    public void setIsUnlocked(int instrumentId, int groupId){
+    public void setIsUnlocked(int locationId, int groupId){
+
+        int instrumentId = getInstrumentOfLocation(locationId).getId();
+
         SQLiteDatabase db = SQLiteHelper.getDatabaseInstance(context);
         ContentValues values = new ContentValues();
         values.put(InstrumentUnlockedEntity.COLUMN_FK_GROUP,groupId);
         values.put(InstrumentUnlockedEntity.COLUMN_FK_INSTRUMENT,instrumentId);
         db.insert(AnswerToQuestionEntity.TABLE, null, values);
+
     }
+
+    public boolean isInstrumentActivity (int locationId){
+        boolean isInstrumentActivity = false;
+        int instrumentId = 0;
+        try{
+            instrumentId = getInstrumentOfLocation(locationId).getId();
+        } catch (Exception e){
+            Log.d("InstrumentChecker","No instrument linked to this location");
+            isInstrumentActivity = false;
+        }
+        if (instrumentId!=0){
+            isInstrumentActivity = true;
+        }
+        return isInstrumentActivity;
+    }
+
 }

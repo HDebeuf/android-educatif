@@ -106,8 +106,11 @@ public class MapMusicalActivity extends FragmentActivity implements OnMapReadyCa
             @Override
             public boolean onMarkerClick(Marker marker) {
                 Location l = hashMapMarkersLocation.get(marker);
+                final ArrayList<Location> locationList= new ArrayList<Location>();
+                locationList.add(l);
                 Intent intent = new Intent(be.henallux.masi.pedagogique.activities.musicalActivity.MapMusicalActivity.this,l.getClassToThrow());
                 intent.putExtra(Constants.KEY_LOCATION_CLICKED,l);
+                intent.putExtra(Constants.KEY_LOCATIONS_CHOSEN,locationList);
                 intent.putExtra(Constants.ACTIVITY_KEY,activity);
                 intent.putExtra(Constants.KEY_CURRENT_GROUP,currentGroup);
                 startActivity(intent);

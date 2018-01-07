@@ -10,5 +10,5 @@ import be.henallux.masi.pedagogique.model.Group;
  */
 
 public interface IResultRepository {
-    void sendResult (ArrayList<Answer> givenAnswerArrayList, Group group);
+    boolean sendResult (ArrayList<Answer> givenAnswerArrayList, Group group);
 }

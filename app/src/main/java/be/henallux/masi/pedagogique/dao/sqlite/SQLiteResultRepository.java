@@ -42,7 +42,7 @@ public class SQLiteResultRepository implements IResultRepository {
     }
 
 
-    public void sendResult (ArrayList<Answer> givenAnswerArrayList, Group group){
+    public boolean sendResult (ArrayList<Answer> givenAnswerArrayList, Group group){
         StringBuilder body = mailComposer.composeResultGridPlaintext(group,givenAnswerArrayList);
         mailSender.sendMail("Groupe " + group.getId() , "Questionnaire", body.toString());
 
@@ -55,13 +55,20 @@ public class SQLiteResultRepository implements IResultRepository {
                 nbWrong++;
             }
         }
+
         ContentValues values = new ContentValues();
         values.put(ResultEntity.COLUMN_NB_CORRECT,nbCorrect);
         values.put(ResultEntity.COLUMN_NB_WRONG,nbWrong);
         values.put(ResultEntity.COLUMN_FK_GROUP,group.getId());
         db.insert(ResultEntity.TABLE, null, values);
 
+        boolean passed = false;
 
+        if (nbCorrect>=nbWrong){
+            passed = true;
+        }
+
+        return passed;
     }
 
 }

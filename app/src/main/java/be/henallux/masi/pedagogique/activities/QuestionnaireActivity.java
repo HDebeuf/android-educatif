@@ -2,6 +2,7 @@ package be.henallux.masi.pedagogique.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -19,8 +20,12 @@ import be.henallux.masi.pedagogique.activities.mapActivity.Location;
 import be.henallux.masi.pedagogique.activities.mapActivity.SQLiteMapActivityRepository;
 import be.henallux.masi.pedagogique.adapters.AnswerListAdapter;
 import be.henallux.masi.pedagogique.adapters.QuestionListAdapter;
+import be.henallux.masi.pedagogique.dao.interfaces.IAnswerToQuestionRepository;
+import be.henallux.masi.pedagogique.dao.interfaces.IInstrumentRepository;
 import be.henallux.masi.pedagogique.dao.interfaces.IQuestionnaireRepository;
 import be.henallux.masi.pedagogique.dao.interfaces.IResultRepository;
+import be.henallux.masi.pedagogique.dao.sqlite.SQLiteAnswerToQuestionRepository;
+import be.henallux.masi.pedagogique.dao.sqlite.SQLiteInstrumentRepository;
 import be.henallux.masi.pedagogique.dao.sqlite.SQLiteQuestionnaireRepository;
 import be.henallux.masi.pedagogique.dao.sqlite.SQLiteResultRepository;
 import be.henallux.masi.pedagogique.model.Answer;
@@ -56,7 +61,7 @@ public class QuestionnaireActivity extends AppCompatActivity {
         final RecyclerView questionnaireRecyclerView = findViewById(R.id.question_recycler_view);
         questionnaireRecyclerView.setHasFixedSize(true);
 
-        ArrayList<Location> LocationList;
+        final ArrayList<Location> LocationList;
 
         LocationList = getIntent().getExtras().getParcelableArrayList(Constants.KEY_LOCATIONS_CHOSEN);
         currentGroup = getIntent().getExtras().getParcelable(Constants.KEY_CURRENT_GROUP);
@@ -80,15 +85,33 @@ public class QuestionnaireActivity extends AppCompatActivity {
                     Toast.makeText(context, R.string.error_missing_answer, Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 ArrayList<AnswerGiven> results = questionnaireListAdapter.getAllResult();
                 ArrayList<Answer> answerArrayList = new ArrayList<>();
+
+                IAnswerToQuestionRepository answerToQuestionRepository = SQLiteAnswerToQuestionRepository.getInstance(context);
+
                 for(AnswerGiven ag : results){
                     answerArrayList.add(ag.getGivenAnswers().get(0));
+                    answerToQuestionRepository.addAnswer(ag.getGivenAnswers().get(0));
                 }
+
                 IResultRepository resultRepository = SQLiteResultRepository.getInstance(context);
-                resultRepository.sendResult(answerArrayList,currentGroup);
-                Toast toast = Toast.makeText(context, "Envoyée",Toast.LENGTH_LONG);
-                toast.show();
+                boolean passed = resultRepository.sendResult(answerArrayList,currentGroup);
+
+                //Instrument won't be unlocked if the location isn't part of the Music Activity
+                IInstrumentRepository instrumentRepository = SQLiteInstrumentRepository.getInstance(context);
+                boolean isInstrumentActivity = instrumentRepository.isInstrumentActivity(LocationList.get(0).getId());
+
+                if (isInstrumentActivity){
+                    if (passed){
+                        instrumentRepository.setIsUnlocked(LocationList.get(0).getId(),currentGroup.getId());
+                        Toast.makeText(context,R.string.instrument_unlocked,Toast.LENGTH_LONG);
+                    } else {
+                        Toast.makeText(context,R.string.instrument_locked,Toast.LENGTH_LONG);
+                    }
+                }
+
                 Intent intent = new Intent(QuestionnaireActivity.this,MainMenuActivity.class);
                 intent.putExtra(Constants.KEY_GROUP_CREATED,currentGroup);
                 intent.putExtra(Constants.KEY_CATEGORY_USER,currentGroup.getMembers().get(0).getCategory());

@@ -43,5 +43,7 @@
     <string name="email_music_subject"> Composition musicale </string>
     <string name="error_missing_answer">Tu n\'as pas répondu à toutes les questions</string>
     <string name="plaintext_header_answer_question"><![CDATA[<Question> - <Réponse> - <Point>]]></string>
+    <string name="instrument_unlocked">Bravo tu as débloqué un instrument !</string>
+    <string name="instrument_locked">Malheureusement il va falloir refaire le questionnaire.</string>
 
 </resources>

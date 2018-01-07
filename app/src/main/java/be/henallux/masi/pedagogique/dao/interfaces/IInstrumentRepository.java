@@ -13,5 +13,6 @@ public interface IInstrumentRepository {
     ArrayList<Instrument> getAllInstruments ();
     Instrument getInstrumentOfLocation(int id);
     ArrayList<Instrument> getInstrumentsOfGroup(Group g);
-    void setIsUnlocked(int instrumentId, int groupId);
+    void setIsUnlocked(int locationId, int groupId);
+    boolean isInstrumentActivity (int locationId);
 }

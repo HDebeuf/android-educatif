@@ -47,6 +47,7 @@ public class MusicalActivity extends AppCompatActivity {
         context = getApplicationContext();
 
         final Location clickedLocation = getIntent().getExtras().getParcelable(Constants.KEY_LOCATION_CLICKED);
+        final ArrayList<Location> locationList= getIntent().getExtras().getParcelableArrayList(Constants.KEY_LOCATIONS_CHOSEN);
 
         currentGroup = getIntent().getExtras().getParcelable(Constants.KEY_CURRENT_GROUP);
 
@@ -68,7 +69,8 @@ public class MusicalActivity extends AppCompatActivity {
         question.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(context, QuestionnaireActivity.class);
-                intent.putExtra(Constants.KEY_LOCATIONS_CHOSEN,locationsClick);
+                //intent.putExtra(Constants.KEY_LOCATIONS_CHOSEN,locationsClick);
+                intent.putExtra(Constants.KEY_LOCATIONS_CHOSEN,locationList);
                 intent.putExtra(Constants.KEY_CURRENT_GROUP,currentGroup);
                 startActivity(intent);
             }
