@@ -158,7 +158,7 @@ public class SQLiteInstrumentRepository implements IInstrumentRepository {
                 InstrumentEntity.COLUMN_SAMPLE_FILE_NAME + "," +
                 InstrumentEntity.COLUMN_FK_QUESTIONNAIRE+ "," +
                 InstrumentEntity.COLUMN_FK_LOCATION + " from " + InstrumentEntity.TABLE
-                + " where " + InstrumentEntity.COLUMN_ID + " in (" + makePlaceholders(idsOfUnlockedInstruments.length) ,idsOfUnlockedInstruments);
+                + " where " + InstrumentEntity.COLUMN_ID + " in (" + makePlaceholders(idsOfUnlockedInstruments.length) + ")" ,idsOfUnlockedInstruments);
 
         cursor.moveToFirst();
 
@@ -211,7 +211,7 @@ public class SQLiteInstrumentRepository implements IInstrumentRepository {
         String[] ret = new String[integers.size()];
         for (int i=0; i < ret.length; i++)
         {
-            ret[i] = String.valueOf(ret[i]);
+            ret[i] = String.valueOf(integers.get(i));
         }
         return ret;
     }
