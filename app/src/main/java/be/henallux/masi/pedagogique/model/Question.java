@@ -1,5 +1,8 @@
 package be.henallux.masi.pedagogique.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
 /**
@@ -7,7 +10,7 @@ import java.util.ArrayList;
  *
  */
 
-public class Question {
+public class Question implements Parcelable {
     private Integer id;
     private String statement;
     //private Questionnaire questionnaire;
@@ -63,4 +66,52 @@ public class Question {
     public void setAnswers(ArrayList<Answer> answers) {
         this.answers = answers;
     }
+
+    protected Question(Parcel in) {
+        id = in.readByte() == 0x00 ? null : in.readInt();
+        statement = in.readString();
+        if (in.readByte() == 0x01) {
+            answers = new ArrayList<Answer>();
+            in.readList(answers, Answer.class.getClassLoader());
+        } else {
+            answers = null;
+        }
+        type = in.readInt();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(id);
+        }
+        dest.writeString(statement);
+        if (answers == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(answers);
+        }
+        dest.writeInt(type);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Question> CREATOR = new Parcelable.Creator<Question>() {
+        @Override
+        public Question createFromParcel(Parcel in) {
+            return new Question(in);
+        }
+
+        @Override
+        public Question[] newArray(int size) {
+            return new Question[size];
+        }
+    };
 }

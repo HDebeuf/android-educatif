@@ -93,5 +93,11 @@ public class Instrument {
     public void setSoundId(int soundId) {
         this.soundId = soundId;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Instrument)) return false;
+        return((Instrument)obj).getId() == id;
+    }
 }
 

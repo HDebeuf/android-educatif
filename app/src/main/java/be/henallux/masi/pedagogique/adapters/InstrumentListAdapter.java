@@ -36,17 +36,19 @@ public class InstrumentListAdapter extends RecyclerView.Adapter<InstrumentListAd
     private ArrayList<Instrument> instrumentArrayList;
     private ISoundPoolHandler soundPoolHandler;
     private IMapChangeHandler mapChangeHandler;
+    private ArrayList<Instrument> unlockedInstruments;
     private SoundPool soundPool;
     private int soundID;
     private int tagId;
     private boolean loaded;
 
-    public InstrumentListAdapter(Context context, ArrayList<Instrument> instrumentArrayList, SoundPoolHandler soundPoolHandler, IMapChangeHandler mapChangeHandler) {
+    public InstrumentListAdapter(Context context, ArrayList<Instrument> instrumentArrayList,ArrayList<Instrument> unlockedInstruments, SoundPoolHandler soundPoolHandler, IMapChangeHandler mapChangeHandler) {
         this.context = context;
         this.instrumentArrayList = instrumentArrayList;
         this.soundPoolHandler = soundPoolHandler;
         this.soundPoolHandler.buildSoundPool();
         this.mapChangeHandler = mapChangeHandler;
+        this.unlockedInstruments = unlockedInstruments;
         tagId = 1;
     }
 
@@ -71,34 +73,49 @@ public class InstrumentListAdapter extends RecyclerView.Adapter<InstrumentListAd
         Picasso.with(context).load(instrumentArrayList.get(position).getImagePath()).into(holder.instrumentImage);
 
         holder.lockedImage.setImageResource(R.drawable.ic_locked);
+        //Log.d("mediainfo",String.valueOf(instrumentArrayList.get(position).isUnlocked()));
+        Log.d("mediainfo",String.valueOf(instrumentArrayList.get(position).getSampleFileName()));
+        if (unlockedInstruments.contains(instrumentArrayList.get(position))){
+            holder.lockedImage.setVisibility(View.GONE);
 
+            //Manage multiple sound play in a SoundPool
 
-        holder.lockedImage.setVisibility(View.GONE);
+            String fileName = instrumentArrayList.get(position).getSampleFileName();
+            String fileType = "raw";
 
-        //Manage multiple sound play in a SoundPool
+            soundID = soundPoolHandler.loadSample(fileName, fileType);
 
-        String fileName = instrumentArrayList.get(position).getSampleFileName();
-        String fileType = "raw";
+            ArrayList<Integer> idData = new ArrayList<>(2);
+            idData.add(soundID);
+            idData.add(instrumentArrayList.get(position).getLocationId());
 
-        soundID = soundPoolHandler.loadSample(fileName, fileType);
+            holder.instrumentImage.setTag(idData);
+            holder.instrumentImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ArrayList<Integer> idData = (ArrayList<Integer>) holder.instrumentImage.getTag();
+                    soundPoolHandler.playSample(idData.get(0));
+                    Log.d("tototo",idData.get(0).toString());
+                    Log.d("tototo",idData.get(1).toString());
+                    mapChangeHandler.moveToPosition(idData.get(1));
+                }
+            });
 
-        ArrayList<Integer> idData = new ArrayList<>(2);
-        idData.add(soundID);
-        idData.add(instrumentArrayList.get(position).getLocationId());
-
-        holder.instrumentImage.setTag(idData);
-        holder.instrumentImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ArrayList<Integer> idData = (ArrayList<Integer>) holder.instrumentImage.getTag();
-                soundPoolHandler.playSample(idData.get(0));
-                Log.d("tototo",idData.get(0).toString());
-                Log.d("tototo",idData.get(1).toString());
-                mapChangeHandler.moveToPosition(idData.get(1));
-            }
-        });
-
-
+        } else {
+            holder.instrumentInfoButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openContinentQuizz(instrumentArrayList.get(position).getLocationId());
+                }
+            });
+            holder.lockedImage.setTag(instrumentArrayList.get(position).getLocationId());
+            holder.lockedImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mapChangeHandler.moveToPosition(Integer.valueOf(holder.lockedImage.getTag().toString()));
+                }
+            });
+        }
 
         holder.instrumentInfoButton.setImageResource(R.drawable.ic_info);
         holder.instrumentInfoButton.setId(instrumentArrayList.get(position).getLocationId());
@@ -129,6 +146,7 @@ public class InstrumentListAdapter extends RecyclerView.Adapter<InstrumentListAd
             instrumentImage = (ImageView) itemView.findViewById(R.id.instrumentImage);
             instrumentInfoButton = (ImageButton) itemView.findViewById(R.id.informationButton);
             lockedImage = itemView.findViewById(R.id.locked);
+
         }
     }
 
@@ -137,5 +155,5 @@ public class InstrumentListAdapter extends RecyclerView.Adapter<InstrumentListAd
         intent.putExtra(Constants.KEY_LOCATION_CLICKED,locationId);
         context.startActivity(intent);
     }
-}
 
+}

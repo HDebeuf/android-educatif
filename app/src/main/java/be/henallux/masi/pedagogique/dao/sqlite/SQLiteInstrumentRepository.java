@@ -39,12 +39,12 @@ public class SQLiteInstrumentRepository implements IInstrumentRepository {
         ArrayList<Instrument> instruments = new ArrayList<>();
         Cursor cursor = db.query(InstrumentEntity.TABLE,
                 new String[]{InstrumentEntity.COLUMN_ID,
+                        InstrumentEntity.COLUMN_FK_LOCATION,
                         InstrumentEntity.COLUMN_NAME,
                         InstrumentEntity.COLUMN_DESCRIPTION,
                         InstrumentEntity.COLUMN_IMAGE_PATH,
                         InstrumentEntity.COLUMN_SAMPLE_FILE_NAME,
-                        InstrumentEntity.COLUMN_FK_QUESTIONNAIRE,
-                        InstrumentEntity.COLUMN_FK_LOCATION},
+                        InstrumentEntity.COLUMN_FK_QUESTIONNAIRE},
                 null,null,
                 null, null, null);
 
@@ -107,11 +107,9 @@ public class SQLiteInstrumentRepository implements IInstrumentRepository {
             uriImage = Uri.parse(uriImageString);
         }
 
-
-        String sampleFileString = cursor.getString(3);
         Questionnaire questionnaire = questionnaireRepository.getQuestionnaireById(fkQuestionnaire);
 
-        Instrument i = new Instrument(id,locationId, name,description, uriImage, sampleFileString,questionnaire,soundID);
+        Instrument i = new Instrument(id,locationId, name,description, uriImage, sampleFile,questionnaire,soundID);
 
         cursor.close();
         return i;
@@ -142,6 +140,7 @@ public class SQLiteInstrumentRepository implements IInstrumentRepository {
         ArrayList<Instrument> instruments = new ArrayList<>();
         Cursor cursor = db.rawQuery("Select " +
                 InstrumentEntity.COLUMN_ID + "," +
+                InstrumentEntity.COLUMN_FK_LOCATION + "," +
                 InstrumentEntity.COLUMN_NAME + "," +
                 InstrumentEntity.COLUMN_DESCRIPTION + "," +
                 InstrumentEntity.COLUMN_IMAGE_PATH + "," +
