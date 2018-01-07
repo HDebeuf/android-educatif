@@ -29,17 +29,15 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
     public QuestionListAdapter(Context context, ArrayList<Question> questionArrayList) {
         this.context = context;
         this.questionsArrayList = questionArrayList;
-        Log.d("test 1 :", questionsArrayList.get(0).getStatement());
+
     }
 
     @Override
     public QuestionListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.d("test 5:", "test ");
+
 
         View v= LayoutInflater.from(context).inflate(R.layout.recyclerview_question,parent,false);
-        Log.d("test 5:", "test ");
         ViewHolder holder = new ViewHolder(v);
-        Log.d("test 6 :", questionsArrayList.get(0).getStatement());
         return holder;
 
     }

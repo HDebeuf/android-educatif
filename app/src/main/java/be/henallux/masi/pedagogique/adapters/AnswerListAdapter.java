@@ -29,7 +29,6 @@ public class AnswerListAdapter extends  RecyclerView.Adapter<AnswerListAdapter.V
     private Context context;
     private ArrayList<Answer> answerArrayList;
     ArrayList<ItemBindingModel> answeredArrayList = new ArrayList<>();
-    public boolean checked;
 
     public AnswerListAdapter(Context context, ArrayList<Answer> answerArrayList) {
 
@@ -41,8 +40,6 @@ public class AnswerListAdapter extends  RecyclerView.Adapter<AnswerListAdapter.V
     public AnswerListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v= LayoutInflater.from(context).inflate(R.layout.recyclerview_checkbox_answer,parent,false);
         final ViewHolder holder = new ViewHolder(v);
-        Log.d("test  2 :", answerArrayList.get(1).getStatement());
-
         return holder;
     }
 
@@ -51,8 +48,8 @@ public class AnswerListAdapter extends  RecyclerView.Adapter<AnswerListAdapter.V
 
         holder.answerTextView.setText(answerArrayList.get(position).getStatement());
         holder.check.setOnCheckedChangeListener(null); //remove previous listener
-        holder.check.setOnCheckedChangeListener(new GroupCreationUsernameAdapter.CustomCheckedListenerAnswer(holder.getAdapterPosition()));
-        holder.check.setChecked(answerArrayList.get(holder.getAdapterPosition()).checked);
+        holder.check.setOnCheckedChangeListener(new AnswerListAdapter.CustomCheckedListener(holder.getAdapterPosition()));
+        //holder.check.setChecked(answerArrayList.get(holder.getAdapterPosition()).checked);
 
 
     }
@@ -62,6 +59,7 @@ public class AnswerListAdapter extends  RecyclerView.Adapter<AnswerListAdapter.V
         return answerArrayList.size();
     }
 
+/*
     public ArrayList<Answer> getAnsweredArrayList(){
 
         ArrayList<Answer> answeredArrayList = new ArrayList<>();
@@ -75,6 +73,7 @@ public class AnswerListAdapter extends  RecyclerView.Adapter<AnswerListAdapter.V
         return answeredArrayList;
     }
 
+*/
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView answerTextView;
@@ -83,8 +82,6 @@ public class AnswerListAdapter extends  RecyclerView.Adapter<AnswerListAdapter.V
             super(itemView);
             answerTextView = (TextView) itemView.findViewById(R.id.answerTextView);
             check = (CheckBox) itemView.findViewById(R.id.checkBoxAnswer);
-
-
         }
     }
 
@@ -103,15 +100,15 @@ public class AnswerListAdapter extends  RecyclerView.Adapter<AnswerListAdapter.V
         }
     }
 
-    private class CustomCheckedListenerAnswer implements CompoundButton.OnCheckedChangeListener {
+    private class CustomCheckedListener implements CompoundButton.OnCheckedChangeListener {
         private int position;
-        public CustomCheckedListenerAnswer(int position) {
+        public CustomCheckedListener(int position) {
             this.position = position;
         }
 
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-            answerArrayList.get(position).checked = b;
+          //  answerArrayList.get(position).checked = b;
         }
     }
 

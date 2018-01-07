@@ -53,7 +53,6 @@ public class QuestionnaireActivity extends AppCompatActivity {
 
         LocationList = getIntent().getExtras().getParcelableArrayList(Constants.KEY_LOCATIONS_CHOSEN);
 
-        if (LocationList != null){
             for (Location locationChose: LocationList) {
 
                 int idQuestion = locationChose.getQuestionnaire().getId();
@@ -65,7 +64,6 @@ public class QuestionnaireActivity extends AppCompatActivity {
                     finalQuestionArrayList.add(question);
                 }
             }
-        }
 
 
 
