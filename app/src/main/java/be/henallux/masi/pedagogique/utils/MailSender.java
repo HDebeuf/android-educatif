@@ -13,15 +13,13 @@ import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
 public class MailSender implements IMailSender {
 
     private Context context;
-    private String userName;
-    private String password;
-    private String senderName;
 
     public MailSender(Context context) {
         this.context = context;
     }
 
-    public void sendMail(String senderName, String subject, String body, String fileName){
+    public void sendMailFile(String senderName, String subject, String body, String fileName){
+
         BackgroundMail.newBuilder(context)
                 .withUsername("applicationpedagogique@gmail.com")
                 .withPassword("application pedagogique")
@@ -35,13 +33,43 @@ public class MailSender implements IMailSender {
                 .withOnSuccessCallback(new BackgroundMail.OnSuccessCallback() {
                     @Override
                     public void onSuccess() {
-                        Toast.makeText(context,"Vos résultats ont été envoyés à votre professeur",Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(context,"Vos résultats ont été envoyés à votre professeur",Toast.LENGTH_LONG);
+                        toast.show();
                     }
                 })
                 .withOnFailCallback(new BackgroundMail.OnFailCallback() {
                     @Override
                     public void onFail() {
-                        Toast.makeText(context,"Une erreur est survenue",Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(context,"Une erreur est survenue",Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                })
+                .send();
+    }
+
+    public void sendMail(String senderName, String subject, String body){
+
+        BackgroundMail.newBuilder(context)
+                .withUsername("applicationpedagogique@gmail.com")
+                .withPassword("application pedagogique")
+                .withSenderName(senderName)
+                .withMailTo("applicationpedagogique@gmail.com")
+                .withType(BackgroundMail.TYPE_HTML)
+                .withSubject(subject)
+                .withBody(body)
+                .withProcessVisibility(false)
+                .withOnSuccessCallback(new BackgroundMail.OnSuccessCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Toast toast = Toast.makeText(context,"Vos résultats ont été envoyés à votre professeur",Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                })
+                .withOnFailCallback(new BackgroundMail.OnFailCallback() {
+                    @Override
+                    public void onFail() {
+                        Toast toast = Toast.makeText(context,"Une erreur est survenue",Toast.LENGTH_LONG);
+                        toast.show();
                     }
                 })
                 .send();

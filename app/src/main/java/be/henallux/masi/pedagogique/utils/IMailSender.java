@@ -8,5 +8,6 @@ import android.content.Context;
 
 public interface IMailSender {
 
-    void sendMail(String senderName, String subject, String body, String fileName);
+    void sendMailFile(String senderName, String subject, String body, String fileName);
+    void sendMail(String senderName, String subject, String body);
 }

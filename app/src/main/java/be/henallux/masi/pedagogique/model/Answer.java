@@ -12,18 +12,27 @@ public class Answer implements Parcelable {
     private Integer id;
     private String statement;
     private boolean isCorrect;
+    private int point;
+    private int questionId;
+    private String questionStatement;
 
-    public Answer(Integer id, String statement, boolean isCorrect) {
+    public Answer(Integer id, String statement, boolean isCorrect, int questionId) {
         this.id = id;
         this.statement = statement;
         this.isCorrect = isCorrect;
-
+        this.questionId = questionId;
     }
     public Answer(Integer id, String statement) {
         this.id = id;
         this.statement = statement;
     }
 
+    public Answer(Integer id, String statement, int point, String questionStatement) {
+        this.id = id;
+        this.statement = statement;
+        this.point = point;
+        this.questionStatement = questionStatement;
+    }
 
     public Integer getId() {
         return id;
@@ -39,6 +48,38 @@ public class Answer implements Parcelable {
 
     public void setStatement(String statement) {
         this.statement = statement;
+    }
+
+    public boolean isCorrect() {
+        return isCorrect;
+    }
+
+    public void setCorrect(boolean correct) {
+        isCorrect = correct;
+    }
+
+    public int getQuestionId() {
+        return questionId;
+    }
+
+    public void setQuestionId(int questionId) {
+        this.questionId = questionId;
+    }
+
+    public String getQuestionStatement() {
+        return questionStatement;
+    }
+
+    public void setQuestionStatement(String questionStatement) {
+        this.questionStatement = questionStatement;
+    }
+
+    public int getPoint() {
+        return point;
+    }
+
+    public void setPoint(int point) {
+        this.point = point;
     }
 
     protected Answer(Parcel in) {
