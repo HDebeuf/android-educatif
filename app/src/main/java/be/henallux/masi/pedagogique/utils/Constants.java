@@ -27,6 +27,7 @@ public class Constants {
     public static final int REQUEST_IMAGE_CAPTURE = 0x984a;
     public static final String QUESTIONNAIRE_TO_SHOW = "Key_questionnaire_to_show";
     public static final String KEY_CURRENT_GROUP = "Key_curren_group";
+    public static final java.lang.String KEY_CLASS_TO_RETURN_AFTER_END = "Key_class_after_end";
 
     public enum Gender{
         MALE,

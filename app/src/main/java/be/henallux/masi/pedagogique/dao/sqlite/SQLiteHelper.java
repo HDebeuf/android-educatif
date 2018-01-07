@@ -525,7 +525,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         values.clear();
         values.put(AnswerEntity.COLUMN_STATEMENT, "Non");
-        values.put(AnswerEntity.COLUMN_IS_TRUE, "1");
+        values.put(AnswerEntity.COLUMN_IS_TRUE, "0");
         values.put(AnswerEntity.COLUMN_FK_QUESTION, idQuestionGand1);
         database.insert(AnswerEntity.TABLE, null, values);
 

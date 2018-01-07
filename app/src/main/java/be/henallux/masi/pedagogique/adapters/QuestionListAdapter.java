@@ -51,7 +51,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
 
         final RecyclerView answerRecyclerView = holder.answersRecyclerView;
         answerRecyclerView.setHasFixedSize(true);
-        final RecyclerView.LayoutManager answerLayoutManager = new GridLayoutManager(context, 2);
+        final RecyclerView.LayoutManager answerLayoutManager = new GridLayoutManager(context, model.question.getAnswers().size());
         answerRecyclerView.setLayoutManager(answerLayoutManager);
 
         holder.answersRecyclerView.setAdapter(model.adapter);

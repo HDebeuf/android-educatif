@@ -1,6 +1,7 @@
 package be.henallux.masi.pedagogique.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -42,8 +43,6 @@ public class QuestionnaireActivity extends AppCompatActivity {
     private ArrayList<Question> finalQuestionArrayList;
     private Group currentGroup;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -61,6 +60,7 @@ public class QuestionnaireActivity extends AppCompatActivity {
 
         LocationList = getIntent().getExtras().getParcelableArrayList(Constants.KEY_LOCATIONS_CHOSEN);
         currentGroup = getIntent().getExtras().getParcelable(Constants.KEY_CURRENT_GROUP);
+        String classToThrowAfterEnd = getIntent().getExtras().getString(Constants.KEY_CLASS_TO_RETURN_AFTER_END);
 
         for (Location locationChose : LocationList) {
             Questionnaire questionnaire = locationChose.getQuestionnaire();
@@ -89,6 +89,10 @@ public class QuestionnaireActivity extends AppCompatActivity {
                 resultRepository.sendResult(answerArrayList,currentGroup);
                 Toast toast = Toast.makeText(context, "Envoyée",Toast.LENGTH_LONG);
                 toast.show();
+                Intent intent = new Intent(QuestionnaireActivity.this,MainMenuActivity.class);
+                intent.putExtra(Constants.KEY_GROUP_CREATED,currentGroup);
+                intent.putExtra(Constants.KEY_CATEGORY_USER,currentGroup.getMembers().get(0).getCategory());
+                startActivity(intent);
             }
         });
     }
