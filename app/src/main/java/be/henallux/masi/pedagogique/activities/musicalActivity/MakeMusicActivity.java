@@ -26,7 +26,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -49,8 +48,11 @@ import be.henallux.masi.pedagogique.adapters.InstrumentListAdapter;
 import be.henallux.masi.pedagogique.dao.interfaces.IInstrumentRepository;
 import be.henallux.masi.pedagogique.dao.sqlite.SQLiteInstrumentRepository;
 import be.henallux.masi.pedagogique.model.Group;
+import be.henallux.masi.pedagogique.model.User;
 import be.henallux.masi.pedagogique.utils.Constants;
+import be.henallux.masi.pedagogique.utils.IMailSender;
 import be.henallux.masi.pedagogique.utils.IPermissionsHandler;
+import be.henallux.masi.pedagogique.utils.MailSender;
 import be.henallux.masi.pedagogique.utils.PermissionsHandler;
 
 public class MakeMusicActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -78,6 +80,7 @@ public class MakeMusicActivity extends FragmentActivity implements OnMapReadyCal
     private IPermissionsHandler permissionHandler;
     private ISoundPoolHandler soundPoolHandler;
     private IMapChangeHandler mapChangeHandler;
+    private IMailSender mailSender;
 
     private RecordAudio recordAudioFile;
     private int maxDuration;
@@ -94,6 +97,11 @@ public class MakeMusicActivity extends FragmentActivity implements OnMapReadyCal
         setContentView(R.layout.activity_make_music);
 
         currentGroup = getIntent().getExtras().getParcelable(Constants.KEY_CURRENT_GROUP);
+        ArrayList<User> teamMembers = currentGroup.getMembers();
+        final StringBuilder teamMembersString = new StringBuilder();
+        for (User user: teamMembers) {
+            teamMembersString.append(user.getFirstName() + " " + user.getLastName() + ", ");
+        }
 
         activity = getIntent().getExtras().getParcelable(Constants.ACTIVITY_KEY);
         chosenLocations.addAll(activity.getPointsOfInterest());
@@ -187,6 +195,8 @@ public class MakeMusicActivity extends FragmentActivity implements OnMapReadyCal
             @Override
             public void onClick(View view) {
                 playerHandler.reset();
+                mailSender = new MailSender(context);
+                mailSender.sendMailFile(R.string.group + currentGroup.getId().toString(), String.valueOf(R.string.email_music_subject), R.string.email_body_start + teamMembersString.toString() + R.string.email_body_end, recordAudioFile.getFileName() + ".mp4");
 
                 deleteButton.setVisibility(View.GONE);
                 playPauseButton.setVisibility(View.GONE);

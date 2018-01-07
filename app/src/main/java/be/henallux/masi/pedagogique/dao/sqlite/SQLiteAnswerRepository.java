@@ -36,22 +36,23 @@ public class SQLiteAnswerRepository implements IAnswerRepository {
                         AnswerEntity.COLUMN_STATEMENT,
                         AnswerEntity.COLUMN_IS_TRUE,
                         AnswerEntity.COLUMN_FK_QUESTION},
-                AnswerEntity.COLUMN_FK_QUESTION + "=?",new String[]{String.valueOf(questionID)},
+                AnswerEntity.COLUMN_FK_QUESTION + "=?", new String[]{String.valueOf(questionID)},
                 null, null, null);
 
-        if(cursor.getCount() == 0) return null;
+        if (cursor.getCount() == 0) return null;
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
+        while (!cursor.isAfterLast()) {
             int idAnswer = cursor.getInt(0);
             String statement = cursor.getString(1);
             boolean isTrue = cursor.getInt(2) == 1;
+            int questionId = cursor.getInt(3);
 
-            answers.add(new Answer(idAnswer,statement,isTrue));
+            answers.add(new Answer(idAnswer, statement, isTrue, questionId));
             cursor.moveToNext();
         }
-
 
         cursor.close();
         return answers;
     }
+
 }

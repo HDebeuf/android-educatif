@@ -17,6 +17,7 @@ public class Instrument {
     private String sampleFileName;
     private Questionnaire questionnaire;
     private int soundId;
+    private boolean isUnlocked;
 
 
     public Instrument(int id, int locationId, String name, String description, Uri imagePath, String sampleFileName, Questionnaire questionnaire, int soundId) {

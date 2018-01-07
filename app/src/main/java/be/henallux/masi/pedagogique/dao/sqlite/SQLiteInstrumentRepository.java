@@ -1,5 +1,6 @@
 package be.henallux.masi.pedagogique.dao.sqlite;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -13,6 +14,7 @@ import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.Instrum
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.entities.InstrumentEntity;
 import be.henallux.masi.pedagogique.dao.interfaces.IInstrumentRepository;
 import be.henallux.masi.pedagogique.dao.interfaces.IQuestionnaireRepository;
+import be.henallux.masi.pedagogique.dao.sqlite.entities.AnswerToQuestionEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.CategoryEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.InstrumentUnlockedEntity;
 import be.henallux.masi.pedagogique.model.Category;
@@ -203,5 +205,13 @@ public class SQLiteInstrumentRepository implements IInstrumentRepository {
             ret[i] = String.valueOf(ret[i]);
         }
         return ret;
+    }
+
+    public void setIsUnlocked(int instrumentId, int groupId){
+        SQLiteDatabase db = SQLiteHelper.getDatabaseInstance(context);
+        ContentValues values = new ContentValues();
+        values.put(InstrumentUnlockedEntity.COLUMN_FK_GROUP,groupId);
+        values.put(InstrumentUnlockedEntity.COLUMN_FK_INSTRUMENT,instrumentId);
+        db.insert(AnswerToQuestionEntity.TABLE, null, values);
     }
 }

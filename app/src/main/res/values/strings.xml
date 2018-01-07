@@ -37,5 +37,9 @@
     <string name="gender_female">Fille</string>
     <string name="gender_other">Autre</string>
     <string name="musical_welcome_title">Bonjour et Bienvenue en</string>
+    <string name="email_body_start">Ci-joint une chason que vos élèves </string>
+    <string name="email_body_end">vous ont composé.</string>
+    <string name="group">Groupe </string>
+    <string name="email_music_subject"> Composition musicale </string>
 
 </resources>
