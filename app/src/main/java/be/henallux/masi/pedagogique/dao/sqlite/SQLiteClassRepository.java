@@ -23,9 +23,17 @@ import be.henallux.masi.pedagogique.model.User;
 public class SQLiteClassRepository implements IClassRepository {
 
     private Context context;
+    private static SQLiteClassRepository instance;
 
-    public SQLiteClassRepository(Context applicationContext) {
+    private SQLiteClassRepository(Context applicationContext) {
         this.context = applicationContext;
+    }
+
+    public static SQLiteClassRepository getInstance(Context ctx){
+        if(instance == null){
+            instance = new SQLiteClassRepository(ctx);
+        }
+        return instance;
     }
 
     @Override

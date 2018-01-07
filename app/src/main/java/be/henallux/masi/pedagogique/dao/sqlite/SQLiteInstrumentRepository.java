@@ -29,10 +29,18 @@ import be.henallux.masi.pedagogique.model.Questionnaire;
 public class SQLiteInstrumentRepository implements IInstrumentRepository {
 
     private Context context;
-    private IQuestionnaireRepository questionnaireRepository = new SQLiteQuestionnaireRepository(context);
+    private IQuestionnaireRepository questionnaireRepository = SQLiteQuestionnaireRepository.getInstance(context);
+    private static SQLiteInstrumentRepository instance;
 
-    public SQLiteInstrumentRepository(Context context) {
+    private SQLiteInstrumentRepository(Context context) {
         this.context = context;
+    }
+
+    public static SQLiteInstrumentRepository getInstance(Context context){
+        if(instance == null){
+            instance = new SQLiteInstrumentRepository(context);
+        }
+        return instance;
     }
 
     public ArrayList<Instrument> getAllInstruments() {
@@ -197,7 +205,7 @@ public class SQLiteInstrumentRepository implements IInstrumentRepository {
         return convertIntegers(ids);
     }
 
-    public static String[] convertIntegers(ArrayList<Integer> integers)
+    private static String[] convertIntegers(ArrayList<Integer> integers)
     {
         String[] ret = new String[integers.size()];
         for (int i=0; i < ret.length; i++)

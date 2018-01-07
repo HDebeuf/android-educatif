@@ -65,9 +65,9 @@ public class CreateAccountDialogFragment extends DialogFragment implements Valid
 
     private ImageButton addAvatar;
     private ImageView thumbNail;
-    private IUserRepository userRepository = new SQLiteUserRepository(this.getActivity());
-    private IClassRepository classRepository = new SQLiteClassRepository(this.getActivity());
-    private ICategoryRepository categoryRepository = new SQLiteCategoryRepository(this.getActivity());
+    private IUserRepository userRepository = SQLiteUserRepository.getInstance(this.getActivity());
+    private IClassRepository classRepository = SQLiteClassRepository.getInstance(this.getActivity());
+    private ICategoryRepository categoryRepository = SQLiteCategoryRepository.getInstance(this.getActivity());
     private IPermissionsHandler permissionHandler = new PermissionsHandler();
 
     @NotEmpty(messageResId = R.string.error_field_required)

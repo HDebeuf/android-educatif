@@ -51,7 +51,7 @@ public class QuestionnaireActivity extends AppCompatActivity {
         setContentView(R.layout.activity_musical_questionnaire);
 
         context = getApplicationContext();
-        questionnaireRepository = new SQLiteQuestionnaireRepository(context);
+        questionnaireRepository = SQLiteQuestionnaireRepository.getInstance(context);
         finalQuestionArrayList = new ArrayList<>();
 
         final RecyclerView questionnaireRecyclerView = findViewById(R.id.question_recycler_view);
@@ -76,12 +76,16 @@ public class QuestionnaireActivity extends AppCompatActivity {
         Button finish = (Button) findViewById(R.id.finishQuestionnaireButton);
         finish.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                if(!questionnaireListAdapter.isValid()){
+                    Toast.makeText(context, R.string.error_missing_answer, Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 ArrayList<AnswerGiven> results = questionnaireListAdapter.getAllResult();
                 ArrayList<Answer> answerArrayList = new ArrayList<>();
                 for(AnswerGiven ag : results){
                     answerArrayList.add(ag.getGivenAnswers().get(0));
                 }
-                IResultRepository resultRepository = new SQLiteResultRepository(context);
+                IResultRepository resultRepository = SQLiteResultRepository.getInstance(context);
                 resultRepository.sendResult(answerArrayList,currentGroup.getId());
                 Toast toast = Toast.makeText(context, "Envoyée",Toast.LENGTH_LONG);
                 toast.show();

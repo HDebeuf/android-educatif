@@ -40,8 +40,8 @@ public class GroupCreationActivity extends AppCompatActivity implements ConfirmG
         setContentView(R.layout.recyclerview_group_creation);
         ButterKnife.bind(this);
 
-        groupRepository = new SQLiteGroupRepository(getApplicationContext());
-        categoryRepository = new SQLiteCategoryRepository(getApplicationContext());
+        groupRepository = SQLiteGroupRepository.getInstance(getApplicationContext());
+        categoryRepository = SQLiteCategoryRepository.getInstance(getApplicationContext());
 
 
         currentUser = getIntent().getParcelableExtra(Constants.KEY_CURRENT_USER);

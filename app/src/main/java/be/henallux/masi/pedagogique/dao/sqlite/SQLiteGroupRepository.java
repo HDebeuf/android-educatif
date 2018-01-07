@@ -22,9 +22,17 @@ import be.henallux.masi.pedagogique.model.User;
 public class SQLiteGroupRepository implements IGroupRepository {
 
     private Context context;
+    private static SQLiteGroupRepository instance;
 
-    public SQLiteGroupRepository(Context context) {
+    private SQLiteGroupRepository(Context context) {
         this.context = context;
+    }
+
+    public static SQLiteGroupRepository getInstance(Context ctx){
+        if(instance == null){
+            instance = new SQLiteGroupRepository(ctx);
+        }
+        return instance;
     }
 
     @Override

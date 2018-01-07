@@ -19,17 +19,24 @@ import be.henallux.masi.pedagogique.model.Questionnaire;
 public class SQLiteQuestionnaireRepository implements IQuestionnaireRepository {
 
     private Context context;
-    private IQuestionRepository questionRepository = new SQLiteQuestionRepository(context);
+    private static SQLiteQuestionnaireRepository instance;
 
-    public SQLiteQuestionnaireRepository(Context context) {
+    private SQLiteQuestionnaireRepository(Context context) {
         this.context = context;
+    }
+
+    public static SQLiteQuestionnaireRepository getInstance(Context context){
+        if(instance ==  null){
+            instance = new SQLiteQuestionnaireRepository(context);
+        }
+        return instance;
     }
 
 
     @Override
     public Questionnaire getQuestionnaireById(int idQuestionnaire) {
         SQLiteDatabase db = SQLiteHelper.getDatabaseInstance(context);
-
+        SQLiteQuestionRepository questionRepository = SQLiteQuestionRepository.getInstance(context);
         Cursor cursor = db.query(QuestionnaireEntity.TABLE,
                 new String[]{QuestionnaireEntity.COLUMN_ID,
                         QuestionnaireEntity.COLUMN_STATEMENT},

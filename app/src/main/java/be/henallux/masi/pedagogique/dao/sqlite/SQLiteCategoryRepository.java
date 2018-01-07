@@ -29,10 +29,18 @@ public class SQLiteCategoryRepository implements ICategoryRepository {
 
     private Context context;
     private IClassRepository classRepository;
+    private static SQLiteCategoryRepository instance;
 
-    public SQLiteCategoryRepository(Context applicationContext) {
+    private SQLiteCategoryRepository(Context applicationContext) {
         this.context = applicationContext;
-        this.classRepository = new SQLiteClassRepository(applicationContext);
+        this.classRepository = SQLiteClassRepository.getInstance(applicationContext);
+    }
+
+    public static SQLiteCategoryRepository getInstance(Context context){
+        if(instance == null){
+            instance = new SQLiteCategoryRepository(context);
+        }
+        return  instance;
     }
 
     @Override

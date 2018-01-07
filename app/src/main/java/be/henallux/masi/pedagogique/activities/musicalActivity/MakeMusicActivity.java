@@ -122,7 +122,7 @@ public class MakeMusicActivity extends FragmentActivity implements OnMapReadyCal
         context = getApplicationContext();
 
         soundPoolHandler = new SoundPoolHandler(context);
-        instrumentRepository = new SQLiteInstrumentRepository(getApplicationContext());
+        instrumentRepository = SQLiteInstrumentRepository.getInstance(getApplicationContext());
 
         initializeProgressBar();
 

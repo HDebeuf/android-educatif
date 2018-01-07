@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.entities.InstrumentEntity;
 import be.henallux.masi.pedagogique.dao.interfaces.IAnswerRepository;
+import be.henallux.masi.pedagogique.dao.interfaces.IQuestionRepository;
 import be.henallux.masi.pedagogique.dao.sqlite.SQLiteHelper;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.AnswerEntity;
 import be.henallux.masi.pedagogique.model.Answer;
@@ -20,13 +21,23 @@ import be.henallux.masi.pedagogique.model.Question;
 public class SQLiteAnswerRepository implements IAnswerRepository {
 
     private Context context;
+    private static SQLiteAnswerRepository instance;
 
-    public SQLiteAnswerRepository(Context context) {
+    private SQLiteAnswerRepository(Context context) {
         this.context = context;
     }
 
+
+    public static SQLiteAnswerRepository getInstance(Context ctx){
+        if(instance == null){
+            instance = new SQLiteAnswerRepository(ctx);
+        }
+        return instance;
+    }
+
+
     @Override
-    public ArrayList<Answer> getAnswersOfQuestion(int questionID) {
+    public ArrayList<Answer> getAnswersOfQuestion(int questionId) {
         SQLiteDatabase db = SQLiteHelper.getDatabaseInstance(context);
 
         ArrayList<Answer> answers = new ArrayList<>();
@@ -36,7 +47,7 @@ public class SQLiteAnswerRepository implements IAnswerRepository {
                         AnswerEntity.COLUMN_STATEMENT,
                         AnswerEntity.COLUMN_IS_TRUE,
                         AnswerEntity.COLUMN_FK_QUESTION},
-                AnswerEntity.COLUMN_FK_QUESTION + "=?", new String[]{String.valueOf(questionID)},
+                AnswerEntity.COLUMN_FK_QUESTION + "=?", new String[]{String.valueOf(questionId)},
                 null, null, null);
 
         if (cursor.getCount() == 0) return null;
@@ -45,9 +56,9 @@ public class SQLiteAnswerRepository implements IAnswerRepository {
             int idAnswer = cursor.getInt(0);
             String statement = cursor.getString(1);
             boolean isTrue = cursor.getInt(2) == 1;
-            int questionId = cursor.getInt(3);
+            Question question = SQLiteQuestionRepository.getInstance(context).getQuestionById(questionId,false);
 
-            answers.add(new Answer(idAnswer, statement, isTrue, questionId));
+            answers.add(new Answer(idAnswer, statement, isTrue, question));
             cursor.moveToNext();
         }
 

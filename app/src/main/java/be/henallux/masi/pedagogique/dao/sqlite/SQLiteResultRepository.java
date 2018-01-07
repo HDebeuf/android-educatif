@@ -26,12 +26,20 @@ public class SQLiteResultRepository implements IResultRepository {
     private SQLiteDatabase db;
     private IMailComposer mailComposer;
     private IMailSender mailSender;
+    private static SQLiteResultRepository instance;
 
-    public SQLiteResultRepository(Context context) {
+    private SQLiteResultRepository(Context context) {
         this.context = context;
         db = SQLiteHelper.getDatabaseInstance(this.context);
         mailComposer = new MailComposer(context);
         mailSender = new MailSender(context);
+    }
+
+    public static SQLiteResultRepository getInstance(Context context){
+        if(instance == null){
+            instance = new SQLiteResultRepository(context);
+        }
+        return instance;
     }
 
 

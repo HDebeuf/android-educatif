@@ -18,16 +18,24 @@ public class SQLiteAnswerToQuestionRepository implements IAnswerToQuestionReposi
 
     private Context context;
     private SQLiteDatabase db;
+    private static SQLiteAnswerToQuestionRepository instance;
 
-    public SQLiteAnswerToQuestionRepository(Context context) {
+    private SQLiteAnswerToQuestionRepository(Context context) {
         this.context = context;
         this.db = SQLiteHelper.getDatabaseInstance(this.context);
+    }
+
+    public static SQLiteAnswerToQuestionRepository getInstance(Context context){
+        if(instance == null){
+            instance = new SQLiteAnswerToQuestionRepository(context);
+        }
+        return  instance;
     }
 
     public void addAnswer (Answer answer) {
         ContentValues values = new ContentValues();
         values.put(AnswerToQuestionEntity.COLUMN_FK_ANSWER,answer.getId());
-        values.put(AnswerToQuestionEntity.COLUMN_FK_QUESTION,answer.getQuestionId());
+        values.put(AnswerToQuestionEntity.COLUMN_FK_QUESTION,answer.getQuestion().getId());
         values.put(AnswerToQuestionEntity.COLUMN_FK_RESULT,answer.isCorrect());
         db.insert(AnswerToQuestionEntity.TABLE, null, values);
     }

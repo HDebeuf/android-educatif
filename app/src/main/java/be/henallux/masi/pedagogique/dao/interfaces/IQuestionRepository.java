@@ -11,4 +11,5 @@ import be.henallux.masi.pedagogique.model.Question;
 public interface IQuestionRepository {
     ArrayList<Question> getQuestionsOfQuestionnaire(int id);
     String getQuestionName(int questionId);
+    Question getQuestionById(int id, boolean withAnswers);
 }

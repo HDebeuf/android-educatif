@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import be.henallux.masi.pedagogique.activities.historyActivity.synthesis.Synthesis;
 import be.henallux.masi.pedagogique.dao.interfaces.IQuestionnaireRepository;
 import be.henallux.masi.pedagogique.dao.interfaces.ISynthesisRepository;
-import be.henallux.masi.pedagogique.dao.sqlite.SQLSynthesisRepository;
+import be.henallux.masi.pedagogique.dao.sqlite.SQLiteSynthesisRepository;
 import be.henallux.masi.pedagogique.dao.sqlite.SQLiteHelper;
 import be.henallux.masi.pedagogique.dao.sqlite.SQLiteQuestionnaireRepository;
 import be.henallux.masi.pedagogique.model.Questionnaire;
@@ -31,8 +31,8 @@ public class SQLiteMapActivityRepository implements IMapActivityRepository {
 
     public SQLiteMapActivityRepository(Context ctx) {
         this.ctx = ctx;
-        questionnaireRepository = new SQLiteQuestionnaireRepository(ctx);
-        synthesisRepository = new SQLSynthesisRepository(ctx);
+        questionnaireRepository = SQLiteQuestionnaireRepository.getInstance(ctx);
+        synthesisRepository = SQLiteSynthesisRepository.getInstance(ctx);
     }
 
     @Override

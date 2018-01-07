@@ -3,8 +3,6 @@ package be.henallux.masi.pedagogique.dao.sqlite;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
-import android.text.TextUtils;
 import android.util.Log;
 
 import java.net.MalformedURLException;
@@ -20,20 +18,25 @@ import be.henallux.masi.pedagogique.activities.historyActivity.synthesis.entitie
 import be.henallux.masi.pedagogique.activities.historyActivity.synthesis.entities.SynthesisWebViewEntity;
 import be.henallux.masi.pedagogique.activities.mapActivity.Location;
 import be.henallux.masi.pedagogique.dao.interfaces.ISynthesisRepository;
-import be.henallux.masi.pedagogique.dao.sqlite.entities.UserEntity;
-import be.henallux.masi.pedagogique.model.Category;
-import be.henallux.masi.pedagogique.model.User;
 
 /**
  * Created by Le Roi Arthur on 29-12-17.
  */
 
-public class SQLSynthesisRepository implements ISynthesisRepository {
+public class SQLiteSynthesisRepository implements ISynthesisRepository {
 
+    private static SQLiteSynthesisRepository instance;
     private Context context;
 
-    public SQLSynthesisRepository(Context context) {
+    private SQLiteSynthesisRepository(Context context) {
         this.context = context;
+    }
+
+    public static SQLiteSynthesisRepository getInstance(Context context){
+        if(instance == null){
+            instance = new SQLiteSynthesisRepository(context);
+        }
+        return instance;
     }
 
     @Override

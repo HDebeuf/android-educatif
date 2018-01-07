@@ -28,7 +28,7 @@ import be.henallux.masi.pedagogique.utils.Constants;
 public class MusicalActivity extends AppCompatActivity {
 
     private IMapActivityRepository mapRepository = new SQLiteMapActivityRepository(this);
-    private IInstrumentRepository instrumentRepository = new SQLiteInstrumentRepository(this);
+    private IInstrumentRepository instrumentRepository = SQLiteInstrumentRepository.getInstance(this);
     private Context context;
     private Instrument instrument;
     private Group currentGroup;

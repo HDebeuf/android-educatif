@@ -21,7 +21,6 @@ public class Question implements Parcelable {
         this.id = id;
         this.statement = statement;
         this.type = type;
-        //this.questionnaire = questionnaire;
         this.answers = answers;
     }
 

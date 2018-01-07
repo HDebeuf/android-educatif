@@ -12,6 +12,7 @@ import be.henallux.masi.pedagogique.dao.sqlite.entities.CategoryEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.UserEntity;
 import be.henallux.masi.pedagogique.model.Category;
 import be.henallux.masi.pedagogique.model.User;
+import be.henallux.masi.pedagogique.utils.Constants;
 import be.henallux.masi.pedagogique.utils.ICryptographyService;
 import be.henallux.masi.pedagogique.utils.SHA256CryptographyService;
 
@@ -23,12 +24,19 @@ public class SQLiteUserRepository implements IUserRepository{
     private Context context;
     private SQLiteDatabase db;
     private ICryptographyService cryptographyService;
+    private static SQLiteUserRepository instance;
 
-
-    public SQLiteUserRepository(Context context) {
+    private SQLiteUserRepository(Context context) {
         this.context = context;
         this.cryptographyService = new SHA256CryptographyService();
         this.db = SQLiteHelper.getDatabaseInstance(this.context);
+    }
+
+    public static SQLiteUserRepository getInstance(Context context){
+        if(instance == null){
+            instance = new SQLiteUserRepository(context);
+        }
+        return instance;
     }
 
     @Override

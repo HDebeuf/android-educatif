@@ -13,26 +13,24 @@ public class Answer implements Parcelable {
     private String statement;
     private boolean isCorrect;
     private int point;
-    private int questionId;
-    private String questionStatement;
+    private Question question;
 
-    public Answer(Integer id, String statement, boolean isCorrect, int questionId) {
+    public Answer(Integer id, String statement, boolean isCorrect, Question question) {
         this.id = id;
         this.statement = statement;
         this.isCorrect = isCorrect;
-        this.questionId = questionId;
-    }
-    public Answer(Integer id, String statement) {
-        this.id = id;
-        this.statement = statement;
+        this.question = question;
     }
 
-    public Answer(Integer id, String statement, int point, String questionStatement) {
+
+    public Answer(Integer id, String statement, boolean isCorrect, int point, Question question) {
         this.id = id;
         this.statement = statement;
+        this.isCorrect = isCorrect;
+        this.question = question;
         this.point = point;
-        this.questionStatement = questionStatement;
     }
+
 
     public Integer getId() {
         return id;
@@ -58,20 +56,12 @@ public class Answer implements Parcelable {
         isCorrect = correct;
     }
 
-    public int getQuestionId() {
-        return questionId;
+    public Question getQuestion() {
+        return question;
     }
 
-    public void setQuestionId(int questionId) {
-        this.questionId = questionId;
-    }
-
-    public String getQuestionStatement() {
-        return questionStatement;
-    }
-
-    public void setQuestionStatement(String questionStatement) {
-        this.questionStatement = questionStatement;
+    public void setQuestion(Question question) {
+        this.question = question;
     }
 
     public int getPoint() {
@@ -82,10 +72,14 @@ public class Answer implements Parcelable {
         this.point = point;
     }
 
+
+
     protected Answer(Parcel in) {
         id = in.readByte() == 0x00 ? null : in.readInt();
         statement = in.readString();
         isCorrect = in.readByte() != 0x00;
+        point = in.readInt();
+        question = (Question) in.readValue(Question.class.getClassLoader());
     }
 
     @Override
@@ -103,6 +97,8 @@ public class Answer implements Parcelable {
         }
         dest.writeString(statement);
         dest.writeByte((byte) (isCorrect ? 0x01 : 0x00));
+        dest.writeInt(point);
+        dest.writeValue(question);
     }
 
     @SuppressWarnings("unused")

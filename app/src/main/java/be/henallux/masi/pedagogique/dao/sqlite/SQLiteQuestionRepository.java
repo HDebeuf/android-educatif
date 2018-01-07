@@ -21,10 +21,19 @@ import be.henallux.masi.pedagogique.model.Question;
 public class SQLiteQuestionRepository implements IQuestionRepository {
 
     private Context context;
-    private IAnswerRepository answerRepository = new SQLiteAnswerRepository(context);
+    private static IAnswerRepository answerRepository;
+    private static SQLiteQuestionRepository instance;
 
-    public SQLiteQuestionRepository(Context context) {
+    private SQLiteQuestionRepository(Context context) {
         this.context = context;
+        answerRepository = SQLiteAnswerRepository.getInstance(context);
+    }
+
+    public static SQLiteQuestionRepository getInstance(Context context){
+        if(instance == null){
+            instance = new SQLiteQuestionRepository(context);
+        }
+        return instance;
     }
 
     @Override
@@ -74,6 +83,31 @@ public class SQLiteQuestionRepository implements IQuestionRepository {
         int id = cursor.getInt(0);
         String statement = cursor.getString(1);
         return  statement;
+    }
+
+    @Override
+    public Question getQuestionById(int id, boolean withAnswers) {
+        SQLiteDatabase db = SQLiteHelper.getDatabaseInstance(context);
+        Cursor cursor = db.query(QuestionEntity.TABLE,
+                new String[]{QuestionEntity.COLUMN_ID,
+                        QuestionEntity.COLUMN_STATEMENT,
+                        QuestionEntity.COLUMN_FK_QUESTIONNAIRE,
+                        QuestionEntity.COLUMN_TYPE},
+                QuestionEntity.COLUMN_ID + "=?",new String[]{String.valueOf(id)},
+                null, null, null);
+
+        if (cursor.getCount() == 0) return null;
+        cursor.moveToFirst();
+
+        int idQuestion = cursor.getInt(0);
+        String statement = cursor.getString(1);
+        int questionnaireId = cursor.getInt(2);
+        int type = cursor.getInt(3);
+
+        ArrayList<Answer> answers = (withAnswers ? answerRepository.getAnswersOfQuestion(id) : null);
+        Question question = new Question(id,statement,type,answers);
+
+        return question;
     }
 
 }

@@ -41,5 +41,6 @@
     <string name="email_body_end">vous ont composé.</string>
     <string name="group">Groupe </string>
     <string name="email_music_subject"> Composition musicale </string>
+    <string name="error_missing_answer">Tu n\'as pas répondu à toutes les questions</string>
 
 </resources>

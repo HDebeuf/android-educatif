@@ -16,29 +16,29 @@ import be.henallux.masi.pedagogique.model.Answer;
 public class MailComposer implements IMailComposer {
 
     private Context context;
-    private IQuestionRepository questionRepository;
 
     public MailComposer(Context context) {
         this.context = context;
-        this.questionRepository = new SQLiteQuestionRepository(context);
     }
 
     public StringBuilder composeResultsGrid(ArrayList<Answer> givenAnswers){
 
+        SQLiteQuestionRepository questionRepository = SQLiteQuestionRepository.getInstance(context);
         ArrayList<Answer> fullAnswerList = new ArrayList<Answer>();
         for (Answer answer : givenAnswers) {
-            String questionName = questionRepository.getQuestionName(answer.getQuestionId());
+            String questionName = questionRepository.getQuestionName(answer.getQuestion().getId());
             int point = 0;
             if(answer.isCorrect()){
                 point = 1;
             }
-            Answer fullAnswer = new Answer(answer.getId(),answer.getStatement(),point,questionName);
+            Answer fullAnswer = new Answer(answer.getId(),answer.getStatement(),answer.isCorrect(),point,answer.getQuestion());
             fullAnswerList.add(fullAnswer);
         }
 
         StringBuilder mb = new StringBuilder();
 
-        mb.append("<table>");
+        mb.append("<html>");
+        mb.append("<table width=\"600\" style=\"border:1px solid #333\">");
         mb.append("<tr>");
         mb.append("<th>Question</th>");
         mb.append("<th>Réponse</th>");
@@ -48,7 +48,7 @@ public class MailComposer implements IMailComposer {
         for (Answer fullAnswer : fullAnswerList) {
             mb.append("<tr>");
             mb.append("<td>");
-            mb.append(fullAnswer.getQuestionStatement());
+            mb.append(fullAnswer.getQuestion().getStatement());
             mb.append("</td>");
             mb.append("<td>");
             mb.append(fullAnswer.getStatement());
@@ -59,6 +59,7 @@ public class MailComposer implements IMailComposer {
             mb.append("</tr>");
         }
         mb.append("</table>");
+        mb.append("</html>");
 
         return mb;
     }

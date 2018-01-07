@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -20,8 +19,6 @@ import com.squareup.okhttp.Protocol;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -30,11 +27,9 @@ import be.henallux.masi.pedagogique.activities.historyActivity.synthesis.Synthes
 import be.henallux.masi.pedagogique.activities.historyActivity.synthesis.SynthesisImage;
 import be.henallux.masi.pedagogique.activities.historyActivity.synthesis.SynthesisVideo;
 import be.henallux.masi.pedagogique.activities.historyActivity.synthesis.SynthesisWebView;
-import be.henallux.masi.pedagogique.activities.mapActivity.IMapActivityRepository;
 import be.henallux.masi.pedagogique.activities.mapActivity.Location;
-import be.henallux.masi.pedagogique.activities.mapActivity.SQLiteMapActivityRepository;
 import be.henallux.masi.pedagogique.dao.interfaces.ISynthesisRepository;
-import be.henallux.masi.pedagogique.dao.sqlite.SQLSynthesisRepository;
+import be.henallux.masi.pedagogique.dao.sqlite.SQLiteSynthesisRepository;
 import be.henallux.masi.pedagogique.utils.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,7 +49,7 @@ public class LocationInfoActivity extends AppCompatActivity {
     @BindView(R.id.textViewContent)
     public TextView textViewContent;
 
-    private ISynthesisRepository synthesisRepository = new SQLSynthesisRepository(this);
+    private ISynthesisRepository synthesisRepository = SQLiteSynthesisRepository.getInstance(this);
     private Location clickedLocation;
     private boolean isInDeleteMode;
 

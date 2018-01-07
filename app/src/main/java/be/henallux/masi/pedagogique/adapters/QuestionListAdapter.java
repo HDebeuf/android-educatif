@@ -2,10 +2,8 @@ package be.henallux.masi.pedagogique.adapters;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +14,6 @@ import java.util.ArrayList;
 import be.henallux.masi.pedagogique.R;
 import be.henallux.masi.pedagogique.model.AnswerGiven;
 import be.henallux.masi.pedagogique.model.Question;
-import be.henallux.masi.pedagogique.model.Answer;
-import be.henallux.masi.pedagogique.model.Questionnaire;
 
 /**
  * Created by Angele on 06/01/2018.
@@ -66,6 +62,13 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
         return allItemsBindingModel.size();
     }
 
+    public boolean isValid() {
+        for(ItemBindingModel bm : allItemsBindingModel){
+            if(bm.adapter.getAnswersBindingModel().size() == 0) return false;
+        }
+        return true;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         CardView cardView;
@@ -76,7 +79,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
             super(itemView);
             cardView = (CardView) itemView.findViewById(R.id.singleAnswerCardView);
             question = (TextView) itemView.findViewById(R.id.questionTextView);
-            answersRecyclerView = (RecyclerView) itemView.findViewById(R.id.recyclerViewReponces);
+            answersRecyclerView = (RecyclerView) itemView.findViewById(R.id.recyclerViewAnswers);
         }
     }
 
