@@ -50,7 +50,9 @@ import be.henallux.masi.pedagogique.dao.interfaces.IInstrumentRepository;
 import be.henallux.masi.pedagogique.dao.sqlite.SQLiteInstrumentRepository;
 import be.henallux.masi.pedagogique.model.Group;
 import be.henallux.masi.pedagogique.utils.Constants;
+import be.henallux.masi.pedagogique.utils.IMailSender;
 import be.henallux.masi.pedagogique.utils.IPermissionsHandler;
+import be.henallux.masi.pedagogique.utils.MailSender;
 import be.henallux.masi.pedagogique.utils.PermissionsHandler;
 
 public class MakeMusicActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -78,6 +80,7 @@ public class MakeMusicActivity extends FragmentActivity implements OnMapReadyCal
     private IPermissionsHandler permissionHandler;
     private ISoundPoolHandler soundPoolHandler;
     private IMapChangeHandler mapChangeHandler;
+    private IMailSender mailSender;
 
     private RecordAudio recordAudioFile;
     private int maxDuration;
@@ -187,6 +190,8 @@ public class MakeMusicActivity extends FragmentActivity implements OnMapReadyCal
             @Override
             public void onClick(View view) {
                 playerHandler.reset();
+                mailSender = new MailSender(context);
+                mailSender.sendMail("Groupe " + Constants.KEY_CURRENT_GROUP, "Composition musicale", "Ci-joint une chason que vos élèves vous ont composé.", recordAudioFile.getFileName() + "+mp4");
 
                 deleteButton.setVisibility(View.GONE);
                 playPauseButton.setVisibility(View.GONE);

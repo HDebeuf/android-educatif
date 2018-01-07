@@ -7,11 +7,14 @@
     tools:context="be.henallux.masi.pedagogique.activities.QuestionnaireActivity">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerViewQuestionnaires"
+        android:id="@+id/question_recycler_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_centerInParent="true"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:foregroundGravity="center_horizontal"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/finishQuestionnaireButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
