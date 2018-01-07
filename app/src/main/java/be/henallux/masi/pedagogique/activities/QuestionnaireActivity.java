@@ -86,7 +86,7 @@ public class QuestionnaireActivity extends AppCompatActivity {
                     answerArrayList.add(ag.getGivenAnswers().get(0));
                 }
                 IResultRepository resultRepository = SQLiteResultRepository.getInstance(context);
-                resultRepository.sendResult(answerArrayList,currentGroup.getId());
+                resultRepository.sendResult(answerArrayList,currentGroup);
                 Toast toast = Toast.makeText(context, "Envoyée",Toast.LENGTH_LONG);
                 toast.show();
             }

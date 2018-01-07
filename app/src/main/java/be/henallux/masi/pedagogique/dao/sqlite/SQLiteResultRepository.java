@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 
 import be.henallux.masi.pedagogique.dao.interfaces.IResultRepository;
-import be.henallux.masi.pedagogique.dao.sqlite.entities.AnswerToQuestionEntity;
 import be.henallux.masi.pedagogique.dao.sqlite.entities.ResultEntity;
 import be.henallux.masi.pedagogique.model.Answer;
 import be.henallux.masi.pedagogique.model.Group;
@@ -43,12 +42,9 @@ public class SQLiteResultRepository implements IResultRepository {
     }
 
 
-    public void sendResult (ArrayList<Answer> givenAnswerArrayList, int groupId){
-
-
-        StringBuilder body = mailComposer.composeResultsGrid(givenAnswerArrayList);
-        mailSender.sendMail("Groupe " + groupId , "Questionnaire", body.toString());
-
+    public void sendResult (ArrayList<Answer> givenAnswerArrayList, Group group){
+        StringBuilder body = mailComposer.composeResultGridPlaintext(group,givenAnswerArrayList);
+        mailSender.sendMail("Groupe " + group.getId() , "Questionnaire", body.toString());
 
         int nbCorrect = 0;
         int nbWrong = 0;
@@ -62,7 +58,7 @@ public class SQLiteResultRepository implements IResultRepository {
         ContentValues values = new ContentValues();
         values.put(ResultEntity.COLUMN_NB_CORRECT,nbCorrect);
         values.put(ResultEntity.COLUMN_NB_WRONG,nbWrong);
-        values.put(ResultEntity.COLUMN_FK_GROUP,groupId);
+        values.put(ResultEntity.COLUMN_FK_GROUP,group.getId());
         db.insert(ResultEntity.TABLE, null, values);
 
 
