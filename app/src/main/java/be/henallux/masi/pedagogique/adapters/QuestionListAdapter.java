@@ -57,6 +57,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
         AnswerListAdapter answerListAdapter = new AnswerListAdapter(context, answersArraylist);
         holder.answersRecyclerView.setAdapter(answerListAdapter);
 
+
     }
 
     @Override

@@ -34,6 +34,7 @@ public class SQLiteResultRepository implements IResultRepository {
         mailSender = new MailSender(context);
     }
 
+
     public void sendResult (ArrayList<Answer> givenAnswerArrayList, int groupId){
 
 

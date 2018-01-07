@@ -27,9 +27,10 @@ import be.henallux.masi.pedagogique.model.User;
 public class AnswerListAdapter extends  RecyclerView.Adapter<AnswerListAdapter.ViewHolder>{
 
     private Context context;
-    private ArrayList<Answer> answerArrayList;
+    private ArrayList<Answer> answerArrayList = new ArrayList<>();
     private ArrayList<ItemBindingModel> answeredArrayList = new ArrayList<>();
 
+    public AnswerListAdapter(){}
     public AnswerListAdapter(Context context, ArrayList<Answer> answerArrayList) {
 
         this.context= context;
@@ -37,7 +38,7 @@ public class AnswerListAdapter extends  RecyclerView.Adapter<AnswerListAdapter.V
             AnswerListAdapter.ItemBindingModel bm = new AnswerListAdapter.ItemBindingModel(a,false);
             this.answeredArrayList.add(bm);
         }
-        //this.answerArrayList = answerArrayList;
+        this.answerArrayList = answerArrayList;
     }
 
     @Override
@@ -53,7 +54,7 @@ public class AnswerListAdapter extends  RecyclerView.Adapter<AnswerListAdapter.V
         holder.answerTextView.setText(answerArrayList.get(position).getStatement());
         holder.check.setOnCheckedChangeListener(null); //remove previous listener
         holder.check.setOnCheckedChangeListener(new AnswerListAdapter.CustomCheckedListener(holder.getAdapterPosition()));
-        holder.check.setChecked(answerArrayList.get(holder.getAdapterPosition()).checked);
+        holder.check.setChecked(answeredArrayList.get(holder.getAdapterPosition()).checked);
 
 
     }
@@ -66,7 +67,7 @@ public class AnswerListAdapter extends  RecyclerView.Adapter<AnswerListAdapter.V
 
     public ArrayList<Answer> getAnsweredArrayList(){
 
-        ArrayList<Answer> AnsweredArrayList = new ArrayList<>();
+        ArrayList<Answer> AnsweredArrayList = new ArrayList<Answer>();
 
         for(ItemBindingModel aq : answeredArrayList) {
             if(aq.checked)
@@ -86,7 +87,6 @@ public class AnswerListAdapter extends  RecyclerView.Adapter<AnswerListAdapter.V
             check = (CheckBox) itemView.findViewById(R.id.checkBoxAnswer);
         }
     }
-
 
     private class ItemBindingModel{
         public Answer answer;
@@ -110,12 +110,7 @@ public class AnswerListAdapter extends  RecyclerView.Adapter<AnswerListAdapter.V
 
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-            answerArrayList.get(position).checked = b;
+            answeredArrayList.get(position).checked = b;
         }
     }
-
-
-
-
-
 }
