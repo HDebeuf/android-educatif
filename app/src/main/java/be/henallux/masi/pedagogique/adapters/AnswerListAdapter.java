@@ -28,12 +28,16 @@ public class AnswerListAdapter extends  RecyclerView.Adapter<AnswerListAdapter.V
 
     private Context context;
     private ArrayList<Answer> answerArrayList;
-    ArrayList<ItemBindingModel> answeredArrayList = new ArrayList<>();
+    private ArrayList<ItemBindingModel> answeredArrayList = new ArrayList<>();
 
     public AnswerListAdapter(Context context, ArrayList<Answer> answerArrayList) {
 
         this.context= context;
-        this.answerArrayList = answerArrayList;
+        for(Answer a : answerArrayList){
+            AnswerListAdapter.ItemBindingModel bm = new AnswerListAdapter.ItemBindingModel(a,false);
+            this.answeredArrayList.add(bm);
+        }
+        //this.answerArrayList = answerArrayList;
     }
 
     @Override
@@ -49,7 +53,7 @@ public class AnswerListAdapter extends  RecyclerView.Adapter<AnswerListAdapter.V
         holder.answerTextView.setText(answerArrayList.get(position).getStatement());
         holder.check.setOnCheckedChangeListener(null); //remove previous listener
         holder.check.setOnCheckedChangeListener(new AnswerListAdapter.CustomCheckedListener(holder.getAdapterPosition()));
-        //holder.check.setChecked(answerArrayList.get(holder.getAdapterPosition()).checked);
+        holder.check.setChecked(answerArrayList.get(holder.getAdapterPosition()).checked);
 
 
     }
@@ -59,21 +63,19 @@ public class AnswerListAdapter extends  RecyclerView.Adapter<AnswerListAdapter.V
         return answerArrayList.size();
     }
 
-/*
+
     public ArrayList<Answer> getAnsweredArrayList(){
 
-        ArrayList<Answer> answeredArrayList = new ArrayList<>();
+        ArrayList<Answer> AnsweredArrayList = new ArrayList<>();
 
-        for(ItemBindingModel aq : answerArrayList) {
-
-            answeredArrayList.add(aq.answer);
+        for(ItemBindingModel aq : answeredArrayList) {
+            if(aq.checked)
+            AnsweredArrayList.add(aq.answer);
         }
-
-        answeredArrayList.add();
-        return answeredArrayList;
+        return AnsweredArrayList;
     }
 
-*/
+
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView answerTextView;
@@ -108,7 +110,7 @@ public class AnswerListAdapter extends  RecyclerView.Adapter<AnswerListAdapter.V
 
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-          //  answerArrayList.get(position).checked = b;
+            answerArrayList.get(position).checked = b;
         }
     }
 
