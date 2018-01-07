@@ -70,7 +70,7 @@ public class MusicalActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(context, QuestionnaireActivity.class);
                 //intent.putExtra(Constants.KEY_LOCATIONS_CHOSEN,locationsClick);
-                intent.putExtra(Constants.KEY_LOCATIONS_CHOSEN,locationList);
+                intent.putExtra(Constants.KEY_LOCATIONS_CHOSEN,locationsClick);
                 intent.putExtra(Constants.KEY_CURRENT_GROUP,currentGroup);
                 startActivity(intent);
             }

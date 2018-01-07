@@ -224,7 +224,7 @@ public class SQLiteInstrumentRepository implements IInstrumentRepository {
         ContentValues values = new ContentValues();
         values.put(InstrumentUnlockedEntity.COLUMN_FK_GROUP,groupId);
         values.put(InstrumentUnlockedEntity.COLUMN_FK_INSTRUMENT,instrumentId);
-        db.insert(AnswerToQuestionEntity.TABLE, null, values);
+        db.insert(InstrumentUnlockedEntity.TABLE, null, values);
 
     }
 

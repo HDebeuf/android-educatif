@@ -261,7 +261,7 @@ public class MakeMusicActivity extends FragmentActivity implements OnMapReadyCal
 
         ArrayList<Instrument> unlockedInstruments = instrumentRepository.getInstrumentsOfGroup(currentGroup);
         ArrayList<Instrument> allInstruments = instrumentRepository.getAllInstruments();
-        RecyclerView.Adapter instrumentListAdapter = new InstrumentListAdapter(context, allInstruments,unlockedInstruments, (SoundPoolHandler) soundPoolHandler, mapChangeHandler);
+        RecyclerView.Adapter instrumentListAdapter = new InstrumentListAdapter(context, allInstruments,unlockedInstruments, (SoundPoolHandler) soundPoolHandler, mapChangeHandler, currentGroup);
         instrumentRecyclerView.setAdapter(instrumentListAdapter);
     }
 

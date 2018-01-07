@@ -19,11 +19,16 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import be.henallux.masi.pedagogique.R;
+import be.henallux.masi.pedagogique.activities.mapActivity.IMapActivityRepository;
+import be.henallux.masi.pedagogique.activities.mapActivity.Location;
+import be.henallux.masi.pedagogique.activities.mapActivity.SQLiteMapActivityRepository;
+import be.henallux.masi.pedagogique.activities.musicalActivity.MakeMusicActivity;
 import be.henallux.masi.pedagogique.activities.musicalActivity.MusicalActivity;
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers.IMapChangeHandler;
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers.ISoundPoolHandler;
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.Instrument;
 import be.henallux.masi.pedagogique.activities.musicalActivity.makeMusic.handlers.SoundPoolHandler;
+import be.henallux.masi.pedagogique.model.Group;
 import be.henallux.masi.pedagogique.utils.Constants;
 
 /**
@@ -41,14 +46,16 @@ public class InstrumentListAdapter extends RecyclerView.Adapter<InstrumentListAd
     private int soundID;
     private int tagId;
     private boolean loaded;
+    private Group currentGroup;
 
-    public InstrumentListAdapter(Context context, ArrayList<Instrument> instrumentArrayList,ArrayList<Instrument> unlockedInstruments, SoundPoolHandler soundPoolHandler, IMapChangeHandler mapChangeHandler) {
+    public InstrumentListAdapter(Context context, ArrayList<Instrument> instrumentArrayList,ArrayList<Instrument> unlockedInstruments, SoundPoolHandler soundPoolHandler, IMapChangeHandler mapChangeHandler, Group currentGroup) {
         this.context = context;
         this.instrumentArrayList = instrumentArrayList;
         this.soundPoolHandler = soundPoolHandler;
         this.soundPoolHandler.buildSoundPool();
         this.mapChangeHandler = mapChangeHandler;
         this.unlockedInstruments = unlockedInstruments;
+        this.currentGroup = currentGroup;
         tagId = 1;
     }
 
@@ -151,8 +158,11 @@ public class InstrumentListAdapter extends RecyclerView.Adapter<InstrumentListAd
     }
 
     private void openContinentQuizz (int locationId){
+        IMapActivityRepository iMapActivityRepository = new SQLiteMapActivityRepository(context);
+        final Location location = iMapActivityRepository.getLocationById(locationId);
         Intent intent = new Intent(context, MusicalActivity.class);
-        intent.putExtra(Constants.KEY_LOCATION_CLICKED,locationId);
+        intent.putExtra(Constants.KEY_LOCATION_CLICKED,location);
+        intent.putExtra(Constants.KEY_CURRENT_GROUP, currentGroup);
         context.startActivity(intent);
     }
 

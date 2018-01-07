@@ -47,7 +47,7 @@ public class SQLiteQuestionRepository implements IQuestionRepository {
                         QuestionEntity.COLUMN_STATEMENT,
                         QuestionEntity.COLUMN_TYPE,
                         QuestionEntity.COLUMN_FK_QUESTIONNAIRE},
-                QuestionEntity.COLUMN_ID + "=?",new String[]{String.valueOf(idQuestionnaire)},
+                QuestionEntity.COLUMN_FK_QUESTIONNAIRE + "=?",new String[]{String.valueOf(idQuestionnaire)},
                 null, null, null);
 
         if(cursor.getCount() == 0) return null;
