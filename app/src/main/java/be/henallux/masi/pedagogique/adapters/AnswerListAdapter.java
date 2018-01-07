@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +28,7 @@ public class AnswerListAdapter extends  RecyclerView.Adapter<AnswerListAdapter.V
 
     private Context context;
     private ArrayList<Answer> answerArrayList;
-    //ArrayList<ItemBindingModel> answeredArrayList = new ArrayList<>();
+    ArrayList<ItemBindingModel> answeredArrayList = new ArrayList<>();
 
     public AnswerListAdapter(Context context, ArrayList<Answer> answerArrayList) {
 
@@ -38,40 +39,42 @@ public class AnswerListAdapter extends  RecyclerView.Adapter<AnswerListAdapter.V
     @Override
     public AnswerListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v= LayoutInflater.from(context).inflate(R.layout.recyclerview_checkbox_answer,parent,false);
-        AnswerListAdapter.ViewHolder holder = new AnswerListAdapter.ViewHolder(v);
+        final ViewHolder holder = new ViewHolder(v);
+        Log.d("test  2 :", answerArrayList.get(1).getStatement());
+
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(AnswerListAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
 
         holder.answerTextView.setText(answerArrayList.get(position).getStatement());
         holder.check.setOnCheckedChangeListener(null); //remove previous listener
-        //holder.check.setOnCheckedChangeListener(new GroupCreationUsernameAdapter.CustomCheckedListener(holder.getAdapterPosition()));
-        //holder.check.setChecked(answerArrayList.get(holder.getAdapterPosition()).checked);
+        holder.check.setOnCheckedChangeListener(new GroupCreationUsernameAdapter.CustomCheckedListener(holder.getAdapterPosition()));
+        holder.check.setChecked(answerArrayList.get(holder.getAdapterPosition()).checked);
 
 
     }
 
-    @Override
+   /* @Override
     public int getItemCount() {
-        return 0;
+        return answerArrayList.size();
     }
 
-    /*
+
     public ArrayList<Answer> getAnsweredArrayList(){
 
         ArrayList<Answer> answeredArrayList = new ArrayList<>();
 
-        for(AnswerListAdapter.ItemBindingModel bm : answerArrayList) {
+        for(ItemBindingModel aq : answerArrayList) {
 
-            answeredArrayList.add(bm.answer);
+            answeredArrayList.add(aq.answer);
         }
 
         answeredArrayList.add();
         return answeredArrayList;
     }
-*/
+
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
@@ -86,7 +89,7 @@ public class AnswerListAdapter extends  RecyclerView.Adapter<AnswerListAdapter.V
         }
     }
 
-    /*
+
     private class ItemBindingModel{
         public Answer answer;
         public boolean checked;
@@ -112,8 +115,8 @@ public class AnswerListAdapter extends  RecyclerView.Adapter<AnswerListAdapter.V
             answerArrayList.get(position).checked = b;
         }
     }
-
 */
+
 
 
 

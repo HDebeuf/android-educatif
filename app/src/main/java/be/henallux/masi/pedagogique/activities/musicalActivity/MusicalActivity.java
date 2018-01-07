@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 import be.henallux.masi.pedagogique.R;
 import be.henallux.masi.pedagogique.activities.QuestionnaireActivity;
 import be.henallux.masi.pedagogique.activities.mapActivity.IMapActivityRepository;
@@ -25,24 +27,27 @@ import be.henallux.masi.pedagogique.utils.Constants;
 
 public class MusicalActivity extends AppCompatActivity {
 
-    private IMapActivityRepository repository = new SQLiteMapActivityRepository(this);
+    private IMapActivityRepository mapRepository = new SQLiteMapActivityRepository(this);
     private IInstrumentRepository instrumentRepository = new SQLiteInstrumentRepository(this);
     private Context context;
     private Instrument instrument;
     private Group currentGroup;
     private Questionnaire questionnaire;
+    protected ArrayList<Location> locationsClick = new ArrayList<Location>();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_musical);
 
         context = getApplicationContext();
 
-        int idLocationClicked = getIntent().getExtras().getInt(Constants.KEY_LOCATION_CLICKED);
-        Location clickedLocation = repository.getLocationById(idLocationClicked);
+        final int idLocationClicked = getIntent().getExtras().getInt(Constants.KEY_LOCATION_CLICKED);
+        Location clickedLocation = mapRepository.getLocationById(idLocationClicked);
         currentGroup = getIntent().getExtras().getParcelable(Constants.KEY_CURRENT_GROUP);
 
         instrument = instrumentRepository.getInstrumentOfLocation(clickedLocation.getId());
@@ -58,10 +63,14 @@ public class MusicalActivity extends AppCompatActivity {
 
         Button question = (Button) findViewById(R.id.questionnaireButton);
 
+        locationsClick.add(clickedLocation);
+        Bundle args = new Bundle();
+        args.putParcelableArrayList(Constants.KEY_LOCATIONS_CHOSEN,locationsClick);
+
         question.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(context, QuestionnaireActivity.class);
-                intent.putExtra(Constants.QUESTIONNAIRE_TO_SHOW,questionnaire);
+                intent.putExtra(Constants.KEY_LOCATIONS_CHOSEN,locationsClick);
                 intent.putExtra(Constants.KEY_CURRENT_GROUP,currentGroup);
                 startActivity(intent);
             }

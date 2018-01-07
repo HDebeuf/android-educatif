@@ -27,11 +27,6 @@ public class SQLiteQuestionnaireRepository implements IQuestionnaireRepository {
 
 
     @Override
-    public ArrayList<Question> getAllQuestionOfQuestionnaire(Questionnaire questionnaire) {
-        return null;
-    }
-
-    @Override
     public Questionnaire getQuestionnaireById(int idQuestionnaire) {
         SQLiteDatabase db = SQLiteHelper.getDatabaseInstance(context);
 
