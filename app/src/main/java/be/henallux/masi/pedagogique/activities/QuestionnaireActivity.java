@@ -46,7 +46,7 @@ public class QuestionnaireActivity extends AppCompatActivity {
         questionnaireRepository = new SQLiteQuestionnaireRepository(context);
         finalQuestionArrayList = new ArrayList<Question>();
 
-        final RecyclerView questionnaireRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewQuestionnaires);
+        final RecyclerView questionnaireRecyclerView = (RecyclerView) findViewById(R.id.question_recycler_view);
         questionnaireRecyclerView.setHasFixedSize(true);
 
         ArrayList<Location> LocationList = new ArrayList<Location>();
