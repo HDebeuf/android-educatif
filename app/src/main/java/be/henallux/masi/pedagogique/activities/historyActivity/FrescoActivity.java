@@ -3,6 +3,7 @@ package be.henallux.masi.pedagogique.activities.historyActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,11 +36,13 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import be.henallux.masi.pedagogique.R;
+import be.henallux.masi.pedagogique.activities.QuestionnaireActivity;
 import be.henallux.masi.pedagogique.activities.historyActivity.synthesis.Synthesis;
 import be.henallux.masi.pedagogique.activities.historyActivity.synthesis.SynthesisImage;
 import be.henallux.masi.pedagogique.activities.historyActivity.synthesis.SynthesisVideo;
 import be.henallux.masi.pedagogique.activities.historyActivity.synthesis.SynthesisWebView;
 import be.henallux.masi.pedagogique.activities.mapActivity.Location;
+import be.henallux.masi.pedagogique.model.Group;
 import be.henallux.masi.pedagogique.utils.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,7 +52,8 @@ public class FrescoActivity extends AppCompatActivity implements OnStartDragList
     @BindView(R.id.recyclerViewItems)
     RecyclerView recyclerView;
 
-
+    @BindView(R.id.floatingActionButtonGotoQuestionnaire)
+    FloatingActionButton gotoQuestionnaire;
 
     private ItemsAdapter adapter;
     private ItemTouchHelper mItemTouchHelper;
@@ -66,7 +70,8 @@ public class FrescoActivity extends AppCompatActivity implements OnStartDragList
 
         ButterKnife.bind(this);
 
-        ArrayList<Location> locationsChosen = getIntent().getParcelableArrayListExtra(Constants.KEY_LOCATIONS_CHOSEN);
+        final ArrayList<Location> locationsChosen = getIntent().getParcelableArrayListExtra(Constants.KEY_LOCATIONS_CHOSEN);
+        final Group currentGroup = getIntent().getParcelableExtra(Constants.KEY_CURRENT_GROUP);
         ArrayList<Synthesis> synthesisChosen = new ArrayList<>();
         for(Location l : locationsChosen){
             synthesisChosen.addAll(l.getSynthesisArrayList());
@@ -80,6 +85,16 @@ public class FrescoActivity extends AppCompatActivity implements OnStartDragList
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(recyclerView);
 
+        gotoQuestionnaire.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(FrescoActivity.this, QuestionnaireActivity.class);
+                intent.putExtra(Constants.KEY_LOCATIONS_CHOSEN,locationsChosen);
+                intent.putExtra(Constants.KEY_CURRENT_GROUP,currentGroup);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

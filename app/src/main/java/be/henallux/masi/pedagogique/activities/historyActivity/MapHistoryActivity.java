@@ -27,6 +27,7 @@ import be.henallux.masi.pedagogique.activities.mapActivity.ActivityMapBase;
 import be.henallux.masi.pedagogique.activities.mapActivity.IMapActivityRepository;
 import be.henallux.masi.pedagogique.activities.mapActivity.Location;
 import be.henallux.masi.pedagogique.activities.mapActivity.SQLiteMapActivityRepository;
+import be.henallux.masi.pedagogique.model.Group;
 import be.henallux.masi.pedagogique.utils.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,7 +39,7 @@ public class MapHistoryActivity extends FragmentActivity implements OnMapReadyCa
     private ActivityMapBase activity;
     private HashMap<Marker,Location> hashMapMarkersLocation = new HashMap<>();
     private ArrayList<Location> chosenLocations = new ArrayList<>();
-
+    private Group currentGroup;
 
     @BindView(R.id.floatingActionButtonFinish)
     FloatingActionButton buttonFinish;
@@ -61,6 +62,7 @@ public class MapHistoryActivity extends FragmentActivity implements OnMapReadyCa
         });
         //Retrieves the ID of the ActivityMapBase that is currently active
         activity = getIntent().getExtras().getParcelable(Constants.ACTIVITY_KEY);
+        currentGroup = getIntent().getParcelableExtra(Constants.KEY_CURRENT_GROUP);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -131,6 +133,7 @@ public class MapHistoryActivity extends FragmentActivity implements OnMapReadyCa
     public void onConfirm() {
         Intent intent = new Intent(this,FrescoActivity.class);
         intent.putExtra(Constants.KEY_LOCATIONS_CHOSEN,chosenLocations);
+        intent.putExtra(Constants.KEY_CURRENT_GROUP,currentGroup);
         startActivity(intent);
     }
 

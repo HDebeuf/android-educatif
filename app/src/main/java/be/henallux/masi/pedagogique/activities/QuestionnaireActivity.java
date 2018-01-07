@@ -1,21 +1,16 @@
 package be.henallux.masi.pedagogique.activities;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
 
 import be.henallux.masi.pedagogique.R;
 import be.henallux.masi.pedagogique.activities.mapActivity.IMapActivityRepository;
@@ -28,6 +23,8 @@ import be.henallux.masi.pedagogique.dao.interfaces.IResultRepository;
 import be.henallux.masi.pedagogique.dao.sqlite.SQLiteQuestionnaireRepository;
 import be.henallux.masi.pedagogique.dao.sqlite.SQLiteResultRepository;
 import be.henallux.masi.pedagogique.model.Answer;
+import be.henallux.masi.pedagogique.model.AnswerGiven;
+import be.henallux.masi.pedagogique.model.Group;
 import be.henallux.masi.pedagogique.model.Question;
 import be.henallux.masi.pedagogique.model.Questionnaire;
 import be.henallux.masi.pedagogique.utils.Constants;
@@ -43,6 +40,8 @@ public class QuestionnaireActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private RecyclerView addHeaderRecyclerView;
     private ArrayList<Question> finalQuestionArrayList;
+    private Group currentGroup;
+
 
 
     @Override
@@ -53,43 +52,37 @@ public class QuestionnaireActivity extends AppCompatActivity {
 
         context = getApplicationContext();
         questionnaireRepository = new SQLiteQuestionnaireRepository(context);
-        finalQuestionArrayList = new ArrayList<Question>();
+        finalQuestionArrayList = new ArrayList<>();
 
-        final RecyclerView questionnaireRecyclerView = (RecyclerView) findViewById(R.id.question_recycler_view);
+        final RecyclerView questionnaireRecyclerView = findViewById(R.id.question_recycler_view);
         questionnaireRecyclerView.setHasFixedSize(true);
 
-        ArrayList<Location> LocationList = new ArrayList<Location>();
+        ArrayList<Location> LocationList;
 
         LocationList = getIntent().getExtras().getParcelableArrayList(Constants.KEY_LOCATIONS_CHOSEN);
+        currentGroup = getIntent().getExtras().getParcelable(Constants.KEY_CURRENT_GROUP);
 
         for (Location locationChose : LocationList) {
-
-            int idQuestion = locationChose.getQuestionnaire().getId();
-
-            Questionnaire questionnaire = questionnaireRepository.getQuestionnaireById(idQuestion);
-
-            ArrayList<Question> questionArrayList = questionnaire.getQuestions();
-            for (Question question : questionArrayList) {
-                finalQuestionArrayList.add(question);
-            }
+            Questionnaire questionnaire = locationChose.getQuestionnaire();
+            finalQuestionArrayList.addAll(questionnaire.getQuestions());
         }
 
 
         final LinearLayoutManager questionnaireLayoutManager = new LinearLayoutManager(context);
         questionnaireRecyclerView.setLayoutManager(questionnaireLayoutManager);
-
-        QuestionListAdapter questionnaireListAdapter = new QuestionListAdapter(context, finalQuestionArrayList);
+        final QuestionListAdapter questionnaireListAdapter = new QuestionListAdapter(context, finalQuestionArrayList);
         questionnaireRecyclerView.setAdapter(questionnaireListAdapter);
 
         Button finish = (Button) findViewById(R.id.finishQuestionnaireButton);
         finish.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-
-                AnswerListAdapter answerListAdapter = new AnswerListAdapter();
-                ArrayList<Answer> answerArrayList = answerListAdapter.getAnsweredArrayList();
+                ArrayList<AnswerGiven> results = questionnaireListAdapter.getAllResult();
+                ArrayList<Answer> answerArrayList = new ArrayList<>();
+                for(AnswerGiven ag : results){
+                    answerArrayList.add(ag.getGivenAnswers().get(0));
+                }
                 IResultRepository resultRepository = new SQLiteResultRepository(context);
-                resultRepository.sendResult(answerArrayList,getIntent().getExtras().getInt(Constants.KEY_CURRENT_GROUP));
+                resultRepository.sendResult(answerArrayList,currentGroup.getId());
                 Toast toast = Toast.makeText(context, "Envoyée",Toast.LENGTH_LONG);
                 toast.show();
             }
