@@ -106,9 +106,11 @@ public class QuestionnaireActivity extends AppCompatActivity {
                 if (isInstrumentActivity){
                     if (passed){
                         instrumentRepository.setIsUnlocked(LocationList.get(0).getId(),currentGroup.getId());
-                        Toast.makeText(context,R.string.instrument_unlocked,Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(context,R.string.instrument_unlocked,Toast.LENGTH_LONG);
+                        toast.show();
                     } else {
-                        Toast.makeText(context,R.string.instrument_locked,Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(context,R.string.instrument_locked,Toast.LENGTH_LONG);
+                        toast.show();
                     }
                 }
 
